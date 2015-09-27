@@ -1,0 +1,20 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+
+    <div  class="window">
+        <a href="#" class="window__a_decoration-none" >
+            <span class="window__span_hover-blue window__span_green"> Connect FOUR </span>
+        </a>
+        <div class="window__scoreList">
+            <h4 class = "window__header_align-center_white">Score BOARD</h4>
+            <div class="scoreList__items">
+                    <fest:each iterate="json.scores" index="i">
+                        <fest:value>json[i]</fest:value>
+                    </fest:each>      
+            </div>
+        </div>    
+		<a href="#" class="window__a_decoration-none">
+		    <span class="window__span_orange window__span_hover-blue">Back</span>
+		</a>
+    </div>
+</fest:template>
+

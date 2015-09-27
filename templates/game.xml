@@ -1,0 +1,10 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="json">
+    <div class="window">
+		<a href="#" class="window__a_decoration-none">
+            <span class="window__span_green window__span_hover-blue"> Connect FOUR </span>
+    	</a>
+    </div>
+</fest:template>
+
+
+

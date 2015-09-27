@@ -1,0 +1,29 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+    <div class="window">
+        <a href="#" class="window__a_decoration-none" >
+            <span class="window__span_green window__span_hover-blue"> Connect FOUR </span>
+        </a>
+        <h2 class="window__header_align-center_white">Login</h2>
+        <form method="post" class="form window__form" action="/login">
+            <p>
+                <label class="form__label_border-green">Username </label>
+                <input id="username" class="form__input" name="login" type="text" placeholder="Username"/>
+            </p>
+            <p>
+                <label class="form__label_border-green">Password </label>
+                <input id="password" class="form__input" name="password" type="password" placeholder="Password"/> 
+            </p>
+            <p>
+                <button class="form__btn_green_border-none js_log_in" type="sumbit" >Log in</button>
+            </p>
+        </form>
+
+		<a href="#signup" class="window__a_decoration-none">
+    		<span class="window__span_orange window__span_hover-blue window__span_text-size-little">Register now!</span>
+    	</a>
+		<a href="#" class="window__a_decoration-none">
+    		<span class="window__span_orange window__span_hover-blue">Back</span>
+    	</a>
+    </div>
+</fest:template>
