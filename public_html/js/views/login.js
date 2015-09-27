@@ -10,7 +10,7 @@ define([
         el: '.page',
         template: tmpl,
         events: {
-            'click js_log_in': 'login'    
+            'click .js_log_in': 'login'    
         },
         initialize: function () {
             console.log("LoginView has been created");
@@ -27,6 +27,23 @@ define([
         load: function () {
             this.render();
             this.show();
+        },
+        
+        login: function() {
+            var loginData = {
+                login: $("#username").val(),
+                password: $("#password").val()
+            };
+            console.log($(".form").attr("action"));
+            console.log($(".form").serialize())
+            $.post($(".form").attr("action"), $(".form").serialize(), function(isauth) {
+                console.log(isauth);
+                if(isauth) {
+                    alert("You are logged in!");
+                } else {
+                    alert("Your login or password isn't correct");
+                }
+            }, "json");
         }
 
     });

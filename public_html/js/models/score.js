@@ -10,7 +10,7 @@ define([
             //Gamer name
             name: "",            
             //Number of person's wins
-            score: 0,  
+            score: 0
         },
         
         initialize : function() {

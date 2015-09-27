@@ -106,18 +106,26 @@ public class LoginServlet extends HttpServlet {
             pageVariables.put("loginStatus", "Login is not exist");
         }
 
+        String json;
+
         if (isAuth) {
             String temp = profile.getLogin();
             pageVariables.put("login", profile.getLogin());
             pageVariables.put("password", profile.getPassword());
             pageVariables.put("email", profile.getEmail());
+            json = "{ \"auth\": true }";
         } else {
             pageVariables.put("login", "");
             pageVariables.put("password", "");
             pageVariables.put("email", "");
+            json = "{ \"auth\": false }";
         }
 
-        response.getWriter().println(PageGenerator.getPage("authstatus.html", pageVariables));
 
+
+        //response.getWriter().println(PageGenerator.getPage("authstatus.html", pageVariables));
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(json);
     }
 }
