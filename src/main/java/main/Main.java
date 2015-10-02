@@ -12,12 +12,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import javax.servlet.Servlet;
 
-/**
- * @author v.chibrikov
- */
+
 public class Main {
     public static void main(String[] args) throws Exception {
-        int port = 8081;
+        int port = 8080;
         if (args.length == 1) {
             String portString = args[0];
             port = Integer.valueOf(portString);

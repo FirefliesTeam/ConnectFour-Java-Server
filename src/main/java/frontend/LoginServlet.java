@@ -24,108 +24,36 @@ public class LoginServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
 
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        Map<String, Object> pageVariables = new HashMap<>();
-        UserProfile profile = accountService.getUser(login);
-
-        boolean isAuth = false;
-
-        if (profile != null) {
-            if (profile.getPassword().equals(password)) {
-                pageVariables.put("loginStatus", "Login passed");
-                isAuth = true;
-            } else {
-                pageVariables.put("loginStatus", "Wrong password");
-            }
-        } else {
-            pageVariables.put("loginStatus", "Login is not exist");
-        }
-
-        if (isAuth) {
-            String temp = profile.getLogin();
-            pageVariables.put("login", profile.getLogin());
-            pageVariables.put("password", profile.getPassword());
-            pageVariables.put("email", profile.getEmail());
-        } else {
-            pageVariables.put("login", "");
-            pageVariables.put("password", "");
-            pageVariables.put("email", "");
-        }
-
-        /*
-        if (profile != null && profile.getPassword().equals(password)) {
-            pageVariables.put("loginStatus", "Login passed");
-            pageVariables.put("login", profile.getLogin());
-            pageVariables.put("password", profile.getPassword());
-            pageVariables.put("email", profile.getEmail());
-        } else {
-            pageVariables.put("loginStatus", "Wrong login/password");
-        }
-        */
-        response.getWriter().println(PageGenerator.getPage("authstatus.html", pageVariables));
-        //response.setContentType("application/json");
-        //response.getWriter().write("lalalalallal");
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        /*
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
 
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("email", email == null ? "" : email);
-        pageVariables.put("password", password == null ? "" : password);
-
-        response.getWriter().println(PageGenerator.getPage("authresponse.txt", pageVariables));
-        */
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        Map<String, Object> pageVariables = new HashMap<>();
         UserProfile profile = accountService.getUser(login);
 
         boolean isAuth = false;
-
         if (profile != null) {
             if (profile.getPassword().equals(password)) {
-                pageVariables.put("loginStatus", "Login passed");
                 isAuth = true;
-            } else {
-                pageVariables.put("loginStatus", "Wrong password");
             }
-        } else {
-            pageVariables.put("loginStatus", "Login is not exist");
         }
 
         String json;
 
         if (isAuth) {
-            String temp = profile.getLogin();
-            pageVariables.put("login", profile.getLogin());
-            pageVariables.put("password", profile.getPassword());
-            pageVariables.put("email", profile.getEmail());
             json = "{ \"auth\": true }";
         } else {
-            pageVariables.put("login", "");
-            pageVariables.put("password", "");
-            pageVariables.put("email", "");
             json = "{ \"auth\": false }";
         }
 
-
-
-        //response.getWriter().println(PageGenerator.getPage("authstatus.html", pageVariables));
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
+        response.setStatus(HttpServletResponse.SC_OK);
+
     }
 }
