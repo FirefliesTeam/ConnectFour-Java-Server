@@ -1,5 +1,6 @@
 package frontend;
 
+
 import main.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -13,40 +14,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class LoginServlet extends HttpServlet {
-    public static final String PAGE_URL = "/login";
+public class CheckAuthServlet extends HttpServlet {
+    public static final String PAGE_URL = "/checkAuth";
 
     @NotNull
     private AccountService accountService;
 
-    public LoginServlet(@NotNull AccountService accountService) {
+    public CheckAuthServlet(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
-    /*
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
 
-    }
-    */
-
-    @Override
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
-
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-
-
         Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("name", login);
-        objResponse.put("auth", false);
+        objResponse.put("auth", true);
 
         HttpSession session = request.getSession();
 
-        if (accountService.singIn(session, login, password) != -1) {
-            objResponse.put("auth", true);
+        if (!accountService.checkAuth(session)) {
+            objResponse.put("auth", false);
         }
 
         JSONObject jsonResponse = new JSONObject(objResponse);

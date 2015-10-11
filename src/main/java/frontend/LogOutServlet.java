@@ -13,40 +13,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class LoginServlet extends HttpServlet {
-    public static final String PAGE_URL = "/login";
+public class LogOutServlet extends HttpServlet {
+    public static final String PAGE_URL = "/exit";
 
     @NotNull
     private AccountService accountService;
 
-    public LoginServlet(@NotNull AccountService accountService) {
+    public LogOutServlet(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
-    /*
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
 
-    }
-    */
-
-    @Override
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
-
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-
-
         Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("name", login);
-        objResponse.put("auth", false);
+        objResponse.put("exit", false);
 
         HttpSession session = request.getSession();
 
-        if (accountService.singIn(session, login, password) != -1) {
-            objResponse.put("auth", true);
+        if (accountService.logOut(session)) {
+            objResponse.put("exit", true);
         }
 
         JSONObject jsonResponse = new JSONObject(objResponse);
