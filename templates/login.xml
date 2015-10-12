@@ -15,15 +15,27 @@
                 <input id="password" class="form__input" name="password" type="password" placeholder="Password"/> 
             </p>
             <p>
-                <button class="form__btn_green_border-none js_log_in" type="sumbit" >Log in</button>
-            </p>
+                <button class="form__btn_green_border-none js_log_in" type="button">Log in</button>
+		    </p>
         </form>
-
 		<a href="#signup" class="window__a_decoration-none">
     		<span class="window__span_orange window__span_hover-blue window__span_text-size-little">Register now!</span>
     	</a>
 		<a href="#" class="window__a_decoration-none">
-    		<span class="window__span_orange window__span_hover-blue">Back</span>
+    		<span class="window__span_orange window__span_hover-blue js_btn_back">Back</span>
     	</a>
+    </div>
+    
+    <div class="login_fixed">
+        <div class="login__error_color-white"> 
+            <p class="login__close_align-right">
+	            <a href="#login" class="js_btn_close">
+                     close
+            	</a>
+            </p>
+            <p>
+                Username or password isn't right. Try again, please
+            </p>
+        </div>
     </div>
 </fest:template>

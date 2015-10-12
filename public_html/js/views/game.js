@@ -1,14 +1,17 @@
 define([
     'backbone',
-    'tmpl/game'
+    'tmpl/game',
+    'models/gamefield'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    gamefield
 ){
 
     var GameView = Backbone.View.extend({
         el: '.page',
         template: tmpl,
+        model: gamefield,
         events: {
         
         },
@@ -17,6 +20,7 @@ define([
         },
         render: function () {
             this.$el.html(this.template)
+            console.log(this.model.toJSON());
         },
         show: function () {
             $(this.el).show()

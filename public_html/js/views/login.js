@@ -30,23 +30,16 @@ define([
         },
         
         login: function() {
-            var loginData = {
-                login: $("#username").val(),
-                password: $("#password").val()
-            };
-            console.log($(".form").attr("action"));
-            console.log($(".form").serialize())
-            $.post($(".form").attr("action"), $(".form").serialize(), function(isauth) {
-                console.log(isauth);
-                if(isauth) {
-                    alert("You are logged in!");
+            $.post($(".form").attr("action"), $(".form").serialize(), function(response) {
+                if(response.auth) {
+                    $(".js_btn_back").trigger("click");
                 } else {
-                    alert("Your login or password isn't correct");
+                    $(".login_fixed").show();
+                    setTimeout(function(){$('.login_fixed').fadeOut('fast')}, 5000);  
                 }
             }, "json");
         }
 
     });
-
     return new LoginView();
 });
