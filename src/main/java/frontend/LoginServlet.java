@@ -24,13 +24,6 @@ public class LoginServlet extends HttpServlet {
         this.accountService = accountService;
     }
 
-    /*
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
-
-    }
-    */
-
     @Override
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {

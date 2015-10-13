@@ -43,9 +43,9 @@ public class AccountService {
         return -1;
     }
 
-    /////// наверно надо сделать deleteSession()
     public boolean logOut(HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
+        session.removeAttribute("userId");
         if (!sessions.isEmpty()) {
             sessions.remove(userId.toString());
         }
@@ -72,15 +72,6 @@ public class AccountService {
         int min_length = MIN_LENGTH_NAME;
         int max_length = MAX_LENGTH_NAME;
         return validation(name, tokens, min_length, max_length);
-
-        /*
-        char[] symbols = name.toCharArray();
-        if(symbols.length < 2 || symbols.length > 10 ) return false;
-        String validationString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
-        for(char c : symbols){
-            if(validationString.indexOf(c)==-1) return false;
-        }
-        return true;*/
     }
 
     public boolean validationEmail(String email) {
@@ -91,15 +82,6 @@ public class AccountService {
         int min_length = MIN_LENGTH_EMAIL;
         int max_length = MAX_LENGTH_EMAIL;
         return validation(email, tokens, min_length, max_length);
-        /*
-        char[] symbols = email.toCharArray();
-        if(symbols.length < 5 || symbols.length > 20 ) return false;
-        String validationString = "@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
-        for(char c : symbols){
-            if(validationString.indexOf(c)==-1) return false;
-        }
-        return true;
-        */
     }
 
     public boolean validationPassword(String password) {
@@ -107,15 +89,6 @@ public class AccountService {
         int min_length = MIN_LENGTH_PASSWORD;
         int max_length = MAX_LENGTH_PASSWORD;
         return validation(password, tokens, min_length, max_length);
-        /*
-        char[] symbols = password.toCharArray();
-        if(symbols.length < 6 || symbols.length > 20 ) return false;
-        String validationString = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_";
-        for(char c : symbols){
-            if(validationString.indexOf(c)==-1) return false;
-        }
-        return true;
-        */
     }
 
     public int getRegisteredUsersCount(){

@@ -34,8 +34,8 @@ public class RegisterServlet extends HttpServlet {
 
 
         Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("signup", false); ///// что возвращать???? true -&????? false - ?????
-        objResponse.put("login", "notexists"); /////!!!!!!!!!!!!!!
+        objResponse.put("signup", false);
+        objResponse.put("login", "notexists");
         objResponse.put("email", true);
         objResponse.put("password", true);
 
