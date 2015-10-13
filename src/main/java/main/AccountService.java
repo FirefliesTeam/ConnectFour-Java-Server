@@ -43,6 +43,7 @@ public class AccountService {
         return -1;
     }
 
+    /////// наверно надо сделать deleteSession()
     public boolean logOut(HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (!sessions.isEmpty()) {
@@ -117,7 +118,15 @@ public class AccountService {
         */
     }
 
-    public void addUser(UserProfile userProfile) {
+    public int getRegisteredUsersCount(){
+        return users.size();
+    }
+
+    public int getLoggedUsersCount(){
+        return sessions.size();
+    }
+
+    private void addUser(UserProfile userProfile) {
         users.put(userProfile.getLogin(), userProfile);
     }
 
