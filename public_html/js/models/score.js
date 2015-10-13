@@ -4,7 +4,7 @@ define([
     Backbone
 ){
 
-    var Model = Backbone.Model.extend({
+    var scoreModel = Backbone.Model.extend({
         
         defaults: {
             //Gamer name
@@ -19,5 +19,5 @@ define([
         
     });
     
-    return Model;
+    return scoreModel;
 });

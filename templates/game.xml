@@ -3,6 +3,21 @@
 		<a href="#" class="window__a_decoration-none">
             <span class="window__span_green window__span_hover-blue"> Connect FOUR </span>
     	</a>
+    	<div class="window__gamefield">
+    	    <div class="gamefield__arrow">
+    	    </div>
+            <div class="gamefield__columnset">
+                <fest:for from="1" to="7" index="i">
+        	        <div class="gamefield__column column__{i}">
+                        <fest:for from="1" to="6" index="j">
+                            <!--> i - номер столбца; j - номер строки <-->
+                	        <div class="column__cell {i}__{j}">
+                	        </div>  
+                        </fest:for>
+        	        </div>
+        	   </fest:for>
+        	</div>
+    	</div>
     </div>
 </fest:template>
 

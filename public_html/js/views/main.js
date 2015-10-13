@@ -10,7 +10,7 @@ define([
         el: '.page',        
         template: tmpl,
         events: {
-
+            "click .js_logout_btn": "logout"
         },
         
         initialize: function () {
@@ -18,7 +18,9 @@ define([
         },
         
         render: function () {
-            this.$el.html(this.template) 
+            this.$el.html(this.template);
+            $(".js_logout_btn").hide();     
+            this.checkAuth();
         },
         show: function () {
             $(this.el).show();
@@ -31,9 +33,25 @@ define([
         load: function () {
             this.render();
             this.show();
-        }
+        },
         
-        //------ EVENT FUNCTIONS ------------//
+        logout: function() {
+            $.get("/exit", function(response){
+                if (response.exit) {
+                    $(".js_logout_btn").hide();
+                    $(".js_login_btn").show();
+                }
+            }, "json")
+        },
+        
+        checkAuth: function() {
+            $.get("/checkAuth", function(response){
+                if(response.auth) {
+                    $(".js_login_btn").hide();
+                    $(".js_logout_btn").show();
+                }
+            }, "json")
+        }
     });
 
     return new MainView();

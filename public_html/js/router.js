@@ -1,12 +1,7 @@
 define([
-    'backbone',
-    'views/main',
-    'views/scoreboard',
-    'views/login',
-    'views/game',
-    'views/signup'
+    'backbone'
 ], function(
-    Backbone, MainView, ScoreboardView, LoginView, GameView, SignUpView
+    Backbone
 ){
 
     var Router = Backbone.Router.extend({
@@ -25,24 +20,34 @@ define([
         
         defaultActions: function () {
             console.log("url = #");
-            MainView.load();
+            require(['views/main'], function(mainView){
+                mainView.load();
+            })
         },
             
         scoreboardAction: function () {
             console.log("url = #scoreboard");
-            ScoreboardView.load();
+            require(['views/scoreboard'], function(scoreboardView){
+                scoreboardView.load();
+            })
         },
         gameAction: function () {
             console.log("url = #game");
-            GameView.load();
+            require(['views/game'], function(gameView){
+                gameView.load();
+            })
         },
         loginAction: function () {
             console.log("url = #login");
-            LoginView.load();
+            require(['views/login'], function(loginView){
+                loginView.load();
+            })
         },
         signupAction: function() {
-            console.log("url = #register");
-            SignUpView.load();
+            console.log("url = #signup");
+            require(['views/signup'], function(signupView){
+                signupView.load();
+            })
         }
         
         
