@@ -25,19 +25,18 @@ public class CheckAuthServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {
 
-        Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("auth", true);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("auth", true);
 
         HttpSession session = request.getSession();
 
         if (!accountService.checkAuth(session)) {
-            objResponse.put("auth", false);
+            jsonResponse.put("auth", false);
         }
 
-        JSONObject jsonResponse = new JSONObject(objResponse);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());

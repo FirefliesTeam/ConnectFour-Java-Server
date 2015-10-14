@@ -24,15 +24,15 @@ public class AdminServlet extends HttpServlet {
     }
 
     @Override
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {
         String shutdown = request.getParameter("shutdown");
         String registCount = request.getParameter("count_regist");
         String logCount = request.getParameter("count_logged");
 
-        Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("count_regist", -1);
-        objResponse.put("count_logged", -1);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("count_regist", -1);
+        jsonResponse.put("count_logged", -1);
 
         if (shutdown != null && !shutdown.isEmpty()) {
             try {
@@ -46,13 +46,13 @@ public class AdminServlet extends HttpServlet {
             System.exit(0);
         }
         if (registCount != null && registCount.equals("true")) {
-            objResponse.put("count_regist", accountService.getRegisteredUsersCount());
+            jsonResponse.put("count_regist", accountService.getRegisteredUsersCount());
         }
         if (logCount != null && logCount.equals("true")) {
-            objResponse.put("count_logged", accountService.getLoggedUsersCount());
+            jsonResponse.put("count_logged", accountService.getLoggedUsersCount());
         }
 
-        JSONObject jsonResponse = new JSONObject(objResponse);
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());

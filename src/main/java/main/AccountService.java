@@ -30,7 +30,7 @@ public class AccountService {
         }
     }
 
-    public long singIn(HttpSession session, String login, String password) {
+    public long singIn(@NotNull HttpSession session, @NotNull String login, @NotNull String password) {
         UserProfile profile = getUser(login);
         if (profile != null) {
             if (profile.getPassword().equals(password)) {
@@ -43,7 +43,7 @@ public class AccountService {
         return -1;
     }
 
-    public boolean logOut(HttpSession session) {
+    public boolean logOut(@NotNull HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         session.removeAttribute("userId");
         if (!sessions.isEmpty()) {
@@ -52,7 +52,7 @@ public class AccountService {
         return true;
     }
 
-    public boolean checkAuth(HttpSession session) {
+    public boolean checkAuth(@NotNull HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
             return false;
@@ -62,19 +62,19 @@ public class AccountService {
     }
 
 
-    public boolean isAvailableName(String login) {
+    public boolean isAvailableName(@NotNull String login) {
         return !users.containsKey(login);
     }
 
 
-    public boolean validationName(String name) {
+    public boolean validationName(@NotNull String name) {
         String tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
         int min_length = MIN_LENGTH_NAME;
         int max_length = MAX_LENGTH_NAME;
         return validation(name, tokens, min_length, max_length);
     }
 
-    public boolean validationEmail(String email) {
+    public boolean validationEmail(@NotNull String email) {
         if(email.indexOf('@') == -1) {
             return false;
         }
@@ -84,7 +84,7 @@ public class AccountService {
         return validation(email, tokens, min_length, max_length);
     }
 
-    public boolean validationPassword(String password) {
+    public boolean validationPassword(@NotNull String password) {
         String tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
         int min_length = MIN_LENGTH_PASSWORD;
         int max_length = MAX_LENGTH_PASSWORD;
@@ -99,19 +99,19 @@ public class AccountService {
         return sessions.size();
     }
 
-    private void addUser(UserProfile userProfile) {
+    private void addUser(@NotNull UserProfile userProfile) {
         users.put(userProfile.getLogin(), userProfile);
     }
 
-    private void addSessions(String sessionId, UserProfile userProfile) {
+    private void addSessions(@NotNull String sessionId, @NotNull UserProfile userProfile) {
         sessions.put(sessionId, userProfile);
     }
 
-    private UserProfile getUser(String userName) {
+    private UserProfile getUser(@NotNull String userName) {
         return users.get(userName);
     }
 
-    private UserProfile getSessions(String sessionId) {
+    private UserProfile getSessions(@NotNull String sessionId) {
         return sessions.get(sessionId);
     }
 
@@ -119,7 +119,7 @@ public class AccountService {
         return _lastSessionId++;
     }
 
-    private boolean validation(String str, String tokens, int min_length, int max_length) {
+    private boolean validation(@NotNull String str, @NotNull String tokens, @NotNull int min_length, @NotNull int max_length) {
         char[] symbols = str.toCharArray();
         if(symbols.length < min_length || symbols.length > max_length ) return false;
         for(char c : symbols){

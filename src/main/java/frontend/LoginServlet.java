@@ -25,24 +25,23 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(@NotNull HttpServletRequest request,
+                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-
-        Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("name", login);
-        objResponse.put("auth", false);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("name", login);
+        jsonResponse.put("auth", false);
 
         HttpSession session = request.getSession();
 
         if (accountService.singIn(session, login, password) != -1) {
-            objResponse.put("auth", true);
+            jsonResponse.put("auth", true);
         }
 
-        JSONObject jsonResponse = new JSONObject(objResponse);
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());

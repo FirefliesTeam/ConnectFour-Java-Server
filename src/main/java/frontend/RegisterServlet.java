@@ -25,19 +25,18 @@ public class RegisterServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(@NotNull HttpServletRequest request,
+                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
         String name = request.getParameter("login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-
-        Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("signup", false);
-        objResponse.put("login", "notexists");
-        objResponse.put("email", true);
-        objResponse.put("password", true);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("signup", false);
+        jsonResponse.put("login", "notexists");
+        jsonResponse.put("email", true);
+        jsonResponse.put("password", true);
 
         boolean isOk = true;
 
@@ -45,22 +44,21 @@ public class RegisterServlet extends HttpServlet {
             //objResponse.put("login", "exists");
             isOk = false;
         } if (!accountService.validationEmail(email)) {
-            objResponse.put("email", false);
+            jsonResponse.put("email", false);
             isOk = false;
         } if (!accountService.validationPassword(password)) {
-            objResponse.put("password", false);
+            jsonResponse.put("password", false);
             isOk = false;
         }
 
         if (isOk) {
             if (accountService.singUp(new UserProfile(name, password, email))) {
-                objResponse.put("signup", true);
+                jsonResponse.put("signup", true);
             } else {
-                objResponse.put("login", "exists");
+                jsonResponse.put("login", "exists");
             }
         }
 
-        JSONObject jsonResponse = new JSONObject(objResponse);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
