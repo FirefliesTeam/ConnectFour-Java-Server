@@ -11,12 +11,9 @@ import java.util.regex.Pattern;
 public class AccountService {
     public static final int MIN_LENGTH_NAME = 2;
     public static final int MAX_LENGTH_NAME = 15;
-    /*
-    public static final int MIN_LENGTH_EMAIL = 5;
-    public static final int MAX_LENGTH_EMAIL = 15;
-    */
     public static final int MIN_LENGTH_PASSWORD = 6;
     public static final int MAX_LENGTH_PASSWORD = 20;
+
     public static final String NAME_PATTERN = "^[a-zA-Z0-9_]{" + MIN_LENGTH_NAME + "," + MAX_LENGTH_NAME + "}$";
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9_\\.]+@[a-zA-Z0-9_\\.]+$";
     public static final String PASSWORD_PATTERN = "^.{" + MIN_LENGTH_PASSWORD +"," + MAX_LENGTH_PASSWORD + "}$";
@@ -75,35 +72,14 @@ public class AccountService {
 
 
     public boolean validationName(@NotNull String name) {
-        /*
-        String tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
-        int min_length = MIN_LENGTH_NAME;
-        int max_length = MAX_LENGTH_NAME;
-        return validation(name, tokens, min_length, max_length);
-        */
         return validation(name, NAME_PATTERN);
     }
 
     public boolean validationEmail(@NotNull String email) {
-        /*
-        if(email.indexOf('@') == -1) {
-            return false;
-        }
-        String tokens = "@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
-        int min_length = MIN_LENGTH_EMAIL;
-        int max_length = MAX_LENGTH_EMAIL;
-        return validation(email, tokens, min_length, max_length);
-        */
         return validation(email, EMAIL_PATTERN);
     }
 
     public boolean validationPassword(@NotNull String password) {
-        /*
-        String tokens = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_.";
-        int min_length = MIN_LENGTH_PASSWORD;
-        int max_length = MAX_LENGTH_PASSWORD;
-        return validation(password, tokens, min_length, max_length);
-        */
         return validation(password, PASSWORD_PATTERN);
     }
 
@@ -135,16 +111,6 @@ public class AccountService {
         return _lastSessionId++;
     }
 
-    /*
-    private boolean validation(@NotNull String str, @NotNull String tokens, @NotNull int min_length, @NotNull int max_length) {
-        char[] symbols = str.toCharArray();
-        if(symbols.length < min_length || symbols.length > max_length ) return false;
-        for(char c : symbols){
-            if(tokens.indexOf(c)==-1) return false;
-        }
-        return true;
-    }
-    */
     private boolean validation(@NotNull String str, @NotNull String regEx) {
         Matcher matcher = Pattern.compile(regEx).matcher(str);
         return matcher.matches();
