@@ -1,6 +1,6 @@
-package frontend;
+package Servlets;
 
-import main.AccountService;
+import Services.AccontService.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -10,30 +10,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class LogOutServlet extends HttpServlet {
-    public static final String PAGE_URL = "/exit";
+
+public class LoginServlet extends HttpServlet {
+    public static final String PAGE_URL = "/login";
 
     @NotNull
     private AccountService accountService;
 
-    public LogOutServlet(@NotNull AccountService accountService) {
+    public LoginServlet(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Override
-    public void doGet(@NotNull HttpServletRequest request,
-                      @NotNull HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(@NotNull HttpServletRequest request,
+                       @NotNull HttpServletResponse response) throws ServletException, IOException {
+
+        String login = request.getParameter("login");
+        String password = request.getParameter("password");
 
         JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("exit", false);
+        jsonResponse.put("name", login);
+        jsonResponse.put("auth", false);
 
         HttpSession session = request.getSession();
 
-        if (accountService.logOut(session)) {
-            jsonResponse.put("exit", true);
+        if (accountService.singIn(session, login, password) != -1) {
+            jsonResponse.put("auth", true);
         }
 
 

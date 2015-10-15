@@ -1,10 +1,11 @@
 package main;
 
+import Services.AccontService.AccountService;
 import admin.AdminServlet;
-import frontend.CheckAuthServlet;
-import frontend.LogOutServlet;
-import frontend.LoginServlet;
-import frontend.RegisterServlet;
+import Servlets.CheckAuthServlet;
+import Servlets.LogOutServlet;
+import Servlets.LoginServlet;
+import Servlets.RegisterServlet;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;

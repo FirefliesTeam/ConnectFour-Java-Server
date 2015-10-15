@@ -1,5 +1,6 @@
-package main;
+package Services.AccontService;
 
+import Services.UserProfile.UserProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
