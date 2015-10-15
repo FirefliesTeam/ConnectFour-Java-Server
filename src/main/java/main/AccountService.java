@@ -1,6 +1,7 @@
 package main;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -14,9 +15,9 @@ public class AccountService {
     public static final int MIN_LENGTH_PASSWORD = 6;
     public static final int MAX_LENGTH_PASSWORD = 20;
 
-    public static final String NAME_PATTERN = "^[a-zA-Z0-9_]{" + MIN_LENGTH_NAME + "," + MAX_LENGTH_NAME + "}$";
+    public static final String NAME_PATTERN = "^[a-zA-Z0-9_]{" + MIN_LENGTH_NAME + ',' + MAX_LENGTH_NAME + "}$";
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9_\\.]+@[a-zA-Z0-9_\\.]+$";
-    public static final String PASSWORD_PATTERN = "^.{" + MIN_LENGTH_PASSWORD +"," + MAX_LENGTH_PASSWORD + "}$";
+    public static final String PASSWORD_PATTERN = "^.{" + MIN_LENGTH_PASSWORD + ',' + MAX_LENGTH_PASSWORD + "}$";
 
     @NotNull
     private Map<String, UserProfile> users = new HashMap<>();
@@ -25,7 +26,7 @@ public class AccountService {
 
     private long _lastSessionId = 0;
 
-    public boolean singUp(UserProfile userProfile) {
+    public boolean singUp(@NotNull UserProfile userProfile) {
         if(isAvailableName(userProfile.getLogin())) {
             addUser(userProfile);
             return true;
@@ -70,7 +71,6 @@ public class AccountService {
         return !users.containsKey(login);
     }
 
-
     public boolean validationName(@NotNull String name) {
         return validation(name, NAME_PATTERN);
     }
@@ -99,10 +99,12 @@ public class AccountService {
         sessions.put(sessionId, userProfile);
     }
 
+    @Nullable
     private UserProfile getUser(@NotNull String userName) {
         return users.get(userName);
     }
 
+    @Nullable
     private UserProfile getSessions(@NotNull String sessionId) {
         return sessions.get(sessionId);
     }
