@@ -1,4 +1,4 @@
-package Services.AccontService;
+package Services.AccountService;
 
 import Services.UserProfile.UserProfile;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +40,7 @@ public class AccountService {
         UserProfile profile = getUser(login);
         if (profile != null) {
             if (profile.getPassword().equals(password)) {
-                long sessionId = getSessionId();
+                long sessionId = getSessionIdAndIterat();
                 session.setAttribute("userId", sessionId);
                 addSessions(Long.toString(sessionId), profile);
                 return sessionId;
@@ -92,8 +92,13 @@ public class AccountService {
         return sessions.size();
     }
 
-    private void addUser(@NotNull UserProfile userProfile) {
+    public void addUser(@NotNull UserProfile userProfile) {
         users.put(userProfile.getLogin(), userProfile);
+    }
+
+    @Nullable
+    public UserProfile getUser(@NotNull String userName) {
+        return users.get(userName);
     }
 
     private void addSessions(@NotNull String sessionId, @NotNull UserProfile userProfile) {
@@ -101,16 +106,11 @@ public class AccountService {
     }
 
     @Nullable
-    private UserProfile getUser(@NotNull String userName) {
-        return users.get(userName);
-    }
-
-    @Nullable
     private UserProfile getSessions(@NotNull String sessionId) {
         return sessions.get(sessionId);
     }
 
-    private long getSessionId() {
+    private long getSessionIdAndIterat() {
         return _lastSessionId++;
     }
 

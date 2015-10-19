@@ -1,6 +1,6 @@
 package Servlets.WorkingWithUsers;
 
-import Services.AccontService.AccountService;
+import Services.AccountService.AccountService;
 import Services.UserProfile.UserProfile;
 
 import javax.servlet.ServletException;

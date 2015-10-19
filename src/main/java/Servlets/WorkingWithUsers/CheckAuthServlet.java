@@ -1,7 +1,7 @@
 package Servlets.WorkingWithUsers;
 
 
-import Services.AccontService.AccountService;
+import Services.AccountService.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 

@@ -1,6 +1,6 @@
 package main;
 
-import Services.AccontService.AccountService;
+import Services.AccountService.AccountService;
 import admin.AdminServlet;
 import Servlets.WorkingWithUsers.CheckAuthServlet;
 import Servlets.WorkingWithUsers.LogOutServlet;
