@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
 public class RegisterServlet extends HttpServlet {
@@ -26,9 +27,11 @@ public class RegisterServlet extends HttpServlet {
     public void doPost(@NotNull HttpServletRequest request,
                        @NotNull HttpServletResponse response) throws ServletException, IOException {
 
+
         String name = request.getParameter("login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+
 
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("signup", false);
@@ -36,24 +39,28 @@ public class RegisterServlet extends HttpServlet {
         jsonResponse.put("email", true);
         jsonResponse.put("password", true);
 
-        boolean isOk = true;
+        if(name != null && password != null && email != null) {
+            boolean isOk = true;
 
-        if (!accountService.validationName(name)) {
-            //objResponse.put("login", "exists");
-            isOk = false;
-        } if (!accountService.validationEmail(email)) {
-            jsonResponse.put("email", false);
-            isOk = false;
-        } if (!accountService.validationPassword(password)) {
-            jsonResponse.put("password", false);
-            isOk = false;
-        }
+            if (!accountService.validationName(name)) {
+                //objResponse.put("login", "exists");
+                isOk = false;
+            }
+            if (!accountService.validationEmail(email)) {
+                jsonResponse.put("email", false);
+                isOk = false;
+            }
+            if (!accountService.validationPassword(password)) {
+                jsonResponse.put("password", false);
+                isOk = false;
+            }
 
-        if (isOk) {
-            if (accountService.singUp(new UserProfile(name, password, email))) {
-                jsonResponse.put("signup", true);
-            } else {
-                jsonResponse.put("login", "exists");
+            if (isOk) {
+                if (accountService.singUp(new UserProfile(name, password, email))) {
+                    jsonResponse.put("signup", true);
+                } else {
+                    jsonResponse.put("login", "exists");
+                }
             }
         }
 
