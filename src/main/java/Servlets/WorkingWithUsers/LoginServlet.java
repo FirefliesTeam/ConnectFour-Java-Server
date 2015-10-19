@@ -35,10 +35,11 @@ public class LoginServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        if (accountService.singIn(session, login, password) != -1) {
-            jsonResponse.put("auth", true);
+        if(login != null && password != null) {
+            if (accountService.singIn(session, login, password) != -1) {
+                jsonResponse.put("auth", true);
+            }
         }
-
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

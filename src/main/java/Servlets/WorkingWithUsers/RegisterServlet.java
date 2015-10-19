@@ -32,7 +32,6 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("signup", false);
         jsonResponse.put("login", "notexists");

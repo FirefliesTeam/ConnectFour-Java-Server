@@ -43,7 +43,7 @@ public class Main {
         context.addServlet(new ServletHolder(admin), AdminServlet.PAGE_URL);
 
         ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
+        resource_handler.setDirectoriesListed(true); //!!!
         resource_handler.setResourceBase("public_html");
 
         HandlerList handlers = new HandlerList();

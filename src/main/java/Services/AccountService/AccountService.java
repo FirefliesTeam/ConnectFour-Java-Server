@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,11 +20,10 @@ public class AccountService {
     public static final String NAME_PATTERN = "^[a-zA-Z0-9_]{" + MIN_LENGTH_NAME + ',' + MAX_LENGTH_NAME + "}$";
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9_\\.]+@[a-zA-Z0-9_\\.]+$";
     public static final String PASSWORD_PATTERN = "^.{" + MIN_LENGTH_PASSWORD + ',' + MAX_LENGTH_PASSWORD + "}$";
-
     @NotNull
     private Map<String, UserProfile> users = new HashMap<>();
     @NotNull
-    private Map<String, UserProfile> sessions = new HashMap<>();
+    private Map<String, UserProfile> sessions = new ConcurrentHashMap<>();
 
     private long _lastSessionId = 0;
 
