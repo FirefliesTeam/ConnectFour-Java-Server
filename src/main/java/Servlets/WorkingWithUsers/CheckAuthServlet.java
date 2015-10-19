@@ -1,4 +1,5 @@
-package Servlets;
+package Servlets.WorkingWithUsers;
+
 
 import Services.AccontService.AccountService;
 import org.jetbrains.annotations.NotNull;
@@ -11,34 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-
-public class LoginServlet extends HttpServlet {
-    public static final String PAGE_URL = "/login";
+public class CheckAuthServlet extends HttpServlet {
+    public static final String PAGE_URL = "/checkAuth";
 
     @NotNull
     private AccountService accountService;
 
-    public LoginServlet(@NotNull AccountService accountService) {
+    public CheckAuthServlet(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Override
-    public void doPost(@NotNull HttpServletRequest request,
-                       @NotNull HttpServletResponse response) throws ServletException, IOException {
-
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+    public void doGet(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {
 
         JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("name", login);
-        jsonResponse.put("auth", false);
+        jsonResponse.put("auth", true);
 
         HttpSession session = request.getSession();
 
-        if (accountService.singIn(session, login, password) != -1) {
-            jsonResponse.put("auth", true);
+        if (!accountService.checkAuth(session)) {
+            jsonResponse.put("auth", false);
         }
-
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

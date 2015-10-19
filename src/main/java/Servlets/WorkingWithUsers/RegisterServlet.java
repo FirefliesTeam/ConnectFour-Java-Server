@@ -1,4 +1,4 @@
-package Servlets;
+package Servlets.WorkingWithUsers;
 
 import Services.AccontService.AccountService;
 import Services.UserProfile.UserProfile;

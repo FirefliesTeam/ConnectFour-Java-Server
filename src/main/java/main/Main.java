@@ -2,10 +2,10 @@ package main;
 
 import Services.AccontService.AccountService;
 import admin.AdminServlet;
-import Servlets.CheckAuthServlet;
-import Servlets.LogOutServlet;
-import Servlets.LoginServlet;
-import Servlets.RegisterServlet;
+import Servlets.WorkingWithUsers.CheckAuthServlet;
+import Servlets.WorkingWithUsers.LogOutServlet;
+import Servlets.WorkingWithUsers.LoginServlet;
+import Servlets.WorkingWithUsers.RegisterServlet;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -16,9 +16,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import javax.servlet.Servlet;
 
-
 public class Main {
-    public static void main(String[] args) throws Exception, NumberFormatException, InterruptedException {
+    public static void main(String[] args) throws  Exception, NumberFormatException, InterruptedException {
         if (args.length != 1) {
             System.out.append("Use port as the first argument");
             System.exit(1);
