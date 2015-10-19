@@ -32,6 +32,15 @@ public class LoginServlet extends HttpServlet {
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("name", login);
         jsonResponse.put("auth", false);
+        jsonResponse.put("NotNull", true);
+
+        if(login == null || password == null) {
+            jsonResponse.put("NotNull", false);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse.toString());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
 
         HttpSession session = request.getSession();
 

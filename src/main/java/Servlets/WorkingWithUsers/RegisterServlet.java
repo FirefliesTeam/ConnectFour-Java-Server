@@ -37,29 +37,36 @@ public class RegisterServlet extends HttpServlet {
         jsonResponse.put("login", "notexists");
         jsonResponse.put("email", true);
         jsonResponse.put("password", true);
+        jsonResponse.put("NotNull", true);
 
-        if(name != null && password != null && email != null) {
-            boolean isOk = true;
 
-            if (!accountService.validationName(name)) {
-                //objResponse.put("login", "exists");
-                isOk = false;
-            }
-            if (!accountService.validationEmail(email)) {
-                jsonResponse.put("email", false);
-                isOk = false;
-            }
-            if (!accountService.validationPassword(password)) {
-                jsonResponse.put("password", false);
-                isOk = false;
-            }
+        if(name == null || password == null || email == null) {
+            jsonResponse.put("NotNull", false);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse.toString());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
 
-            if (isOk) {
-                if (accountService.singUp(new UserProfile(name, password, email))) {
-                    jsonResponse.put("signup", true);
-                } else {
-                    jsonResponse.put("login", "exists");
-                }
+        boolean isOk = true;
+        if (!accountService.validationName(name)) {
+            //objResponse.put("login", "exists");
+            isOk = false;
+        }
+        if (!accountService.validationEmail(email)) {
+            jsonResponse.put("email", false);
+            isOk = false;
+        }
+        if (!accountService.validationPassword(password)) {
+            jsonResponse.put("password", false);
+            isOk = false;
+        }
+
+        if (isOk) {
+            if (accountService.singUp(new UserProfile(name, password, email))) {
+                jsonResponse.put("signup", true);
+            } else {
+                jsonResponse.put("login", "exists");
             }
         }
 
