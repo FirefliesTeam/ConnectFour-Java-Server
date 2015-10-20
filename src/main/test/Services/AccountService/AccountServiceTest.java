@@ -20,7 +20,7 @@ public class AccountServiceTest {
 
     @Before
     public void singUp() throws Exception {
-        accountService = new AccountService();
+        accountService = new AccountServiceImpl();
         //testUser = new UserProfile("User1", "user1Pass", "user1@mail.ru");
     }
 

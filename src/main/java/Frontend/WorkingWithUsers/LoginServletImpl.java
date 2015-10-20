@@ -1,5 +1,6 @@
-package Servlets.WorkingWithUsers;
+package Frontend.WorkingWithUsers;
 
+import Frontend.Frontend;
 import Services.AccountService.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -12,15 +13,19 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-public class LoginServlet extends HttpServlet {
+public class LoginServletImpl extends HttpServlet implements Frontend {
     public static final String PAGE_URL = "/login";
 
     @NotNull
     private AccountService accountService;
 
-    public LoginServlet(@NotNull AccountService accountService) {
+    public LoginServletImpl(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
+
+    @Override
+    public void doGet(@NotNull HttpServletRequest request,
+                       @NotNull HttpServletResponse response) throws ServletException, IOException {}
 
     @Override
     public void doPost(@NotNull HttpServletRequest request,

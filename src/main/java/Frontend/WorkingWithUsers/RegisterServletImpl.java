@@ -1,5 +1,6 @@
-package Servlets.WorkingWithUsers;
+package Frontend.WorkingWithUsers;
 
+import Frontend.Frontend;
 import Services.AccountService.AccountService;
 import Services.UserProfile.UserProfile;
 
@@ -10,23 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 
-public class RegisterServlet extends HttpServlet {
+public class RegisterServletImpl extends HttpServlet implements Frontend {
     public static final String PAGE_URL = "/register";
 
     @NotNull
     private AccountService accountService;
 
-    public RegisterServlet(@NotNull AccountService accountService) {
+    public RegisterServletImpl(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Override
+    public void doGet(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {}
+
+    @Override
     public void doPost(@NotNull HttpServletRequest request,
                        @NotNull HttpServletResponse response) throws ServletException, IOException {
-
 
         String name = request.getParameter("login");
         String email = request.getParameter("email");

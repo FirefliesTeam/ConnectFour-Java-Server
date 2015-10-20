@@ -1,6 +1,7 @@
-package Servlets.WorkingWithUsers;
+package Frontend.WorkingWithUsers;
 
 
+import Frontend.Frontend;
 import Services.AccountService.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
@@ -12,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CheckAuthServlet extends HttpServlet {
+public class CheckAuthServletImpl extends HttpServlet implements Frontend {
     public static final String PAGE_URL = "/checkAuth";
 
     @NotNull
     private AccountService accountService;
 
-    public CheckAuthServlet(@NotNull AccountService accountService) {
+    public CheckAuthServletImpl(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -40,4 +41,8 @@ public class CheckAuthServlet extends HttpServlet {
         response.getWriter().write(jsonResponse.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
+
+    @Override
+    public void doPost(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {}
 }
