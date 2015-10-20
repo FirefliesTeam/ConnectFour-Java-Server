@@ -1,28 +1,16 @@
 package Services.AccountService;
 
 import Services.UserProfile.UserProfile;
-import org.jetbrains.annotations.Nullable;
-import org.junit.Before;
 import org.junit.Test;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionContext;
-
-import java.util.Enumeration;
-import java.util.HashMap;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class AccountServiceTest {
 
-    private AccountService accountService;
-
-    @Before
-    public void singUp() throws Exception {
-        accountService = new AccountServiceImpl();
-        //testUser = new UserProfile("User1", "user1Pass", "user1@mail.ru");
-    }
+    private AccountService accountService = new AccountServiceImpl();
 
     @Test
     public void testSingUp() throws Exception {
@@ -46,7 +34,8 @@ public class AccountServiceTest {
 
     @Test
     public void testSingIn() throws Exception {
-        HttpSession session = new MyHttpSession();
+        HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("userId")).thenReturn((long) 0);
         UserProfile user = new UserProfile("userSingUp", "123456", "user@mail.ru");
         accountService.singUp(user);
         accountService.singIn(session, user.getLogin(), user.getPassword());
@@ -55,7 +44,8 @@ public class AccountServiceTest {
 
     @Test
     public void testCheckAuth() throws Exception {
-        HttpSession session = new MyHttpSession();
+        HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("userId")).thenReturn((long) 0);
         UserProfile user = new UserProfile("userCheckAuth", "123456", "user@mail.ru");
         accountService.singUp(user);
         accountService.singIn(session, user.getLogin(), user.getPassword());
@@ -64,11 +54,12 @@ public class AccountServiceTest {
 
     @Test
     public void testCheckAuthErrors() throws Exception {
-        HttpSession session = new MyHttpSession();
+        HttpSession session = mock(HttpSession.class);
         UserProfile user = new UserProfile("userCheckAuth", "123456", "user@mail.ru");
         accountService.singUp(user);
         accountService.singIn(session, user.getLogin(), user.getPassword());
-        HttpSession temp_session = new MyHttpSession();
+        HttpSession temp_session = mock(HttpSession.class);
+        when(temp_session.getAttribute("userId")).thenReturn(null);
         assertFalse(accountService.checkAuth(temp_session));
     }
 
@@ -132,100 +123,5 @@ public class AccountServiceTest {
         assertFalse(accountService.validationPassword(password2));
     }
 
-    private static class MyHttpSession implements HttpSession {
 
-        HashMap map = new HashMap();
-
-        @Override
-        public long getCreationTime() {
-            return 0;
-        }
-
-        @Nullable
-        @Override
-        public String getId() {
-            return null;
-        }
-
-        @Override
-        public long getLastAccessedTime() {
-            return 0;
-        }
-
-        @Nullable
-        @Override
-        public ServletContext getServletContext() {
-            return null;
-        }
-
-        @Override
-        public void setMaxInactiveInterval(int interval) {
-
-        }
-
-        @Override
-        public int getMaxInactiveInterval() {
-            return 0;
-        }
-
-        @SuppressWarnings("deprecation")
-        @Nullable
-        @Override
-        public HttpSessionContext getSessionContext() {
-            return null;
-        }
-
-        @Override
-        public Object getAttribute(String name) {
-            return map.get(name);
-        }
-
-        @Nullable
-        @Override
-        public Object getValue(String name) {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public Enumeration<String> getAttributeNames() {
-            return null;
-        }
-
-        @Override
-        public String[] getValueNames() {
-            return new String[0];
-        }
-
-        @Override
-        public void setAttribute(String name, Object value) {
-            map.put(name, value);
-        }
-
-
-        @Override
-        public void putValue(String name, Object value) {
-
-        }
-
-        @Override
-        public void removeAttribute(String name) {
-
-        }
-
-        @Override
-        public void removeValue(String name) {
-
-        }
-
-        @Override
-        public void invalidate() {
-
-        }
-
-        @Override
-        public boolean isNew() {
-            return false;
-        }
-    }
 }

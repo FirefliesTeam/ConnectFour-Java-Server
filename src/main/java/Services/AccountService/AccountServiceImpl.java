@@ -67,7 +67,6 @@ public class AccountServiceImpl implements AccountService {
         return null != userProfile;
     }
 
-
     public boolean isAvailableName(@NotNull String login) {
         return !users.containsKey(login);
     }
