@@ -36,6 +36,6 @@ public interface AccountService {
     void addUser(@NotNull UserProfile userProfile);
 
     @Nullable
-    public UserProfile getUser(@NotNull String userName);
+    UserProfile getUser(@NotNull String userName);
 
 }

@@ -31,10 +31,9 @@ public class LogoutServletImpl extends HttpServlet implements Frontend {
 
         HttpSession session = request.getSession();
 
-        if (accountService.logOut(session)) {
+        if(accountService.logOut(session)) {
             jsonResponse.put("exit", true);
         }
-
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -40,6 +40,7 @@ public class AccountServiceTest {
         accountService.singUp(user);
         accountService.singIn(session, user.getLogin(), user.getPassword());
         assertTrue(accountService.checkAuth(session));
+        verify(session, times(1)).getAttribute("userId");
     }
 
     @Test
@@ -50,6 +51,7 @@ public class AccountServiceTest {
         accountService.singUp(user);
         accountService.singIn(session, user.getLogin(), user.getPassword());
         assertTrue(accountService.checkAuth(session));
+        verify(session, times(1)).getAttribute("userId");
     }
 
     @Test
@@ -61,6 +63,7 @@ public class AccountServiceTest {
         HttpSession temp_session = mock(HttpSession.class);
         when(temp_session.getAttribute("userId")).thenReturn(null);
         assertFalse(accountService.checkAuth(temp_session));
+        verify(temp_session, times(1)).getAttribute("userId");
     }
 
     @Test
@@ -122,6 +125,4 @@ public class AccountServiceTest {
         String password2 = "34634534tgergdsrhergsergserhsfgfggaegaerg";
         assertFalse(accountService.validationPassword(password2));
     }
-
-
 }

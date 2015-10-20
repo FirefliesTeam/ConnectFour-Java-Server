@@ -37,27 +37,28 @@ public class LoginServletImpl extends HttpServlet implements Frontend {
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("name", login);
         jsonResponse.put("auth", false);
-        jsonResponse.put("NotNull", true);
-
-        if(login == null || password == null) {
-            jsonResponse.put("NotNull", false);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(jsonResponse.toString());
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        }
+        jsonResponse.put("NotNull", false);
 
         HttpSession session = request.getSession();
 
-        if(login != null && password != null) {
+        boolean login_or_password_not_null = false;
+
+        if (login != null && password != null) {
+            jsonResponse.put("NotNull", true);
             if (accountService.singIn(session, login, password) != -1) {
                 jsonResponse.put("auth", true);
+                login_or_password_not_null = true;
             }
+        }
+
+        if (login_or_password_not_null) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

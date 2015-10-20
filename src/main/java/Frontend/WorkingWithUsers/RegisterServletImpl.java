@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,9 +50,11 @@ public class RegisterServletImpl extends HttpServlet implements Frontend {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(jsonResponse.toString());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
         }
 
         boolean isOk = true;
+
         if (!accountService.validationName(name)) {
             //objResponse.put("login", "exists");
             isOk = false;
@@ -64,6 +67,7 @@ public class RegisterServletImpl extends HttpServlet implements Frontend {
             jsonResponse.put("password", false);
             isOk = false;
         }
+
 
         if (isOk) {
             if (accountService.singUp(new UserProfile(name, password, email))) {
