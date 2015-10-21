@@ -4,3 +4,5 @@
 /node_modules
 *.*~
 *.~
+tp_java.xml
+*.gitignore
