@@ -1,1 +1,1 @@
-java -jar L1.2-1.0-jar-with-dependencies.jar 8080 
+java -classpath ConnectFour-0.0.1-jar-with-dependencies.jar main/Main 8089 
