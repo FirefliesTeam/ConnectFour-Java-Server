@@ -1,10 +1,13 @@
 package main;
 
+import Frontend.Frontend;
+import Services.AccountService.AccountService;
+import Services.AccountService.AccountServiceImpl;
 import admin.AdminServlet;
-import frontend.CheckAuthServlet;
-import frontend.LogOutServlet;
-import frontend.LoginServlet;
-import frontend.RegisterServlet;
+import Frontend.WorkingWithUsers.CheckAuthServletImpl;
+import Frontend.WorkingWithUsers.LogoutServletImpl;
+import Frontend.WorkingWithUsers.LoginServletImpl;
+import Frontend.WorkingWithUsers.RegisterServletImpl;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -15,15 +18,10 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 import javax.servlet.Servlet;
 
-
 public class Main {
-    public static void main(String[] args) throws Exception  {
-        //int port = 8080;
+
+    public static void main(String[] args) throws  Exception, NumberFormatException, InterruptedException {
         if (args.length != 1) {
-            /*
-            String portString = args[0];
-            port = Integer.valueOf(portString);
-            */
             System.out.append("Use port as the first argument");
             System.exit(1);
         }
@@ -31,25 +29,30 @@ public class Main {
         String portString = args[0];
         int port = Integer.valueOf(portString);
         System.out.append("Starting at port: ").append(portString).append('\n');
-        //System.out.append("Starting at port: ").append(String.valueOf(port)).append('\n');
 
-        AccountService accountService = new AccountService();
+        //AccountService accountService = new AccountServiceImpl();
+        AccountService accountService = new AccountServiceImpl();
 
-        Servlet login = new LoginServlet(accountService);
-        Servlet register = new RegisterServlet(accountService);
-        Servlet logout = new LogOutServlet(accountService);
-        Servlet checkAuth = new CheckAuthServlet(accountService);
+        Frontend front_login = new LoginServletImpl(accountService);
+        Frontend front_register = new RegisterServletImpl(accountService);
+        Frontend front_logout = new LogoutServletImpl(accountService);
+        Frontend front_checkAuth = new CheckAuthServletImpl(accountService);
+
+        Servlet login = (Servlet) front_login;
+        Servlet register = (Servlet) front_register;
+        Servlet logout = (Servlet) front_logout;
+        Servlet checkAuth = (Servlet) front_checkAuth;
         Servlet admin = new AdminServlet(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(login), LoginServlet.PAGE_URL);
-        context.addServlet(new ServletHolder(register), RegisterServlet.PAGE_URL);
-        context.addServlet(new ServletHolder(logout), LogOutServlet.PAGE_URL);
-        context.addServlet(new ServletHolder(checkAuth), CheckAuthServlet.PAGE_URL);
+        context.addServlet(new ServletHolder(login), LoginServletImpl.PAGE_URL);
+        context.addServlet(new ServletHolder(register), RegisterServletImpl.PAGE_URL);
+        context.addServlet(new ServletHolder(logout), LogoutServletImpl.PAGE_URL);
+        context.addServlet(new ServletHolder(checkAuth), CheckAuthServletImpl.PAGE_URL);
         context.addServlet(new ServletHolder(admin), AdminServlet.PAGE_URL);
 
         ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
+        resource_handler.setDirectoriesListed(true); //!!!
         resource_handler.setResourceBase("public_html");
 
         HandlerList handlers = new HandlerList();

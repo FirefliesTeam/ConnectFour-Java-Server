@@ -1,6 +1,7 @@
-package frontend;
+package Frontend.WorkingWithUsers;
 
-import main.AccountService;
+import Frontend.Frontend;
+import Services.AccountService.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -10,36 +11,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class LogOutServlet extends HttpServlet {
+public class LogoutServletImpl extends HttpServlet implements Frontend {
     public static final String PAGE_URL = "/exit";
 
     @NotNull
     private AccountService accountService;
 
-    public LogOutServlet(@NotNull AccountService accountService) {
+    public LogoutServletImpl(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Override
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {
 
-        Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("exit", false);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("exit", false);
 
         HttpSession session = request.getSession();
 
-        if (accountService.logOut(session)) {
-            objResponse.put("exit", true);
+        if(accountService.logOut(session)) {
+            jsonResponse.put("exit", true);
         }
 
-        JSONObject jsonResponse = new JSONObject(objResponse);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
+
+    @Override
+    public void doPost(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {}
 }

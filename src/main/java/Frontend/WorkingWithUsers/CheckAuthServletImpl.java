@@ -1,7 +1,8 @@
-package frontend;
+package Frontend.WorkingWithUsers;
 
 
-import main.AccountService;
+import Frontend.Frontend;
+import Services.AccountService.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -11,36 +12,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class CheckAuthServlet extends HttpServlet {
+public class CheckAuthServletImpl extends HttpServlet implements Frontend {
     public static final String PAGE_URL = "/checkAuth";
 
     @NotNull
     private AccountService accountService;
 
-    public CheckAuthServlet(@NotNull AccountService accountService) {
+    public CheckAuthServletImpl(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Override
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {
 
-        Map<String, Object> objResponse = new HashMap<>();
-        objResponse.put("auth", true);
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("auth", true);
 
         HttpSession session = request.getSession();
 
         if (!accountService.checkAuth(session)) {
-            objResponse.put("auth", false);
+            jsonResponse.put("auth", false);
         }
 
-        JSONObject jsonResponse = new JSONObject(objResponse);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonResponse.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
+
+    @Override
+    public void doPost(@NotNull HttpServletRequest request,
+                      @NotNull HttpServletResponse response) throws ServletException, IOException {}
 }
