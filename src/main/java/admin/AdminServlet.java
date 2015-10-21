@@ -13,6 +13,8 @@ import java.io.IOException;
 
 public class AdminServlet extends HttpServlet {
     public static final String PAGE_URL = "/admin";
+    private static final String ADMIN_NAME = "admin";
+    private static final String ADMIN_PASSWORD = "admin";
 
     @NotNull
     private AccountService accountService;
@@ -27,10 +29,30 @@ public class AdminServlet extends HttpServlet {
         String shutdown = request.getParameter("shutdown");
         String registCount = request.getParameter("count_regist");
         String logCount = request.getParameter("count_logged");
+        String admin_name = request.getParameter("admin");
+        String admin_password = request.getParameter("password");
 
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("count_regist", -1);
         jsonResponse.put("count_logged", -1);
+        jsonResponse.put("singin", false);
+
+        if(admin_name == null || admin_password == null) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse.toString());
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
+        if(!admin_name.equals(ADMIN_NAME) || !admin_password.equals(ADMIN_PASSWORD)) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(jsonResponse.toString());
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+
+        jsonResponse.put("singin", true);
 
         if (shutdown != null && !shutdown.isEmpty()) {
             try {
@@ -49,7 +71,6 @@ public class AdminServlet extends HttpServlet {
         if (logCount != null && logCount.equals("true")) {
             jsonResponse.put("count_logged", accountService.getLoggedUsersCount());
         }
-
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
