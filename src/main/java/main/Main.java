@@ -40,7 +40,7 @@ public class Main {
         Servlet login = (Servlet) front_login;
         Servlet register = (Servlet) front_register;
         Servlet logout = (Servlet) front_logout;
-        Servlet checkAuth = (Servlet) front_checkAuth;
+        Servlet checkAuth  = (Servlet) front_checkAuth;
         Servlet admin = new AdminServlet(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
