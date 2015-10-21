@@ -3,6 +3,7 @@ package Frontend.WorkingWithUsers;
 import Frontend.Frontend;
 import Services.AccountService.AccountService;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
