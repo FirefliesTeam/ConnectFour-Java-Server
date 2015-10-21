@@ -50,6 +50,7 @@ public class AdminServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(jsonResponse.toString());
             response.setStatus(HttpServletResponse.SC_OK);
+            return;
         }
 
         jsonResponse.put("singin", true);
@@ -59,11 +60,13 @@ public class AdminServlet extends HttpServlet {
                 int shut = Integer.parseInt(shutdown);
                 System.out.print("выключение сервера через " + shut + " ms");
                 Thread.sleep(shut);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.print("\nShutdown");
+                System.exit(0);
+            } catch (InterruptedException ie) {
+                ie.printStackTrace();
+            } catch (NumberFormatException nfe) {
+                jsonResponse.put("NumberFormatException", true);
             }
-            System.out.print("\nShutdown");
-            System.exit(0);
         }
         if (registCount != null && registCount.equals("true")) {
             jsonResponse.put("count_regist", accountService.getRegisteredUsersCount());

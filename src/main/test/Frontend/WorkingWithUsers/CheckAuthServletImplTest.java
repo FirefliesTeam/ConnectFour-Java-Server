@@ -16,8 +16,6 @@ import static org.mockito.Mockito.*;
 
 public class CheckAuthServletImplTest {
 
-    //private AccountService accountService = new AccountServiceImpl();
-
     @Test
     public void testDoPostIsAuth() throws Exception {
         final StringWriter stringWriter = new StringWriter();

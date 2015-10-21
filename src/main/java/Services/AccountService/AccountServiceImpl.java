@@ -18,7 +18,7 @@ public class AccountServiceImpl implements AccountService {
     public static final int MAX_LENGTH_PASSWORD = 20;
 
     public static final String NAME_PATTERN = "^[a-zA-Z0-9_]{" + MIN_LENGTH_NAME + ',' + MAX_LENGTH_NAME + "}$";
-    public static final String EMAIL_PATTERN = "^[a-zA-Z0-9_\\.]+@[a-zA-Z0-9_\\.]+$";
+    public static final String EMAIL_PATTERN = "^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z]+$";
     public static final String PASSWORD_PATTERN = "^.{" + MIN_LENGTH_PASSWORD + ',' + MAX_LENGTH_PASSWORD + "}$";
     @NotNull
     private Map<String, UserProfile> users = new HashMap<>();
