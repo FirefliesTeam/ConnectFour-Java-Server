@@ -2,12 +2,12 @@ package main;
 
 import base.Frontend;
 import base.AccountService;
-import Services.AccountService.AccountServiceImpl;
+import services.AccountService.AccountServiceImpl;
 import admin.AdminServlet;
-import Frontend.WorkingWithUsers.CheckAuthServletImpl;
-import Frontend.WorkingWithUsers.LogoutServletImpl;
-import Frontend.WorkingWithUsers.LoginServletImpl;
-import Frontend.WorkingWithUsers.RegisterServletImpl;
+import frontend.workingWithUsers.CheckAuthServletImpl;
+import frontend.workingWithUsers.LogoutServletImpl;
+import frontend.workingWithUsers.LoginServletImpl;
+import frontend.workingWithUsers.RegisterServletImpl;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;

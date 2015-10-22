@@ -1,8 +1,8 @@
-package Frontend.WorkingWithUsers;
+package frontend.workingWithUsers;
 
 import base.Frontend;
 import base.AccountService;
-import Services.UserProfile.UserProfile;
+import services.UserProfile.UserProfile;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

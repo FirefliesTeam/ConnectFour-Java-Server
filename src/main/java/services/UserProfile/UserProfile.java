@@ -1,4 +1,4 @@
-package Services.UserProfile;
+package services.UserProfile;
 
 
 import org.jetbrains.annotations.NotNull;

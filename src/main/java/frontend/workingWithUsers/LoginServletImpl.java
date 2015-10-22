@@ -1,4 +1,4 @@
-package Frontend.WorkingWithUsers;
+package frontend.workingWithUsers;
 
 import base.Frontend;
 import base.AccountService;
