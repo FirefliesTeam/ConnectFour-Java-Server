@@ -1,6 +1,7 @@
 package Services.AccountService;
 
 import Services.UserProfile.UserProfile;
+import base.AccountService;
 import org.junit.Test;
 
 import javax.servlet.http.HttpSession;

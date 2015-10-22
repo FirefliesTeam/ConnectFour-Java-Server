@@ -1,7 +1,7 @@
 package main;
 
-import Frontend.Frontend;
-import Services.AccountService.AccountService;
+import base.Frontend;
+import base.AccountService;
 import Services.AccountService.AccountServiceImpl;
 import admin.AdminServlet;
 import Frontend.WorkingWithUsers.CheckAuthServletImpl;

@@ -1,7 +1,7 @@
 package Frontend.WorkingWithUsers;
 
-import Frontend.Frontend;
-import Services.AccountService.AccountService;
+import base.Frontend;
+import base.AccountService;
 import Services.AccountService.AccountServiceImpl;
 import org.junit.Test;
 

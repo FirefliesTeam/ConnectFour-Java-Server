@@ -1,8 +1,8 @@
 package Frontend.WorkingWithUsers;
 
 
-import Frontend.Frontend;
-import Services.AccountService.AccountService;
+import base.Frontend;
+import base.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 

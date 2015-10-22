@@ -1,4 +1,4 @@
-package Services.AccountService;
+package base;
 
 import Services.UserProfile.UserProfile;
 import org.jetbrains.annotations.NotNull;

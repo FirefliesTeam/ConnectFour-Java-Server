@@ -36,5 +36,10 @@
     <orderEntry type="library" name="Maven: org.json:json:20131018" level="project" />
     <orderEntry type="library" name="Maven: com.intellij:annotations:9.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.10.19" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.2.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.2.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.2.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.2.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.2.0.M0" level="project" />
   </component>
 </module>

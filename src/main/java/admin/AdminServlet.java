@@ -1,6 +1,6 @@
 package admin;
 
-import Services.AccountService.AccountService;
+import base.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
