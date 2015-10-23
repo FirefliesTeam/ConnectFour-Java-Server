@@ -2,7 +2,7 @@ package mechanics;
 
 public class GameUser {
     private String name;
-    private String enemyName;
+    private String enemyName;  //А это надо?
 
 
     public GameUser(String name) {

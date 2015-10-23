@@ -15,9 +15,9 @@ public class GameSession {
     private static final int COLUMNS = 7;
     private static final int ROWS = 6;
 
-    //private int[][] gameField = new int[ROWS][COLUMNS];
     private int[] gameField = new int[ROWS * COLUMNS];
 
+    //Зачем они нужны?
     private Map<String, GameUser> users = new HashMap<>();
 
     public GameSession(String first, String second) {
