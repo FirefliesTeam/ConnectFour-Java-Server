@@ -1,6 +1,6 @@
 package admin;
 
-import Services.AccountService.AccountService;
+import base.AccountService;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;

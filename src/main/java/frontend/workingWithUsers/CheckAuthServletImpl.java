@@ -1,9 +1,9 @@
-package Frontend.WorkingWithUsers;
+package frontend.workingWithUsers;
 
-import Frontend.Frontend;
-import Services.AccountService.AccountService;
+
+import base.Frontend;
+import base.AccountService;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class LogoutServletImpl extends HttpServlet implements Frontend {
-    public static final String PAGE_URL = "/exit";
+public class CheckAuthServletImpl extends HttpServlet implements Frontend {
+    public static final String PAGE_URL = "/checkAuth";
 
     @NotNull
     private AccountService accountService;
 
-    public LogoutServletImpl(@NotNull AccountService accountService) {
+    public CheckAuthServletImpl(@NotNull AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -28,12 +28,12 @@ public class LogoutServletImpl extends HttpServlet implements Frontend {
                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
         JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("exit", false);
+        jsonResponse.put("auth", true);
 
         HttpSession session = request.getSession();
 
-        if(accountService.logOut(session)) {
-            jsonResponse.put("exit", true);
+        if (!accountService.checkAuth(session)) {
+            jsonResponse.put("auth", false);
         }
 
         response.setContentType("application/json");

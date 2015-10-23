@@ -1,0 +1,106 @@
+package mechanics;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+public class GameSessionTest {
+
+    @Test
+    public void testIsFirstWinInColumn() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        gameSession.setPointFirstPlayerByColumn(0);
+        gameSession.setPointFirstPlayerByColumn(0);
+        gameSession.setPointFirstPlayerByColumn(0);
+        gameSession.setPointFirstPlayerByColumn(0);
+        assertTrue(gameSession.isFirstWin());
+        assertFalse(gameSession.isSecondWin());
+    }
+
+    @Test
+    public void testIsFirstWinInRow() throws Exception {
+        GameSession gameSession2 = new GameSession("user1", "user2");
+        gameSession2.setPointFirstPlayerByColumn(0);
+        gameSession2.setPointFirstPlayerByColumn(1);
+        gameSession2.setPointFirstPlayerByColumn(2);
+        gameSession2.setPointFirstPlayerByColumn(3);
+        assertTrue(gameSession2.isFirstWin());
+        assertFalse(gameSession2.isSecondWin());
+    }
+
+    @Test
+    public void testIsFirstWinInDiagonals() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        gameSession.setPointFirstPlayer(1, 1);
+        gameSession.setPointFirstPlayer(2, 2);
+        gameSession.setPointFirstPlayer(3, 3);
+        gameSession.setPointFirstPlayer(4, 4);
+        assertTrue(gameSession.isFirstWin());
+        assertFalse(gameSession.isSecondWin());
+
+        GameSession gameSession2 = new GameSession("user1", "user2");
+        gameSession2.setPointFirstPlayer(3, 2);
+        gameSession2.setPointFirstPlayer(2, 3);
+        gameSession2.setPointFirstPlayer(1, 4);
+        gameSession2.setPointFirstPlayer(0, 5);
+        assertTrue(gameSession2.isFirstWin());
+        assertFalse(gameSession2.isSecondWin());
+
+        GameSession gameSession3 = new GameSession("user1", "user2");
+        gameSession3.setPointFirstPlayer(5, 2);
+        gameSession3.setPointFirstPlayer(4, 3);
+        gameSession3.setPointFirstPlayer(3, 4);
+        gameSession3.setPointFirstPlayer(2, 5);
+        assertTrue(gameSession3.isFirstWin());
+        assertFalse(gameSession3.isSecondWin());
+    }
+
+    @Test
+    public void testIsSecondWinInColumn() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        gameSession.setPointSecondPlayerByColumn(5);
+        gameSession.setPointSecondPlayerByColumn(5);
+        gameSession.setPointSecondPlayerByColumn(5);
+        gameSession.setPointSecondPlayerByColumn(5);
+        assertTrue(gameSession.isSecondWin());
+        assertFalse(gameSession.isFirstWin());
+    }
+
+    @Test
+    public void testIsSecondWinInRow() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        gameSession.setPointSecondPlayerByColumn(2);
+        gameSession.setPointSecondPlayerByColumn(3);
+        gameSession.setPointSecondPlayerByColumn(4);
+        gameSession.setPointSecondPlayerByColumn(5);
+        assertTrue(gameSession.isSecondWin());
+        assertFalse(gameSession.isFirstWin());
+    }
+
+    @Test
+    public void testIsSecondWinInDiagonals() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        gameSession.setPointSecondPlayer(5, 6);
+        gameSession.setPointSecondPlayer(4, 5);
+        gameSession.setPointSecondPlayer(3, 4);
+        gameSession.setPointSecondPlayer(2, 3);
+        assertTrue(gameSession.isSecondWin());
+        assertFalse(gameSession.isFirstWin());
+
+        GameSession gameSession2 = new GameSession("user1", "user2");
+        gameSession2.setPointSecondPlayer(2, 6);
+        gameSession2.setPointSecondPlayer(3, 5);
+        gameSession2.setPointSecondPlayer(4, 4);
+        gameSession2.setPointSecondPlayer(5, 3);
+        assertTrue(gameSession2.isSecondWin());
+        assertFalse(gameSession2.isFirstWin());
+
+        GameSession gameSession3 = new GameSession("user1", "user2");
+        gameSession3.setPointSecondPlayer(0, 3);
+        gameSession3.setPointSecondPlayer(1, 4);
+        gameSession3.setPointSecondPlayer(2, 5);
+        gameSession3.setPointSecondPlayer(3, 6);
+        assertTrue(gameSession3.isSecondWin());
+        assertFalse(gameSession3.isFirstWin());
+    }
+}

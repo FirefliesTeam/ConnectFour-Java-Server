@@ -1,15 +1,10 @@
-package Services.AccountService;
+package base;
 
-import Services.UserProfile.UserProfile;
+import services.UserProfile.UserProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public interface AccountService {
 

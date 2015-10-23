@@ -1,8 +1,8 @@
-package Frontend.WorkingWithUsers;
+package frontend.workingWithUsers;
 
-import Frontend.Frontend;
-import Services.AccountService.AccountService;
-import Services.AccountService.AccountServiceImpl;
+import base.Frontend;
+import base.AccountService;
+import services.AccountService.AccountServiceImpl;
 import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,13 +1,13 @@
 package main;
 
-import Frontend.Frontend;
-import Services.AccountService.AccountService;
-import Services.AccountService.AccountServiceImpl;
+import base.Frontend;
+import base.AccountService;
+import services.AccountService.AccountServiceImpl;
 import admin.AdminServlet;
-import Frontend.WorkingWithUsers.CheckAuthServletImpl;
-import Frontend.WorkingWithUsers.LogoutServletImpl;
-import Frontend.WorkingWithUsers.LoginServletImpl;
-import Frontend.WorkingWithUsers.RegisterServletImpl;
+import frontend.workingWithUsers.CheckAuthServletImpl;
+import frontend.workingWithUsers.LogoutServletImpl;
+import frontend.workingWithUsers.LoginServletImpl;
+import frontend.workingWithUsers.RegisterServletImpl;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -19,6 +19,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import javax.servlet.Servlet;
 
 public class Main {
+
     public static void main(String[] args) throws  Exception, NumberFormatException, InterruptedException {
         if (args.length != 1) {
             System.out.append("Use port as the first argument");
@@ -40,7 +41,7 @@ public class Main {
         Servlet login = (Servlet) front_login;
         Servlet register = (Servlet) front_register;
         Servlet logout = (Servlet) front_logout;
-        Servlet checkAuth = (Servlet) front_checkAuth;
+        Servlet checkAuth  = (Servlet) front_checkAuth;
         Servlet admin = new AdminServlet(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
