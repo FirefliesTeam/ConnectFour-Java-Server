@@ -64,8 +64,10 @@ public class GameMechanicsImpl implements GameMechanics {
     public void beginRound(String user) {
         //GameUser gameUser = nameToGame.get(user).getGameUserByName(user);
         nameToGame.get(user).startRound();
-        webSocketService.notifyStartRound(nameToGame.get(user).getFirstPlayer());
-        webSocketService.notifyStartRound(nameToGame.get(user).getSecondPlayer());
+        GameUser first = nameToGame.get(user).getFirstPlayer();
+        GameUser second = nameToGame.get(user).getSecondPlayer();
+        webSocketService.notifyStartRound(first, nameToGame.get(user).isTurnByName(first.getName()));
+        webSocketService.notifyStartRound(second, nameToGame.get(user).isTurnByName(second.getName()));
     }
 
     public void makeTurn(String user, String column) {

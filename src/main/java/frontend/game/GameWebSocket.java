@@ -74,11 +74,11 @@ public class GameWebSocket {
         }
     }
 
-    public void startRound(GameUser user) {
+    public void startRound(GameUser user, boolean isTurn) {
         try {
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "startRound");
-            jsonMessage.put("isMyTurn", user.getTurn());
+            jsonMessage.put("isMyTurn", isTurn);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());

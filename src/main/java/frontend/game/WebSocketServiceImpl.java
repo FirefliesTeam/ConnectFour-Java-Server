@@ -33,8 +33,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void notifyStartRound(GameUser user) {
-        usersSockets.get(user.getName()).startRound(user);
+    public void notifyStartRound(GameUser user, boolean isTurn) {
+        usersSockets.get(user.getName()).startRound(user, isTurn);
     }
 
     @Override
