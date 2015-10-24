@@ -1,8 +1,6 @@
 package mechanics;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GameSession {
     private long startSession;
