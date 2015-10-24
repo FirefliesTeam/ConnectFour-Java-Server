@@ -117,22 +117,28 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private void gmStep() {
         for(GameSession session : allSessions) {
-            if(session.getRoundTime() > ROUND_TIME) {
-                String user;
-                if(session.isTurnFirstPlayer()) {
-                    user = session.getFirstPlayer().getName();
-                } else {
-                    user = session.getSecondPlayer().getName();
+            if(session.isInGame()) {
+                if (session.getRoundTime() > ROUND_TIME) {
+                    String user;
+                    if (session.isTurnFirstPlayer()) {
+                        user = session.getFirstPlayer().getName();
+                    } else {
+                        user = session.getSecondPlayer().getName();
+                    }
+                    Random random = new Random();
+                    makeTurn(user, Integer.toString(random.nextInt(7)));
                 }
-                Random random = new Random();
-                makeTurn(user, Integer.toString(random.nextInt(7)));
-            }
-            if(session.getSessionTime() > SESSION_TIME) {
-                allSessions.remove(session);
-                String user1 = session.getFirstPlayer().getName();
-                String user2 = session.getSecondPlayer().getName();
-                nameToGame.remove(user1);
-                nameToGame.remove(user2);
+                if (session.getSessionTime() > SESSION_TIME) {
+                    allSessions.remove(session);
+                    String user1 = session.getFirstPlayer().getName();
+                    String user2 = session.getSecondPlayer().getName();
+                    nameToGame.remove(user1);
+                    nameToGame.remove(user2);
+                }
+            } else {
+                if(session.isSessionReady()) {
+                    startGame(session);
+                }
             }
         }
     }

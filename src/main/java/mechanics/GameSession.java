@@ -31,6 +31,7 @@ public class GameSession {
 
     public GameSession(String first, String second) {
         startSession = new Date().getTime();
+        startRound = 0;
 
         GameUser firstPlayer = new GameUser(first);
         firstPlayer.setRandomColorToMe();
