@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameSession {
-    private final long startTime;
+    private long startSession;
     private long startRound;
     private boolean inGame;
+    private int emptyCells;
+    private int numberRound;
 
     private final GameUser firstPlayer;
     private final GameUser secondPlayer;
     private boolean turnFirstPlayer;
+    private boolean firstTurnFirstPlayerInLastRound;
     private boolean firstPlayerReady;
     private boolean secondPlayerReady;
 
@@ -27,7 +30,7 @@ public class GameSession {
     //private Map<String, GameUser> users = new HashMap<>();
 
     public GameSession(String first, String second) {
-        startTime = new Date().getTime();
+        startSession = new Date().getTime();
 
         GameUser firstPlayer = new GameUser(first);
         firstPlayer.setRandomColorToMe();
@@ -51,12 +54,45 @@ public class GameSession {
         firstPlayerReady = false;
         secondPlayerReady = false;
 
+        emptyCells = ROWS * COLUMNS;
+        numberRound = 0;
+
         for(int i = 0; i < ROWS; ++i) {
             for(int j = 0; j < COLUMNS; ++j) {
                 gameField[COLUMNS * i + j] = 0;
             }
         }
     }
+
+    public void setCurrectTime() { startRound = new Date().getTime(); }
+
+    public void nextTurn() {
+        startRound = new Date().getTime();
+        changeTurn();
+    }
+
+    public void startRound() {
+        turnFirstPlayer = !firstTurnFirstPlayerInLastRound;
+        for(int i = 0; i < ROWS; ++i) {
+            for(int j = 0; j < COLUMNS; ++j) {
+                gameField[COLUMNS * i + j] = 0;
+            }
+        }
+    }
+
+    public boolean isTurnFirstPlayer() { return turnFirstPlayer; }
+
+    public boolean isTurnByName(String name) {
+        if(firstPlayer.getName().equals(name)) {
+            return turnFirstPlayer;
+        } else {
+            return !turnFirstPlayer;
+        }
+    }
+
+    public int getRound() { return numberRound; }
+
+    public void incrementRound() { ++numberRound; }
 
     public GameUser getGameUserByName(String name) {
         if(name.equals(firstPlayer.getName())) {
@@ -82,7 +118,15 @@ public class GameSession {
         return firstPlayerReady && secondPlayerReady;
     }
 
-    public void startGame() { this.inGame = true; }
+    public  void setNotReady() {
+        firstPlayerReady = false;
+        secondPlayerReady = false;
+    }
+
+    public void startGame() {
+        this.inGame = true;
+        firstTurnFirstPlayerInLastRound = turnFirstPlayer = firstPlayer.getPlayerColor() == GameUser.BLUE_COLOR;
+    }
 
     public boolean isInGame() { return this.inGame; }
 
@@ -96,7 +140,7 @@ public class GameSession {
     public void setSecondPlayerNotReady() { this.secondPlayerReady = false; }
     */
 
-    public long getSessionTime() { return new Date().getTime() - startTime; }
+    public long getSessionTime() { return new Date().getTime() - startSession; }
 
     public long getRoundTime() { return new Date().getTime() - startRound; }
 
@@ -105,19 +149,27 @@ public class GameSession {
     public GameUser getSecondPlayer() { return secondPlayer; }
 
     public boolean setPointFirstPlayer(int i, int j) {
+        --emptyCells;
         return setPoint(i, j, MARK_FIRST_PLAYER);
     }
 
     public boolean setPointSecondPlayer(int i, int j) {
+        --emptyCells;
         return setPoint(i, j, MARK_SECOND_PLAYER);
     }
 
     public boolean setPointFirstPlayerByColumn(int j) {
+        --emptyCells;
         return setPointByColumn(j, MARK_FIRST_PLAYER);
     }
 
     public boolean setPointSecondPlayerByColumn(int j) {
+        --emptyCells;
         return setPointByColumn(j, MARK_SECOND_PLAYER);
+    }
+
+    public boolean isFullTable() {
+        return emptyCells < 1;
     }
 
     public boolean isFirstWin() {
@@ -149,7 +201,6 @@ public class GameSession {
         } else {
             return false;
         }
-
     }
 
     private boolean isWin(int mark) {
@@ -212,5 +263,6 @@ public class GameSession {
             return false;
         }
 
+    private void changeTurn() { turnFirstPlayer = !turnFirstPlayer; }
 
 }

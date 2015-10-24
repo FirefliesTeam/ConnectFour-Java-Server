@@ -74,6 +74,52 @@ public class GameWebSocket {
         }
     }
 
+    public void startRound(GameUser user) {
+        try {
+            JSONObject jsonMessage = new JSONObject();
+            jsonMessage.put("status", "startRound");
+            jsonMessage.put("isMyTurn", user.getTurn());
+            session.getRemote().sendString(jsonMessage.toString());
+        } catch(Exception e) {
+            System.out.print(e.toString());
+        }
+    }
+
+    public void makeTurn(GameUser user, int column, boolean succesTurn) {
+        try {
+            JSONObject jsonMessage = new JSONObject();
+            jsonMessage.put("status", "makeTurn");
+            jsonMessage.put("succesTurn", succesTurn);
+            jsonMessage.put("column", column);
+            session.getRemote().sendString(jsonMessage.toString());
+        } catch(Exception e) {
+            System.out.print(e.toString());
+        }
+    }
+
+    public void gameOver(String winner, int numRound) {
+        try {
+            JSONObject jsonMessage = new JSONObject();
+            jsonMessage.put("status", "gameOver");
+            jsonMessage.put("winner", winner);
+            jsonMessage.put("runRound", numRound);
+            session.getRemote().sendString(jsonMessage.toString());
+        } catch(Exception e) {
+            System.out.print(e.toString());
+        }
+    }
+
+    public void nextTurn(boolean isTurn) {
+        try {
+            JSONObject jsonMessage = new JSONObject();
+            jsonMessage.put("status", "nextTurn");
+            jsonMessage.put("turn", isTurn);
+            session.getRemote().sendString(jsonMessage.toString());
+        } catch(Exception e) {
+            System.out.print(e.toString());
+        }
+    }
+
     @OnWebSocketMessage
     public void onMessage(String data) {
         //gameMechanics.incrementScore(myName);

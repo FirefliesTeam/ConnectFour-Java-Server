@@ -32,69 +32,25 @@ public class WebSocketServiceImpl implements WebSocketService {
         usersSockets.get(user.getName()).startGame(user);
     }
 
-
-    /*
-    *
-    *
-    *
-    *
-    * */
     @Override
-    public void notifyMyTurn(GameUser user) {
-
+    public void notifyStartRound(GameUser user) {
+        usersSockets.get(user.getName()).startRound(user);
     }
 
     @Override
-    public void notifyEnemyTurn(GameUser user) {
-
+    public void notifyTurn(GameUser user, int column, boolean succesTurn) {
+        usersSockets.get(user.getName()).makeTurn(user, column, succesTurn);
     }
 
     @Override
-    public void notifyTimer(GameUser user) {
-
+    public void notifyGameOver(GameUser user, String winner, int numRound) {
+        usersSockets.get(user.getName()).gameOver(winner, numRound);
+        usersSockets.get(user.getEnemyName()).gameOver(winner, numRound);
     }
 
     @Override
-    public void notifyGameOver(GameUser user) {
-
+    public void notifyNextTurn(String name, boolean isTurn) {
+        usersSockets.get(name).nextTurn(isTurn);
     }
 
-    @Override
-    public void notifyEndMyTurn(GameUser user) {
-
-    }
-
-    @Override
-    public void notifyEndEnemyTurn(GameUser user) {
-
-    }
-
-    @Override
-    public void notifyEnemyCome(GameUser user) {
-
-    }
-
-    /*
-    public void registrationSocket(GameWebSocket user) {
-        userSockets.put(user.getName(), user);
-    }
-
-    public void notifySetMyPoint(GameUser user) {
-        userSockets.get(user.getName()).setMyScore(user);
-    }
-
-    public void notifySetEnemyPoint(GameUser user) {
-        userSockets.get(user.getName()).setEnemyScore(user);
-    }
-
-    public void notifyStartGame(GameUser user) {
-        GameWebSocket gameWebSocket = userSockets.get(user.getMyName());
-        gameWebSocket.startGame(user);
-    }
-
-    @Override
-    public void notifyGameOver(GameUser user, boolean win) {
-        userSockets.get(user.getMyName()).gameOver(user, win);
-    }
-    */
 }

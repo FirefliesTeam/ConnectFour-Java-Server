@@ -8,6 +8,7 @@ public class GameUser {
 
     private String name;
     private int playerColor;
+    private boolean myTurn;
 
     private String enemyName;
 
@@ -37,6 +38,12 @@ public class GameUser {
         }
     }
 
-    public void setColorToMe(int color) { playerColor = color; }
+    public void setColorToMe(int color) { this.playerColor = color; }
+
+    public void setMyTurn() { this.myTurn = true; }
+
+    public void setEnemyTurn() { this.myTurn = false;  }
+
+    public boolean getTurn() { return myTurn; }
 
 }
