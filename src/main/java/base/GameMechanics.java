@@ -1,7 +1,7 @@
 package base;
 
 public interface GameMechanics {
-    public void addUser(String user, String toUser);
+    public void registerUser(String user);
 
     public void run();
 }

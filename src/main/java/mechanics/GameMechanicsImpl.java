@@ -9,7 +9,9 @@ import java.util.*;
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
-    private static final int Game_Time = 15 * 1000;
+    private static final int GAME_TIME = 15 * 1000;
+
+    private static final int ROUND_TIME = 60 * 1000;
 
     private WebSocketService webSocketService;
 
@@ -17,27 +19,44 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private Set<GameSession> allSessions = new HashSet<>();
 
-    private List<String> waiters = new LinkedList<String>();
+    private List<String> waiters = new LinkedList<>();
 
     public GameMechanicsImpl(WebSocketService webSocketService) {
         this.webSocketService = webSocketService;
     }
 
-    public void addUser(String user, String toUser) {
-        if(toUser != null && toUser != "" && waiters.contains(toUser)) {
-            starGame(user, toUser);
+    // Добавляем регистрируем игрока в механике и ждем выбора
+    public void registerUser(String user) {
+        waiters.add(user);
+    }
+
+    // Игрок сделал выбор присоедиться к игре или создать новую
+    public void selectGame(String user, String toUser) {
+        if(toUser != "") {
             waiters.remove(toUser);
+            GameSession newGameSession = new GameSession(toUser, user);
+            allSessions.add(newGameSession);
+            nameToGame.put(user, newGameSession);
+            nameToGame.put(toUser, newGameSession);
+            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser));
+            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user));
         } else {
             waiters.add(user);
+            webSocketService.waitEnemy(user);
         }
-        /*
-        if (waiter != null) {
-            starGame(user);
-            waiter = null;
-        } else {
-            waiter = user;
-        }
-        */
+    }
+
+    // Установка готовности игрока/игроков
+    public void readyPlayer(String user, String isReadyStr) {
+        boolean isReady = isReadyStr.equals("true");
+        nameToGame.get(user).setPlayerReady(user, isReady);
+    }
+
+    // Если игроки готовы начинается игра
+    public void startGame(GameSession session) {
+        session.startGame();
+        webSocketService.notifyStartGame(session.getFirstPlayer());
+        webSocketService.notifyStartGame(session.getSecondPlayer());
     }
 
     @Override
@@ -50,11 +69,12 @@ public class GameMechanicsImpl implements GameMechanics {
 
     private void gmStep() {
         for (GameSession session : allSessions) {
-            if (session.getSessionTime() > Game_Time) {
+            if (session.getRoundTime() > ROUND_TIME) {
 
             }
         }
     }
+
 
     private void starGame(String first, String second) {
         GameSession gameSession = new GameSession(first, second);
@@ -62,8 +82,8 @@ public class GameMechanicsImpl implements GameMechanics {
         nameToGame.put(first, gameSession);
         nameToGame.put(second, gameSession);
 
-        webSocketService.notifyStartGame(gameSession.getFirstPlayer());
-        webSocketService.notifyStartGame(gameSession.getSecondPlayer());
+        //webSocketService.notifyStartGame(gameSession.getFirstPlayer());
+        //webSocketService.notifyStartGame(gameSession.getSecondPlayer());
         /*
         String second = waiter;
         GameSession gameSession = new GameSession(first, second);
