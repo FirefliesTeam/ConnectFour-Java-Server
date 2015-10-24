@@ -1,7 +1,9 @@
 define([
-    'backbone'
+    'backbone',
+    'views/ViewManager'
 ], function(
-    Backbone
+    Backbone,
+    ViewManager
 ){
 
     var Router = Backbone.Router.extend({
@@ -20,34 +22,24 @@ define([
         
         defaultActions: function () {
             console.log("url = #");
-            require(['views/main'], function(mainView){
-                mainView.load();
-            })
+            ViewManager.show_current(ViewManager.MAIN);
         },
             
         scoreboardAction: function () {
             console.log("url = #scoreboard");
-            require(['views/scoreboard'], function(scoreboardView){
-                scoreboardView.load();
-            })
+            ViewManager.show_current(ViewManager.SCOREBOARD);
         },
         gameAction: function () {
             console.log("url = #game");
-            require(['views/game'], function(gameView){
-                gameView.load();
-            })
+            ViewManager.show_current(ViewManager.GAME);
         },
         loginAction: function () {
             console.log("url = #login");
-            require(['views/login'], function(loginView){
-                loginView.load();
-            })
+            ViewManager.show_current(ViewManager.LOGIN);
         },
         signupAction: function() {
             console.log("url = #signup");
-            require(['views/signup'], function(signupView){
-                signupView.load();
-            })
+            ViewManager.show_current(ViewManager.SIGNUP);
         }
         
         

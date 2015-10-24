@@ -5,19 +5,21 @@
             <span class="window__span_green window__span_hover-blue"> Connect FOUR </span>
         </a>
         <h2 class="window__header_align-center_white">Login</h2>
-        <form method="post" class="form window__form" action="/login">
-            <p>
-                <label class="form__label_border-green">Username </label>
-                <input id="username" class="form__input" name="login" type="text" placeholder="Username"/>
-            </p>
-            <p>
-                <label class="form__label_border-green">Password </label>
-                <input id="password" class="form__input" name="password" type="password" placeholder="Password"/> 
-            </p>
-            <p>
-                <button class="form__btn_green_border-none js_log_in" type="button">Log in</button>
-		    </p>
-        </form>
+        <div class="login">
+            <form method="post" class="form login__form" action="/login">
+                <p>
+                    <label class="form__label_border-green">Username </label>
+                    <input class="form__input login__username" name="login" type="text" placeholder="Username"/>
+                </p>
+                <p>
+                    <label class="form__label_border-green">Password </label>
+                    <input class="form__input login__password" name="password" type="password" placeholder="Password"/> 
+                </p>
+                <p>
+                    <button class="form__btn_green_border-none login__js_log_in" type="button">Log in</button>
+		        </p>
+            </form>
+        </div>
 		<a href="#signup" class="window__a_decoration-none">
     		<span class="window__span_orange window__span_hover-blue window__span_text-size-little">Register now!</span>
     	</a>
@@ -29,7 +31,7 @@
     <div class="login_fixed">
         <div class="login__error_color-white"> 
             <p class="login__close_align-right">
-	            <a href="#login" class="js_btn_close">
+	            <a href="#login" class="login__js_btn_close">
                      close
             	</a>
             </p>
