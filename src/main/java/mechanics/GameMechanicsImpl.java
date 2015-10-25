@@ -9,7 +9,7 @@ import java.util.*;
 public class GameMechanicsImpl implements GameMechanics {
     private static final int STEP_TIME = 100;
 
-    private static final int GAME_TIME = 15 * 1000;
+    private static final int SESSION_TIME = 3600 * 1000;
 
     private static final int ROUND_TIME = 60 * 1000;
 
@@ -26,6 +26,7 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     // Добавляем регистрируем игрока в механике и ждем выбора
+    @Override
     public void registerUser(String user) {
         waiters.add(user);
     }
@@ -55,8 +56,57 @@ public class GameMechanicsImpl implements GameMechanics {
     // Если игроки готовы начинается игра
     public void startGame(GameSession session) {
         session.startGame();
+        session.setNotReady();
         webSocketService.notifyStartGame(session.getFirstPlayer());
         webSocketService.notifyStartGame(session.getSecondPlayer());
+    }
+
+    public void beginRound(String user) {
+        //GameUser gameUser = nameToGame.get(user).getGameUserByName(user);
+        nameToGame.get(user).startRound();
+        GameUser first = nameToGame.get(user).getFirstPlayer();
+        GameUser second = nameToGame.get(user).getSecondPlayer();
+        webSocketService.notifyStartRound(first, nameToGame.get(user).isTurnByName(first.getName()));
+        webSocketService.notifyStartRound(second, nameToGame.get(user).isTurnByName(second.getName()));
+    }
+
+    public void makeTurn(String user, String column) {
+        int col = Integer.parseInt(column);
+        GameSession gameSession = nameToGame.get(user);
+        gameSession.setCurrectTime();
+        boolean fullColumn = !gameSession.setPointSecondPlayerByColumn(col);
+        //boolean fullTable = gameSession.isFullTable();
+        if(fullColumn) {
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, false);
+            return;
+        }
+        boolean fullTable = gameSession.isFullTable();
+        boolean isFirstWin = gameSession.isFirstWin();
+        boolean isSecondWin = gameSession.isSecondWin();
+        if(fullTable && !isFirstWin && !isSecondWin) {
+            webSocketService.notifyGameOver(gameSession.getGameUserByName(user), "nobody", gameSession.getRound());
+            gameSession.incrementRound();
+        } else {
+            if(isFirstWin) {
+                webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getFirstPlayer().getName(), gameSession.getRound());
+                gameSession.incrementRound();
+                return;
+            }
+            if(isSecondWin) {
+                webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getSecondPlayer().getName(), gameSession.getRound());
+                gameSession.incrementRound();
+                return;
+            }
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, true);
+        }
+    }
+
+    public void nextTurn(String user) {
+        GameSession gameSession = nameToGame.get(user);
+        gameSession.nextTurn();
+        GameUser gameUser = gameSession.getGameUserByName(user);
+        webSocketService.notifyNextTurn(gameUser.getName(), gameSession.isTurnByName(gameUser.getName()));
+        webSocketService.notifyNextTurn(gameUser.getEnemyName(), gameSession.isTurnByName(gameUser.getEnemyName()));
     }
 
     @Override
@@ -68,32 +118,31 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     private void gmStep() {
-        for (GameSession session : allSessions) {
-            if (session.getRoundTime() > ROUND_TIME) {
-
+        for(GameSession session : allSessions) {
+            if(session.isInGame()) {
+                if (session.getRoundTime() > ROUND_TIME) {
+                    String user;
+                    if (session.isTurnFirstPlayer()) {
+                        user = session.getFirstPlayer().getName();
+                    } else {
+                        user = session.getSecondPlayer().getName();
+                    }
+                    Random random = new Random();
+                    makeTurn(user, Integer.toString(random.nextInt(7)));
+                }
+                if (session.getSessionTime() > SESSION_TIME) {
+                    allSessions.remove(session);
+                    String user1 = session.getFirstPlayer().getName();
+                    String user2 = session.getSecondPlayer().getName();
+                    nameToGame.remove(user1);
+                    nameToGame.remove(user2);
+                }
+            } else {
+                if(session.isSessionReady()) {
+                    startGame(session);
+                }
             }
         }
-    }
-
-
-    private void starGame(String first, String second) {
-        GameSession gameSession = new GameSession(first, second);
-        allSessions.add(gameSession);
-        nameToGame.put(first, gameSession);
-        nameToGame.put(second, gameSession);
-
-        //webSocketService.notifyStartGame(gameSession.getFirstPlayer());
-        //webSocketService.notifyStartGame(gameSession.getSecondPlayer());
-        /*
-        String second = waiter;
-        GameSession gameSession = new GameSession(first, second);
-        allSessions.add(gameSession);
-        nameToGame.put(first, gameSession);
-        nameToGame.put(second, gameSession);
-
-        webSocketService.notifyStartGame(gameSession.getSelf(first));
-        webSocketService.notifyStartGame(gameSession.getSelf(second));
-         */
     }
 
 }

@@ -14,21 +14,12 @@ public interface WebSocketService {
 
     void notifyStartGame(GameUser user);
 
-    /**/
-    //void notifyStartGame(GameUser user);
+    void notifyStartRound(GameUser user, boolean isTurn);
 
-    void notifyMyTurn(GameUser user);
+    void notifyTurn(GameUser user, int column, boolean succesTurn);
 
-    void notifyEnemyTurn(GameUser user);
+    void notifyGameOver(GameUser user, String winner, int numRound);
 
-    void notifyTimer(GameUser user);
-
-    void notifyGameOver(GameUser user);
-
-    void notifyEndMyTurn(GameUser user);
-
-    void notifyEndEnemyTurn(GameUser user);
-
-    void notifyEnemyCome(GameUser user);
+    void notifyNextTurn(String name, boolean isTurn);
 
 }
