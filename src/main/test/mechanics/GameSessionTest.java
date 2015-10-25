@@ -1,6 +1,7 @@
 package mechanics;
 
 import org.junit.Test;
+import utils.TimeHelper;
 
 import static org.junit.Assert.*;
 
@@ -103,4 +104,51 @@ public class GameSessionTest {
         assertTrue(gameSession3.isSecondWin());
         assertFalse(gameSession3.isFirstWin());
     }
+
+    @Test
+    public void testNextTurn() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        boolean firstTrun = gameSession.isTurnFirstPlayer();
+        TimeHelper.sleep(500);
+        long sessionTime1 = gameSession.getSessionTime();
+
+        gameSession.nextTurn();
+
+        assertTrue(firstTrun != gameSession.isTurnFirstPlayer());
+        assertTrue(sessionTime1 > gameSession.getRound());
+    }
+
+    @Test
+    public void testStartRound() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        assertFalse(gameSession.isFullTable());
+        for(int i = 0; i < 6; ++i) {
+            for(int j = 0; j< 7; ++j) {
+                gameSession.setPointSecondPlayer(i, j);
+            }
+        }
+        assertTrue(gameSession.isFullTable());
+        gameSession.startRound();
+        assertFalse(gameSession.isFullTable());
+    }
+
+    @Test
+    public void testIsTurnByName() {
+        GameSession gameSession = new GameSession("user1", "user2");
+        boolean firstTrun = gameSession.isTurnFirstPlayer();
+        assertTrue(firstTrun == gameSession.isTurnByName("user1"));
+        assertTrue(firstTrun != gameSession.isTurnByName("user2"));
+    }
+
+    @Test
+    public void getGameUserByName() {
+        String name1 = "user1";
+        String name2 = "user2";
+        GameSession gameSession = new GameSession(name1, name2);
+        GameUser user1 = gameSession.getGameUserByName(name1);
+        GameUser user2 = gameSession.getGameUserByName(name2);
+        assertTrue(name1.equals(user1.getName()));
+        assertTrue(name2.equals(user2.getName()));
+    }
+
 }

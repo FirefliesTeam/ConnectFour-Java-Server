@@ -195,4 +195,18 @@ public class AccountServiceTest {
 
         assertEquals(3, accountService.getLoggedUsersCount());
     }
+
+    @Test
+    public void testGetNameBySession() {
+        UserProfile user1 = new UserProfile("user1", "123456", "user@mail.ru");
+        accountService.singUp(user1);
+        UserProfile user2 = new UserProfile("user2", "123456", "user@mail.ru");
+        accountService.singUp(user2);
+
+        HttpSession session = mock(HttpSession.class);
+        when(session.getAttribute("userId")).thenReturn((long) 0);
+        accountService.singIn(session, user1.getLogin(), user1.getPassword());
+
+        assert(user1.getLogin().equals(accountService.getNameBySession(session)));
+    }
 }
