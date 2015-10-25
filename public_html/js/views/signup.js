@@ -1,42 +1,39 @@
 define([
     'backbone',
-    'tmpl/signup'
+    'tmpl/signup',
+    'views/abstract/baseView'
 ], function(
     Backbone,
-    tmpl
+    tmpl,
+    baseView
 ){
 
     var signUpView = Backbone.View.extend({
-        el: '.page',
+        __proto__: baseView,
+        el: '.signup',
         template: tmpl,
         events: {
-            'click .js_log_in': 'login',
-            'click .js_sign_up': 'signUp',
-            'click .js_btn_close': 'signUpClose',
-            'change #password1': 'arePasswordsEqual',
-            'keyup #password2': 'arePasswordsEqual',
-            'change #email': 'checkEmailInput',
-            'change #username': 'checkUsernameInput',
+            'click  .signup__js_log_in': 'login',
+            'click  .signup__js_sign_up': 'signUp',
+            'click  .signup__js_btn_close': 'signUpClose',
+            'change .signup__password1': 'arePasswordsEqual',
+            'keyup  .signup__password2': 'arePasswordsEqual',
+            'change .signup__email': 'checkEmailInput',
+            'change .signup__username': 'checkUsernameInput',
+            'change .signup__password1': 'checkPasswordInput', 
+            'show': 'show'
         },
         initialize: function () {
             console.log("SignupView has been created");
+            this.render();
+            this.hide();
         },
         render: function () {
-            this.$el.html(this.template)
-        },
-        show: function () {
-            $(this.el).show()
-        },
-        hide: function () {
-            $(this.el).hide()
-        },
-        load: function () {
-            this.render();
-            this.show();
+            this.$el.html(this.template);
         },
         
         arePasswordsEqual : function() {
-            if ($("#password1").val() === $("#password2").val()) {
+            if ($(".signup__password1").val() === $(".signup__password2").val()) {
                 $(".form__passwords-different").hide();
                 return true;
             } else {
@@ -47,7 +44,7 @@ define([
         
         checkUsernameInput : function() {
             $(".form__username-exists").hide();   
-            if ($("#username").val() === "") {
+            if ($(".signup__username").val() === "") {
                 $(".form__username-invalid").show();
                 return false;
             } else {
@@ -57,7 +54,7 @@ define([
         },
         
         checkEmailInput : function() {
-            if ($("#email").val() === "") {
+            if ($(".signup__email").val() === "") {
                 $(".form__email-invalid").show();
                 return false;
             } else {
@@ -67,7 +64,7 @@ define([
         },
         
         checkPasswordInput : function() {
-            if ($("#password1").val() === "") {
+            if ($(".signup__password1").val() === "") {
                 $(".form__password-invalid").show();
                 return false;
             } else {
@@ -83,9 +80,9 @@ define([
         },
         
         signUp : function() {
-            var username = $("#username").val();
+            var username = $(".signup__username").val();
             if ( this.arePasswordsEqual() && this.checkUsernameInput() && this.checkEmailInput() && this.checkPasswordInput() ) {
-                $.post($(".form").attr("action"), $(".form").serialize(), function(response) {
+                $.post($(".signup__form").attr("action"), $(".signup__form").serialize(), function(response) {
                 console.log(response);
                   if(response.signup) {
                         $(".signup_fixed").show();

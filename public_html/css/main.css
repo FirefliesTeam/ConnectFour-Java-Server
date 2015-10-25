@@ -69,7 +69,7 @@ a.window__a_decoration-none {
     font-size:0.8em;
 }
 
-.js_logout_btn, .js_login_btn {
+.menu__js_logout_btn, .menu__js_login_btn {
     border: 4px solid #ADD737;
 }
 
@@ -237,22 +237,30 @@ a.window__a_decoration-none {
 .window__gamefield {
     width: 700px;
     height: 600px;    
-    margin: 4% 15%;   
-    background: white;    
+    margin: 5% 5% ;   
+    background: white;
+    float: left;
+    border-radius: 10%;
 }
 
 .gamefield__arrow {
-    width:50px;
+    width:80px;
     height:100px;
+    background-image: url("../background/arrow_sprite.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .gamefield__columnset {
-    margin: 2%;
+    margin: 10px 30px;
 }
 
 .gamefield__column {
-    border: 2px solid red;
     float: left;
+}
+
+.gamefield__column:hover {
+    border: 2px solid green;
 }
 
 
@@ -264,10 +272,66 @@ a.window__a_decoration-none {
     margin: 4px;
 }
 
+.column__cell-blue {
+    background:#01BEF0; 
+}
 
+.column__cell-orange {
+    background:#FF9032;
+}
 
+.window__gameinfo {
+    width:350px;
+    height:600px;   
+    border: 2px solid #FF9032 ;
+    background: #ADD737;
+    opacity: 0.8;
+    margin: 5% 0% 0% 65%; 
+}
 
+.gameinfo__msg {
+    font-size: 1.2em;
+    color: #000000;
+    text-align: center;
+    margin: 10px;
+    border: 1px solid #FF9032;
+    margin: 10px;
+    padding:2px;
+}
 
+.msg__data {
+    margin-left: 10px;
+}
+
+.window__gamemsg {
+    position:fixed;
+    width: 45%;
+    height: 30%;
+    border: 2px solid #FF9032 ;
+    background: #ADD737;
+    opacity: 0.9;
+    margin: 20% 12%; 
+}
+
+.gamemsg__greeting {
+    display: none;
+}
+
+.gamemsg__roundover {
+    display: none;
+}
+
+.gamemsg__gameover {
+    display: none;
+}
+
+.gamemsg__turn {
+    display:none;
+}
+
+.gamemsg__isReady {
+    margin: 10% 40%;
+}
 
 
 
