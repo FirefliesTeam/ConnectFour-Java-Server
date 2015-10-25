@@ -1,11 +1,13 @@
 define([
     'backbone',
     'tmpl/login',
-    'views/abstract/baseView'
+    'views/abstract/baseView',
+    'models/player'
 ], function(
     Backbone,
     tmpl,
-    baseView
+    baseView,
+    player
 ){
 
     var LoginView = Backbone.View.extend({
@@ -14,8 +16,7 @@ define([
         template: tmpl,
         events: {
             'click .login__js_log_in': 'login',
-            'click .login__js_btn_close': 'loginErrClose',
-            'show': 'show'    
+            'click .login__js_btn_close': 'loginErrClose',    
         },
         initialize: function () {
             console.log("LoginView has been created");
@@ -30,9 +31,10 @@ define([
         },
         login: function() {
             $.post($(".login__form").attr("action"), $(".login__form").serialize(), function(response) {
-                console.log(response);
-                if(response.auth) {
-                    $(".login__js_btn_back").trigger("click");
+                if(response.auth) {;
+                    player.set("isAuth", true);
+                    player.set("name", response.name);
+                    $(".js_btn_back").trigger("click");
                 } else {
                     $(".login_fixed").show();
                     setTimeout(function(){$('.login_fixed').fadeOut('fast')}, 5000);  

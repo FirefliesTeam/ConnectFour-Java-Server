@@ -1,11 +1,13 @@
 define([
     'backbone',
     'tmpl/main',
-    'views/abstract/baseView'
+    'views/abstract/baseView',
+    'models/player'
 ], function(
     Backbone,
     tmpl,
-    baseView
+    baseView,
+    player
 ){
 
     var MainView = Backbone.View.extend({
@@ -14,7 +16,7 @@ define([
         template: tmpl,
         events: {
             "click .menu__js_logout_btn": "logout",
-            'show': 'show'  
+            'show': 'checkAuth'  
         },
         
         initialize: function () {
@@ -26,12 +28,12 @@ define([
         render: function () {
             this.$el.html(this.template);
             $(".menu__js_logout_btn").hide();     
-            this.checkAuth();
         },
         
         logout: function() {
             $.get("/exit", function(response){
                 if (response.exit) {
+                    player.set("isAuth", false);
                     $(".menu__js_logout_btn").hide();
                     $(".menu__js_signup_btn").show();
                     $(".menu__js_login_btn").show();
@@ -42,6 +44,7 @@ define([
         checkAuth: function() {
             $.get("/checkAuth", function(response){
                 if(response.auth) {
+                    player.set("isAuth", true);
                     $(".menu__js_login_btn").hide();
                     $(".menu__js_signup_btn").hide();
                     $(".menu__js_logout_btn").show();

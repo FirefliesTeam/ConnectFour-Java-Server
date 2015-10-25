@@ -4,14 +4,16 @@ define([
     'views/game',
     'views/login',
     'views/signup',
-    'views/scoreboard'
+    'views/scoreboard',
+    'models/player'
 ], function(
     Backbone,
     main_view,
     game_view,
     login_view,
     signup_view,
-    scoreboard_view
+    scoreboard_view,
+    player
 ){
 
     var ViewManager = Backbone.View.extend({
@@ -62,16 +64,23 @@ define([
         },
         
         show_current : function (viewName) {
-        
-        
-            loading_view = this.views[viewName];
-        /*    
-            if(this.current_view === "") {  
-                loading_view = this.views.main;
+            loading_view = this.views[viewName];  
+                     
+            if(loading_view === this.views["main"] || loading_view === this.views["game"] ) {
+                main_view.checkAuth();
             }
-          */  
+            
+            /*
+            if(loading_view === this.views["game"]) {
+                console.log(player.get("isAuth"));
+                if(!player.get("isAuth")) {
+                    loading_view = this.views["login"];
+                    $(location).attr('href', '#login');
+                }
+            }
+            */
+            
             if(loading_view !== null && loading_view !== this.current_view) {
-                console.log("show_current");
                 this.previous_view = this.current_view;
                 this.current_view = loading_view;
                 loading_view.trigger('show');
