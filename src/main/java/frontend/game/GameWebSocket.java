@@ -8,7 +8,10 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 @WebSocket
 public class GameWebSocket {
@@ -35,8 +38,8 @@ public class GameWebSocket {
             jsonMessage.put("status", "enemyConnected");
             jsonMessage.put("enemyName", user.getEnemyName());
             session.getRemote().sendString(jsonMessage.toString());
-        } catch(Exception e) {
-            System.out.print(e.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -127,8 +130,8 @@ public class GameWebSocket {
     }
 
     @OnWebSocketConnect
-    public void onOpen(Session session) {
-        setSession(session);
+    public void onOpen(Session _session) {
+        this.session = _session;
         webSocketService.registerSocket(this);
         gameMechanics.registerUser(name);
     }
