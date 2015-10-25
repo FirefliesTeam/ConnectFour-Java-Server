@@ -11,7 +11,6 @@ public class GameUser {
 
     private String enemyName;
 
-
     public GameUser(String name) {
         this.name = name;
     }
@@ -37,6 +36,6 @@ public class GameUser {
         }
     }
 
-    public void setColorToMe(int color) { playerColor = color; }
+    public void setColorToMe(int color) { this.playerColor = color; }
 
 }

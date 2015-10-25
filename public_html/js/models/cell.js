@@ -8,9 +8,8 @@ define([
         
         defaults: {
             //cell may be blue, orange or undefined
-            cell: "", 
-            //column__line
-            place: ""        
+            cell: "undefined", 
+              
         },
         
         initialize : function() {

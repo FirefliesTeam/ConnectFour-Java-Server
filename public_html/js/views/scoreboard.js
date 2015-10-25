@@ -1,32 +1,32 @@
 define([
     'backbone',
     'tmpl/scoreboard',
-    'collections/scores'
+    'collections/scores',
+    'views/abstract/baseView'
 ], function(
     Backbone,
     tmpl,
-    Scores
+    Scores,
+    baseView
 ){
 
     var ScoreboardView = Backbone.View.extend({
-        el: '.page',
+        __proto__: baseView,
+        events: {
+            'show': 'show'
+        },
+        el: '.scoreboard',
         template: tmpl,
         model: Scores,
+        
         initialize: function () {
             console.log("ScoreboardView has been created");
+            this.render();
+            this.hide();
         },
+        
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-        },
-        show: function () {
-            $(this.el).show()
-        },
-        hide: function () {
-            $(this.el).hide()
-        },
-        load: function () {
-            this.render();
-            this.show();
         }
 
     });
