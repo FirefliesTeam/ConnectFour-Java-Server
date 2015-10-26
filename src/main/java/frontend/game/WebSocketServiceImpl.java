@@ -9,6 +9,8 @@ import java.util.Map;
 public class WebSocketServiceImpl implements WebSocketService {
     private Map<String, GameWebSocket> usersSockets = new HashMap<>();
 
+    //public void continueGame(){};
+
     @Override
     public void registerSocket(GameWebSocket userSocket) { usersSockets.put(userSocket.getName(), userSocket); }
 
@@ -28,8 +30,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void notifyStartGame(GameUser user) {
-        usersSockets.get(user.getName()).startGame(user);
+    public void notifyStartGame(GameUser user, boolean isTurn) {
+        usersSockets.get(user.getName()).startGame(user, isTurn);
     }
 
     @Override
@@ -37,9 +39,10 @@ public class WebSocketServiceImpl implements WebSocketService {
         usersSockets.get(user.getName()).startRound(user, isTurn);
     }
 
+    //
     @Override
     public void notifyTurn(GameUser user, int column, boolean succesTurn) {
-        usersSockets.get(user.getName()).makeTurn(user, column, succesTurn);
+        //usersSockets.get(user.getName()).makeTurn(user, column, succesTurn);
     }
 
     @Override
@@ -49,8 +52,8 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void notifyNextTurn(String name, boolean isTurn) {
-        usersSockets.get(name).nextTurn(isTurn);
+    public void notifyNextTurn(String name, boolean isTurn, int filledCell) {
+        usersSockets.get(name).nextTurn(isTurn, filledCell);
     }
 
 }

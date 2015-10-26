@@ -11,6 +11,7 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.jws.WebService;
 import java.io.IOException;
 
 @WebSocket
@@ -54,23 +55,25 @@ public class GameWebSocket {
         }
     }
 
+
+
     public void waitEnemy(String userName) {
         try {
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "wait");
-            jsonMessage.put("myName", userName);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());
         }
     }
 
-    public void startGame(GameUser user) {
+    public void startGame(GameUser user, boolean isTurn) {
         try {
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "startGame");
-            jsonMessage.put("myName", user.getName());
             jsonMessage.put("enemyName", user.getEnemyName());
+            jsonMessage.put("chipColor", user.getPlayerColorStr());
+            jsonMessage.put("isMyTurn", isTurn);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());
@@ -88,18 +91,24 @@ public class GameWebSocket {
         }
     }
 
-    public void makeTurn(GameUser user, int column, boolean succesTurn) {
+    /*
+    //В этом методе отправляется заполненная ячейка?
+    public void changeTurn(GameUser user, int collumn, boolean succesTurn) {
         try {
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "makeTurn");
+            jsonMessage.put("status", "changeTurn");
+
+            //Что это?
             jsonMessage.put("succesTurn", succesTurn);
-            jsonMessage.put("column", column);
+
+            jsonMessage.put("collumn", collumn);
+
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());
         }
     }
-
+    */
     public void gameOver(String winner, int numRound) {
         try {
             JSONObject jsonMessage = new JSONObject();
@@ -112,11 +121,14 @@ public class GameWebSocket {
         }
     }
 
-    public void nextTurn(boolean isTurn) {
+    //Когда происходит сена очереди хода
+    // Нужно передать фронэнду номер заполненной ячейки
+    public void nextTurn(boolean isTurn, int filledCell) {
         try {
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "nextTurn");
-            jsonMessage.put("turn", isTurn);
+            jsonMessage.put("status", "changeTurn");
+            jsonMessage.put("isMyTurn", isTurn);
+            jsonMessage.put("filledCell", filledCell);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());
@@ -126,6 +138,24 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         //gameMechanics.incrementScore(myName);
+        try {
+            JSONObject jsonMessage = new JSONObject(data);
+            String status = jsonMessage.getString("status");
+            if (status.equals("connectToRoom")) {
+                //Имя игрока, создавшего комнату
+                String roomHolderName = jsonMessage.getString("roomHolder");
+            }
+            if (status.equals("ready")) {
+                //WebService.continueGame();
+            }
+            if (status.equals("playAgain")) {
+                //WebService.continueGame();
+            }
+        } catch(Exception e) {
+            System.out.print(e.toString());
+        }
+
+
 
     }
 

@@ -59,8 +59,9 @@ public class GameMechanicsImpl implements GameMechanics {
     public void startGame(GameSession session) {
         session.startGame();
         session.setNotReady();
-        webSocketService.notifyStartGame(session.getFirstPlayer());
-        webSocketService.notifyStartGame(session.getSecondPlayer());
+        boolean isFirstPlayerTurn = session.isTurnFirstPlayer();
+        webSocketService.notifyStartGame(session.getFirstPlayer(), isFirstPlayerTurn);
+        webSocketService.notifyStartGame(session.getSecondPlayer(), !isFirstPlayerTurn);
     }
 
     @Override
@@ -110,8 +111,10 @@ public class GameMechanicsImpl implements GameMechanics {
         GameSession gameSession = nameToGame.get(user);
         gameSession.nextTurn();
         GameUser gameUser = gameSession.getGameUserByName(user);
-        webSocketService.notifyNextTurn(gameUser.getName(), gameSession.isTurnByName(gameUser.getName()));
-        webSocketService.notifyNextTurn(gameUser.getEnemyName(), gameSession.isTurnByName(gameUser.getEnemyName()));
+        String username = gameUser.getName();
+        String enemyName = gameUser.getEnemyName();
+        webSocketService.notifyNextTurn(username, gameSession.isTurnByName(username), gameSession.getLastSetPointPosition());
+        webSocketService.notifyNextTurn(enemyName, gameSession.isTurnByName(enemyName), gameSession.getLastSetPointPosition());
     }
 
     @Override

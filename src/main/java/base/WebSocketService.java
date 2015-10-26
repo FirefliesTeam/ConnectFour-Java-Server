@@ -12,7 +12,7 @@ public interface WebSocketService {
 
     void waitEnemy(String name);
 
-    void notifyStartGame(GameUser user);
+    void notifyStartGame(GameUser user, boolean isTurn);
 
     void notifyStartRound(GameUser user, boolean isTurn);
 
@@ -20,6 +20,6 @@ public interface WebSocketService {
 
     void notifyGameOver(GameUser user, String winner, int numRound);
 
-    void notifyNextTurn(String name, boolean isTurn);
+    void notifyNextTurn(String name, boolean isTurn, int filledCell);
 
 }

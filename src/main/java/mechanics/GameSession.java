@@ -22,6 +22,8 @@ public class GameSession {
     private static final int COLUMNS = 7;
     private static final int ROWS = 6;
 
+    private int lastSetPointPosition;
+
     private int[] gameField = new int[ROWS * COLUMNS];
 
     //Зачем они нужны?
@@ -56,6 +58,8 @@ public class GameSession {
 
         emptyCells = ROWS * COLUMNS;
         numberRound = 1;
+
+        lastSetPointPosition = -1;
 
         for(int i = 0; i < ROWS; ++i) {
             for(int j = 0; j < COLUMNS; ++j) {
@@ -201,11 +205,14 @@ public class GameSession {
         --i;
         if(i >= 0) {
             gameField[COLUMNS * i + j] = mark;
+            this.lastSetPointPosition = COLUMNS * i + j;
             return true;
         } else {
             return false;
         }
     }
+
+    public int getLastSetPointPosition() {  return lastSetPointPosition; }
 
     private boolean isWin(int mark) {
         int countPoints = 0;
