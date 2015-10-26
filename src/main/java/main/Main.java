@@ -41,7 +41,7 @@ public class Main {
         Frontend front_register = new RegisterServletImpl(accountService);
         Frontend front_logout = new LogoutServletImpl(accountService);
         Frontend front_checkAuth = new CheckAuthServletImpl(accountService);
-        Frontend front_game = new GameServletImpl(accountService);
+        Frontend front_game = new GameServletImpl(accountService, gameMechanics);
 
         Servlet login = (Servlet) front_login;
         Servlet register = (Servlet) front_register;

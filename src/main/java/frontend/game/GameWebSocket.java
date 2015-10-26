@@ -126,12 +126,26 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         //gameMechanics.incrementScore(myName);
+        try {
+            JSONObject jsonMessage = new JSONObject(data);
+            String status = jsonMessage.getString("status");
+            String name = jsonMessage.getString("name");
+            if(status.equals("newGame")) {
+                gameMechanics.registerUser(name);
+            }
+            if(status.equals("joinGame")) {
+                String nameEnemy = jsonMessage.getString("roomHolder");
+                gameMechanics.selectGame(name, nameEnemy);
+            }
 
+        } catch(Exception e) {
+            System.out.print(e.toString());
+        }
     }
 
     @OnWebSocketConnect
-    public void onOpen(Session _session) {
-        this.session = _session;
+    public void onOpen(Session session) {
+        this.session = session;
         webSocketService.registerSocket(this);
         gameMechanics.registerUser(name);
     }

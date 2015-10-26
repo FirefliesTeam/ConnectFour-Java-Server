@@ -115,6 +115,11 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     @Override
+    public List<String> getWaiter() {
+        return waiters;
+    }
+
+    @Override
     public void run() {
         while (true) {
             gmStep();
