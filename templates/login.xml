@@ -20,12 +20,14 @@
 		        </p>
             </form>
         </div>
-		<a href="#signup" class="window__a_decoration-none">
-    		<span class="window__span_orange window__span_hover-blue window__span_text-size-little">Register now!</span>
-    	</a>
-		<a href="#" class="window__a_decoration-none">
-    		<span class="window__span_orange window__span_hover-blue js_btn_back">Back</span>
-    	</a>
+        <div class="window__menu">
+		    <a href="#signup" class="window__a_decoration-none">
+        		<span class="window__span_orange window__span_hover-blue window__span_text-size-little">Register now!</span>
+        	</a>
+		    <a href="#" class="window__a_decoration-none">
+        		<span class="window__span_orange window__span_hover-blue js_btn_back">Back</span>
+        	</a>
+    	</div>
     </div>
     
     <div class="login_fixed">

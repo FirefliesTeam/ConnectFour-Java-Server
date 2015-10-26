@@ -7,13 +7,14 @@ define([
     var playerModel = Backbone.Model.extend({
         
         defaults: {
-            name : "",
+            name: "",
             chipColor: "",
+            enemyChipColor: "",
             isAuth: false,
             isMyTurn: false,
             roundWins: 0,
-            gameWon: 0,
-            gamePlayed: 0
+            gamesWon: 0,
+            gamesPlayed: 0
         },
         
         initialize : function() {

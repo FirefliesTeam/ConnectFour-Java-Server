@@ -5,6 +5,7 @@ define([
     'views/login',
     'views/signup',
     'views/scoreboard',
+    'views/rooms',
     'models/player'
 ], function(
     Backbone,
@@ -13,6 +14,7 @@ define([
     login_view,
     signup_view,
     scoreboard_view,
+    rooms_view,
     player
 ){
 
@@ -24,6 +26,7 @@ define([
         MAIN: "main",
         LOGIN: "login",
         SIGNUP: "signup",
+        ROOMS: "rooms",
         
         
         views: {
@@ -32,6 +35,7 @@ define([
             login: null,
             signup: null,
             scoreboard:null,
+            rooms:null
         },
         
         
@@ -46,6 +50,7 @@ define([
             this.views.scoreboard = scoreboard_view;
             this.views.login = login_view;
             this.views.signup = signup_view;
+            this.views.rooms = rooms_view;
             
                             
             this.listenTo(game_view, 'show', this.hide_previous);
@@ -53,6 +58,7 @@ define([
             this.listenTo(scoreboard_view, 'show', this.hide_previous);
             this.listenTo(signup_view, 'show', this.hide_previous);
             this.listenTo(login_view, 'show', this.hide_previous);
+            this.listenTo(rooms_view, 'show', this.hide_previous);
             
         },
         
@@ -66,19 +72,23 @@ define([
         show_current : function (viewName) {
             loading_view = this.views[viewName];  
                      
-            if(loading_view === this.views["main"] || loading_view === this.views["game"] ) {
+            if(loading_view === this.views["main"]) {
                 main_view.checkAuth();
             }
             
-            /*
-            if(loading_view === this.views["game"]) {
-                console.log(player.get("isAuth"));
-                if(!player.get("isAuth")) {
+            if(viewName === "game" || viewName === "rooms" && !player.get("isAuth")){
+                $.get("/game", function(response){
+                    if(response.auth) {
+                        player.set("isAuth", true);
+                        player.set("name", response.name); 
+                    }                   
+                }, "json");
+                
+                if (!player.get("isAuth")){
                     loading_view = this.views["login"];
-                    $(location).attr('href', '#login');
+                    $(location).attr('href', '#login');  
                 }
             }
-            */
             
             if(loading_view !== null && loading_view !== this.current_view) {
                 this.previous_view = this.current_view;

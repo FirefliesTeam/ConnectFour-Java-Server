@@ -1,5 +1,5 @@
 define([
-    'webService/msgHandler'
+    'webService/webService'
 ], function(
     msgHandler
 ){
@@ -8,27 +8,29 @@ define([
         socket : null,
         
         initialize: function () {
-            socket = new WebSocket("ws://localhost:8090/gameplay/");
+            URL = "ws://" + location.host + "/gameplay"
+            socket = new WebSocket(URL);
             
-            console.log("ws is created");
+            console.log("ws is created on URL " + URL);
             
             socket.onopen = this.onopen;
             socket.onclose = this.onclose;
             socket.onmessage = this.onmessage;
             socket.error = this.error;
+            
         },
 
         onopen : function() {
-          alert("Соединение установлено.");
+          console.log("Соединение установлено.");
         },
 
         onclose : function(event) {
           if (event.wasClean) {
-            alert('Соединение закрыто чисто');
+            console.log('Соединение закрыто чисто');
           } else {
-            alert('Обрыв соединения'); // например, "убит" процесс сервера
+            console.log('Обрыв соединения'); // например, "убит" процесс сервера
           }
-          alert('Код: ' + event.code + ' причина: ' + event.reason);
+          console.log('Код: ' + event.code + ' причина: ' + event.reason);
         },
 
         onmessage : function(event) {            

@@ -37,9 +37,11 @@
         		</p>
             </form>
         </div>
-		<a href="#" class="window__a_decoration-none">
-    		<span class="window__span_orange window__span_hover-blue">Back</span>
-    	</a>
+        <div class="window__menu">
+		    <a href="#" class="window__a_decoration-none">
+        		<span class="window__span_orange window__span_hover-blue">Back</span>
+        	</a>
+    	</div>
     </div>
     
     <div class="signup_fixed">

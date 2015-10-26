@@ -3,11 +3,7 @@
 		<a href="#" class="window__a_decoration-none">
             <span class="window__span_green window__span_hover-blue"> Connect FOUR </span>
     	</a>
-        <div class="window__testingmenu">
-            <button class="testingmenu__btn js_change_status">Сменить статус</button>
-            <button class="testingmenu__btn js_change_turn">Смена хода</button>
-            <button class="testingmenu__btn js_add_cell">Бросить фишку</button>
-        </div>
+    	
     	<div class="window__gamefield">
     	    <div class="gamefield__arrow"></div>
             <div class="gamefield__columnset">

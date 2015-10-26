@@ -8,6 +8,7 @@ define([
 
     var Router = Backbone.Router.extend({
         routes: {
+            'rooms': 'roomsAction',
             'scoreboard': 'scoreboardAction',
             'game': 'gameAction',
             'login': 'loginAction',
@@ -21,25 +22,27 @@ define([
         },
         
         defaultActions: function () {
-            console.log("url = #");
             ViewManager.show_current(ViewManager.MAIN);
         },
             
         scoreboardAction: function () {
-            console.log("url = #scoreboard");
             ViewManager.show_current(ViewManager.SCOREBOARD);
         },
+        
         gameAction: function () {
-            console.log("url = #game");
             ViewManager.show_current(ViewManager.GAME);
         },
+        
         loginAction: function () {
-            console.log("url = #login");
             ViewManager.show_current(ViewManager.LOGIN);
         },
+        
         signupAction: function() {
-            console.log("url = #signup");
             ViewManager.show_current(ViewManager.SIGNUP);
+        },
+        
+        roomsAction: function() {
+            ViewManager.show_current(ViewManager.ROOMS);
         }
         
         

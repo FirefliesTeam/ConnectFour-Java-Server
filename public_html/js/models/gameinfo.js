@@ -14,7 +14,7 @@ define([
         },
         
         initialize : function() {
-            console.log("GamefieldModel is created");
+            console.log("GameinfoModel is created");
         }
         
     });

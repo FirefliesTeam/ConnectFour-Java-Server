@@ -39,7 +39,11 @@ define([
             player.set("chipColor", "red");
             player.set("isMyTurn",  true);
             
+            webSocket.initialize();
+            
         },
+        
+        
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
@@ -134,18 +138,6 @@ define([
             }
         },
         
-        js_change_turn: function() {
-            player.set("isMyTurn", !player.get("isMyTurn"));
-        },
-        
-        js_change_status: function() {
-            if(gameinfo.get('status')==="ready"){
-                gameinfo.set("status", "run");
-            } else {
-                gameinfo.set("status", "ready");
-            }
-        },
-        
         js_ready: function () {
             $(".gamemsg__greeting").hide();
             this.changeTurn();
@@ -159,7 +151,7 @@ define([
         
         js_notPlayAgain: function () {
             console.log("Not play again");
-            //webSocket.sendPlayAgainMsg(false);        
+            webSocket.sendPlayAgainMsg(false);        
             $(".gamemsg__gameover").hide();
         },
         
@@ -174,12 +166,13 @@ define([
         },
         
         dropAnimationStop: function() {
+        
         },
         
         dropChip: function (event) {
             column__id = event.currentTarget.attributes.getNamedItem("id").value;
             console.log("send column " + column__id + " to server");
-            //webSocket.sendCollumnChoosedMsg(column__id);
+            webSocket.sendCollumnChoosedMsg(column__id);
         },
         
 //--------------------------------------------------------------------------
