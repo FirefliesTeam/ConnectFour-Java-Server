@@ -7,16 +7,17 @@ define([
     
         socket : null,
         
-        initialize: function () {
+        connect: function () {
             URL = "ws://" + location.host + "/gameplay"
             socket = new WebSocket(URL);
             
             console.log("ws is created on URL " + URL);
             
-            socket.onopen = this.onopen;
-            socket.onclose = this.onclose;
-            socket.onmessage = this.onmessage;
-            socket.error = this.error;
+            this.socket = socket;
+            this.socket.onopen = this.onopen;
+            this.socket.onclose = this.onclose;
+            this.socket.onmessage = this.onmessage;
+            this.socket.error = this.error;
             
         },
 
@@ -88,7 +89,11 @@ define([
         sendJoinMsg: function(playerName) {
             msgHandler.JOIN_GAME.joiner = playerName;
             this.socket.send(JSON.stringify(msgHandler.JOIN_GAME));
-        }  
+        }, 
+        
+        close: function() {
+            this.socket.close();
+        }
     }
     
     return Socket;

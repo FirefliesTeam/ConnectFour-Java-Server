@@ -37,11 +37,13 @@ define([
 
         createGame: function () {
             console.log("createGame");
+            webSocket.connect();
             webSocket.sendPlayMsg("user1");
         },
         
         playGame: function () {
             console.log("playGame");
+            webSocket.connect();
             webSocket.sendJoinMsg("user2");
         }
         

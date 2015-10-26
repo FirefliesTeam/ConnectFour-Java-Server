@@ -39,7 +39,6 @@ define([
             player.set("chipColor", "red");
             player.set("isMyTurn",  true);
             
-            webSocket.initialize();
             
         },
         
