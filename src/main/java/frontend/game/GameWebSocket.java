@@ -144,8 +144,8 @@ public class GameWebSocket {
     }
 
     @OnWebSocketConnect
-    public void onOpen(Session _session) {
-        this.session = _session;
+    public void onOpen(Session session) {
+        this.session = session;
         webSocketService.registerSocket(this);
         gameMechanics.registerUser(name);
     }
