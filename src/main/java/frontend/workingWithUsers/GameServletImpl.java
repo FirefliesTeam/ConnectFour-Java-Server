@@ -5,6 +5,7 @@ import base.Frontend;
 import base.GameMechanics;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
+import templater.PageGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,9 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameServletImpl extends HttpServlet implements Frontend {
-    public static final String PAGE_URL = "/game";
+    public static final String PAGE_URL = "/game123";
 
     @NotNull
     private AccountService accountService;
@@ -43,9 +46,14 @@ public class GameServletImpl extends HttpServlet implements Frontend {
 
         }
 
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("myName", "user");
+        response.getWriter().println(PageGenerator.getPage("game123.html", pageVariables));
         response.setContentType("application/json");
+
+        response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonResponse.toString());
+        //response.getWriter().write(jsonResponse.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

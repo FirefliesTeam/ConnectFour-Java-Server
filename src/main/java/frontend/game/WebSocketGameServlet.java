@@ -26,6 +26,8 @@ public class WebSocketGameServlet extends WebSocketServlet {
     @Override
     public void configure(WebSocketServletFactory factory) {
         factory.getPolicy().setIdleTimeout(IDLE_TIME);
+        System.out.append("WebSocketGameServlet::configure setCreator before" + '\n');
         factory.setCreator(new GameWebSocketCreator(accountService, gameMechanics, webSocketService));
+        System.out.append("WebSocketGameServlet::configure setCreator after" + '\n');
     }
 }

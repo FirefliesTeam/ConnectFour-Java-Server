@@ -33,6 +33,6 @@ public interface AccountService {
     @Nullable
     UserProfile getUser(@NotNull String userName);
 
-    public String getNameBySession(@NotNull HttpSession session);
+    String getNameBySession(@NotNull HttpSession session);
 
 }
