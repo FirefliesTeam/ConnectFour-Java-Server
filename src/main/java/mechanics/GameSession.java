@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class GameSession {
     private long startSession;
-    private long startRound;
+    private long startRoundTime;
     private boolean inGame;
     private int emptyCells;
     private int numberRound;
@@ -29,7 +29,8 @@ public class GameSession {
 
     public GameSession(String first, String second) {
         startSession = new Date().getTime();
-        startRound = 0;
+        startRoundTime = 0;
+        inGame = false;
 
         GameUser firstPlayer = new GameUser(first);
         firstPlayer.setRandomColorToMe();
@@ -54,7 +55,7 @@ public class GameSession {
         secondPlayerReady = false;
 
         emptyCells = ROWS * COLUMNS;
-        numberRound = 0;
+        numberRound = 1;
 
         for(int i = 0; i < ROWS; ++i) {
             for(int j = 0; j < COLUMNS; ++j) {
@@ -63,20 +64,24 @@ public class GameSession {
         }
     }
 
-    public void setCurrectTime() { startRound = new Date().getTime(); }
+    public void setCurrectTimeToRound() { startRoundTime = new Date().getTime(); }
 
     public void nextTurn() {
-        startRound = new Date().getTime();
-        changeTurn();
+        //startRound = new Date().getTime();
+        setCurrectTimeToRound();
+        //changeTurn();
+        turnFirstPlayer = !turnFirstPlayer;
     }
 
     public void startRound() {
         turnFirstPlayer = !firstTurnFirstPlayerInLastRound;
+        setCurrectTimeToRound();
         for(int i = 0; i < ROWS; ++i) {
             for(int j = 0; j < COLUMNS; ++j) {
                 gameField[COLUMNS * i + j] = 0;
             }
         }
+        emptyCells = ROWS * COLUMNS;
     }
 
     public boolean isTurnFirstPlayer() { return turnFirstPlayer; }
@@ -141,7 +146,7 @@ public class GameSession {
 
     public long getSessionTime() { return new Date().getTime() - startSession; }
 
-    public long getRoundTime() { return new Date().getTime() - startRound; }
+    public long getRoundTime() { return new Date().getTime() - startRoundTime; }
 
     public GameUser getFirstPlayer() { return firstPlayer; }
 
@@ -262,6 +267,6 @@ public class GameSession {
             return false;
         }
 
-    private void changeTurn() { turnFirstPlayer = !turnFirstPlayer; }
+    //private void changeTurn() { turnFirstPlayer = !turnFirstPlayer; }
 
 }

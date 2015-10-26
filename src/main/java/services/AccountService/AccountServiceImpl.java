@@ -28,6 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
     private long _lastSessionId = 0;
 
+    @Override
     public boolean singUp(@NotNull UserProfile userProfile) {
         if(isAvailableName(userProfile.getLogin())) {
             addUser(userProfile);
@@ -37,6 +38,7 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    @Override
     public long singIn(@NotNull HttpSession session, @NotNull String login, @NotNull String password) {
         UserProfile profile = getUser(login);
         if (profile != null) {
@@ -50,6 +52,7 @@ public class AccountServiceImpl implements AccountService {
         return -1;
     }
 
+    @Override
     public boolean logOut(@NotNull HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         session.removeAttribute("userId");
@@ -59,6 +62,7 @@ public class AccountServiceImpl implements AccountService {
         return true;
     }
 
+    @Override
     public boolean checkAuth(@NotNull HttpSession session) {
         Long userId = (Long) session.getAttribute("userId");
         if (userId == null) {
@@ -68,34 +72,52 @@ public class AccountServiceImpl implements AccountService {
         return null != userProfile;
     }
 
+    @Override
     public boolean isAvailableName(@NotNull String login) {
         return !users.containsKey(login);
     }
 
+    @Override
     public boolean validationName(@NotNull String name) {
         return validation(name, NAME_PATTERN);
     }
 
+    @Override
     public boolean validationEmail(@NotNull String email) {
         return validation(email, EMAIL_PATTERN);
     }
 
+    @Override
     public boolean validationPassword(@NotNull String password) {
         return validation(password, PASSWORD_PATTERN);
     }
 
+    @Override
     public int getRegisteredUsersCount(){
         return users.size();
     }
 
+    @Override
     public int getLoggedUsersCount(){
         return sessions.size();
     }
 
+    @Override
     public void addUser(@NotNull UserProfile userProfile) {
         users.put(userProfile.getLogin(), userProfile);
     }
 
+    @Override
+    public String getNameBySession(@NotNull HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "";
+        }
+        UserProfile userProfile = getSessions(userId.toString());
+        return userProfile.getLogin();
+    }
+
+    @Override
     @Nullable
     public UserProfile getUser(@NotNull String userName) {
         return users.get(userName);

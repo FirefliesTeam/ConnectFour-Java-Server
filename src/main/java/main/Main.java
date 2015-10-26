@@ -2,12 +2,14 @@ package main;
 
 import base.Frontend;
 import base.AccountService;
+import base.GameMechanics;
+import base.WebSocketService;
+import frontend.game.WebSocketGameServlet;
+import frontend.game.WebSocketServiceImpl;
+import frontend.workingWithUsers.*;
+import mechanics.GameMechanicsImpl;
 import services.AccountService.AccountServiceImpl;
 import admin.AdminServlet;
-import frontend.workingWithUsers.CheckAuthServletImpl;
-import frontend.workingWithUsers.LogoutServletImpl;
-import frontend.workingWithUsers.LoginServletImpl;
-import frontend.workingWithUsers.RegisterServletImpl;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -32,16 +34,20 @@ public class Main {
 
         //AccountService accountService = new AccountServiceImpl();
         AccountService accountService = new AccountServiceImpl();
+        WebSocketService webSocketService = new WebSocketServiceImpl();
+        GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
         Frontend front_login = new LoginServletImpl(accountService);
         Frontend front_register = new RegisterServletImpl(accountService);
         Frontend front_logout = new LogoutServletImpl(accountService);
         Frontend front_checkAuth = new CheckAuthServletImpl(accountService);
+        Frontend front_game = new GameServletImpl(accountService);
 
         Servlet login = (Servlet) front_login;
         Servlet register = (Servlet) front_register;
         Servlet logout = (Servlet) front_logout;
         Servlet checkAuth  = (Servlet) front_checkAuth;
+        Servlet game = (Servlet) front_game;
         Servlet admin = new AdminServlet(accountService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
@@ -50,6 +56,8 @@ public class Main {
         context.addServlet(new ServletHolder(logout), LogoutServletImpl.PAGE_URL);
         context.addServlet(new ServletHolder(checkAuth), CheckAuthServletImpl.PAGE_URL);
         context.addServlet(new ServletHolder(admin), AdminServlet.PAGE_URL);
+        context.addServlet(new ServletHolder(game), GameServletImpl.PAGE_URL);
+        context.addServlet(new ServletHolder(new WebSocketGameServlet(accountService, gameMechanics, webSocketService)), "/gameplay");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setDirectoriesListed(true); //!!!
@@ -62,6 +70,6 @@ public class Main {
         server.setHandler(handlers);
 
         server.start();
-        server.join();
+        gameMechanics.run();
     }
 }

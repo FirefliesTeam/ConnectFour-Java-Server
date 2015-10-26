@@ -35,25 +35,28 @@ define([
             switch(event.status) {
                 case "ready":
                     console.log("ready");
+                    msgHandler.onready(event);
                     break;
 
                 case "run":
                     console.log("run");
+                    msgHandler.onrun(event);
                     break;
                 
                 case "changeTurn":
                     console.log("changeTurn");
+                    msgHandler.onchangeTurn(event);
                     break;
                 
                 case "roundOver":
                     console.log("roundOver");
+                    msgHandler.onroundOver(event);
                     break;
                 
                 case "gameOver":
                     console.log("gameOver");
+                    msgHandler.ongameOver(event);
                     break;
-                
-                
             }
         },
 
@@ -74,8 +77,7 @@ define([
             msgHandler.PLAY_AGAIN.answer = answer;
             this.socket.send(JSON.stringify(msgHandler.PLAY_AGAIN));
         }
-        
-        
+           
     }
     
     return Socket;

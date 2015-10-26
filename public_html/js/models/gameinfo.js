@@ -8,9 +8,9 @@ define([
         
         defaults: {
             status: "",
-            turnTime: null,
+            turnTime: 20,
             roundNum: 0,
-            win: false
+            win: null
         },
         
         initialize : function() {

@@ -23,7 +23,7 @@ public class GameUser {
 
     public void setRandomColorToMe() {
         Random random = new Random();
-        playerColor = random.nextInt(1) + 1;
+        playerColor = random.nextInt(2) + 1;
     }
 
     public int getPlayerColor() { return playerColor; }

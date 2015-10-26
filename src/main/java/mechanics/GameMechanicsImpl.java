@@ -32,6 +32,7 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     // Игрок сделал выбор присоедиться к игре или создать новую
+    @Override
     public void selectGame(String user, String toUser) {
         if(toUser != "") {
             waiters.remove(toUser);
@@ -48,6 +49,7 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     // Установка готовности игрока/игроков
+    @Override
     public void readyPlayer(String user, String isReadyStr) {
         boolean isReady = isReadyStr.equals("true");
         nameToGame.get(user).setPlayerReady(user, isReady);
@@ -61,6 +63,7 @@ public class GameMechanicsImpl implements GameMechanics {
         webSocketService.notifyStartGame(session.getSecondPlayer());
     }
 
+    @Override
     public void beginRound(String user) {
         //GameUser gameUser = nameToGame.get(user).getGameUserByName(user);
         nameToGame.get(user).startRound();
@@ -70,10 +73,11 @@ public class GameMechanicsImpl implements GameMechanics {
         webSocketService.notifyStartRound(second, nameToGame.get(user).isTurnByName(second.getName()));
     }
 
+    @Override
     public void makeTurn(String user, String column) {
         int col = Integer.parseInt(column);
         GameSession gameSession = nameToGame.get(user);
-        gameSession.setCurrectTime();
+        gameSession.setCurrectTimeToRound();
         boolean fullColumn = !gameSession.setPointSecondPlayerByColumn(col);
         //boolean fullTable = gameSession.isFullTable();
         if(fullColumn) {
@@ -101,6 +105,7 @@ public class GameMechanicsImpl implements GameMechanics {
         }
     }
 
+    @Override
     public void nextTurn(String user) {
         GameSession gameSession = nameToGame.get(user);
         gameSession.nextTurn();
