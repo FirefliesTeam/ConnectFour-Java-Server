@@ -2,6 +2,7 @@ package frontend.workingWithUsers;
 
 import base.AccountService;
 import base.Frontend;
+import base.GameMechanics;
 import org.junit.Test;
 import services.AccountService.AccountServiceImpl;
 
@@ -29,10 +30,11 @@ public class GameServletImplTest {
         when(request.getSession()).thenReturn(session);
 
         AccountService accountService = mock(AccountServiceImpl.class);
+        GameMechanics gameMechanics = mock(GameMechanics.class);
         when(accountService.checkAuth(session)).thenReturn(true);
         when(accountService.getNameBySession(session)).thenReturn("qwerty");
 
-        Frontend gameServlet = new GameServletImpl(accountService);
+        Frontend gameServlet = new GameServletImpl(accountService, gameMechanics);
         gameServlet.doGet(request, response);
 
         String rightResponse = '{'
@@ -56,10 +58,11 @@ public class GameServletImplTest {
         when(request.getSession()).thenReturn(session);
 
         AccountService accountService = mock(AccountServiceImpl.class);
+        GameMechanics gameMechanics = mock(GameMechanics.class);
         when(accountService.checkAuth(session)).thenReturn(false);
         when(accountService.getNameBySession(session)).thenReturn("qwerty");
 
-        Frontend gameServlet = new GameServletImpl(accountService);
+        Frontend gameServlet = new GameServletImpl(accountService, gameMechanics);
         gameServlet.doGet(request, response);
 
         String rightResponse = '{'

@@ -2,6 +2,7 @@ package frontend.workingWithUsers;
 
 import base.AccountService;
 import base.Frontend;
+import base.GameMechanics;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
@@ -18,8 +19,12 @@ public class GameServletImpl extends HttpServlet implements Frontend {
     @NotNull
     private AccountService accountService;
 
-    public GameServletImpl(@NotNull AccountService accountService) {
+    @NotNull
+    private GameMechanics gameMechanics;
+
+    public GameServletImpl(@NotNull AccountService accountService, @NotNull GameMechanics gameMechanics) {
         this.accountService = accountService;
+        this.gameMechanics = gameMechanics;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class GameServletImpl extends HttpServlet implements Frontend {
         if (accountService.checkAuth(session)) {
             jsonResponse.put("auth", true);
             jsonResponse.put("name", accountService.getNameBySession(session));
+
         }
 
         response.setContentType("application/json");
