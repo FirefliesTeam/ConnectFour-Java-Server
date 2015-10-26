@@ -3,19 +3,23 @@ define([
     'tmpl/rooms',
     'collections/rooms',
     'views/abstract/baseView',
-    'models/player'
+    'models/player',
+    'webService/webSocket'
 ], function(
     Backbone,
     tmpl,
     Rooms,
     baseView,
-    player
+    player,
+    webSocket
 ){
 
     var RoomsView = Backbone.View.extend({
         __proto__: baseView,
         events: {
-            'show': 'show'
+            'show': 'show',
+            'click .js_create_btn': 'createGame',
+            'click .js_play_btn': 'playGame'
         },
         el: '.rooms',
         template: tmpl,
@@ -29,7 +33,18 @@ define([
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+        },
+
+        createGame: function () {
+            console.log("createGame");
+            webSocket.sendPlayMsg("user1");
+        },
+        
+        playGame: function () {
+            console.log("playGame");
+            webSocket.sendJoinMsg("user2");
         }
+        
 
     });
 

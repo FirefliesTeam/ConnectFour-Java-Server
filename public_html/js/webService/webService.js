@@ -23,6 +23,16 @@ define([
             answer: null             
         },
         
+        PLAY_GAME: {
+            status: "playGame",
+            creator: ""
+        },
+        
+        JOIN_GAME: {
+            status: "joinGame",
+            joiner: ""
+        },
+        
         onready : function (event) {
             player.set("chipColor", event.chipColor);
             // player.set("enemyChipColor", event.chipColor);

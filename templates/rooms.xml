@@ -43,7 +43,7 @@
         </div>    
         <div class="window__menu">
 		    <a href="#game" class="window__a_decoration-none">
-		        <span class="window__span_orange window__span_hover-blue">Create game</span>
+		        <button class="window__span_orange window__span_hover-blue js_create_btn">Create game</button>
 		    </a>
 		    <a href="#" class="window__a_decoration-none">
 		        <span class="window__span_orange window__span_hover-blue">Back</span>

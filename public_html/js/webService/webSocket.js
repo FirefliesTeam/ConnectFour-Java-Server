@@ -78,8 +78,17 @@ define([
         sendPlayAgainMsg : function(answer) {
             msgHandler.PLAY_AGAIN.answer = answer;
             this.socket.send(JSON.stringify(msgHandler.PLAY_AGAIN));
-        }
-           
+        },
+        
+        sendPlayMsg: function(playerName) {
+            msgHandler.PLAY_GAME.creator = playerName;
+            this.socket.send(JSON.stringify(msgHandler.PLAY_GAME));
+        },
+         
+        sendJoinMsg: function(playerName) {
+            msgHandler.JOIN_GAME.joiner = playerName;
+            this.socket.send(JSON.stringify(msgHandler.JOIN_GAME));
+        }  
     }
     
     return Socket;
