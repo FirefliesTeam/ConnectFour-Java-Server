@@ -11,14 +11,17 @@ define([
         initialize: function() {
             date = new Date(Date.now());
             dateStr = date.toDateString() + " " + date.toTimeString().substr(0, 8);
-            this.add([ 
-                { "holderName" : "Vasyaaaa", "createDate": dateStr },
-                { "holderName" : "Pauvel", "createDate": dateStr },
-                { "holderName" : "Ann", "createDate": dateStr }    
-             
-            ])
+
         },
         
+        addRooms: function(roomHolders) {
+            var models = [];
+            for(var i = 0; i < roomHolders.length; i++) {
+                models.push({ holderName : roomHolders[i] });
+            }
+            this.set(JSON.stringify(models));
+        }  
+              
     });
         
     return new Collection();

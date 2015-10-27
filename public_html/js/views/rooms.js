@@ -53,6 +53,7 @@ define([
         createGame: function () {
             console.log("createGame");
             webSocket.sendPlayMsg(player.get("name"));
+            //this.model.addRooms(["user1", "user2", "user3"]);            
         },
         
         playGame: function (event) {
