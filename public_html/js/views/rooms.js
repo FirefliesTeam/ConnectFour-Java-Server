@@ -37,7 +37,8 @@ define([
         show: function() {
             $.get("/game", function(response){
                 console.log(response);   
-            })
+            }, "json");
+            
             if(webSocket.socket === null) {
                 webSocket.connect();
                 console.log("webSocket.connect()");
