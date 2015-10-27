@@ -19,7 +19,7 @@ define([
             for(var i = 0; i < roomHolders.length; i++) {
                 models.push({ holderName : roomHolders[i] });
             }
-            this.set(JSON.stringify(models));
+            this.set(models);
         }  
               
     });
