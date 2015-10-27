@@ -8,12 +8,12 @@ define([
         socket : null,
         
         connect: function () {
-            URL = "ws://" + location.host + "/gameplay"
-            socket = new WebSocket(URL);
+            URL = "ws://" + location.host + "/gameplay";
+            
+            this.socket = new WebSocket(URL);
             
             console.log("ws is created on URL " + URL);
             
-            this.socket = socket;
             this.socket.onopen = this.onopen;
             this.socket.onclose = this.onclose;
             this.socket.onmessage = this.onmessage;

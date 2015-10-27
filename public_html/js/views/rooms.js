@@ -27,6 +27,7 @@ define([
         
         initialize: function () {
             console.log("RoomsView has been created");
+            webSocket.connect();
             this.render();
             this.hide();
         },
@@ -37,14 +38,11 @@ define([
 
         createGame: function () {
             console.log("createGame");
-            socket = new WebSocket("ws://localhost:8090/gameplay");
-
             webSocket.sendPlayMsg("user1");
         },
         
         playGame: function () {
             console.log("playGame");
-            socket = new WebSocket("ws://localhost:8090/gameplay");
             webSocket.sendJoinMsg("user2");
         }
         

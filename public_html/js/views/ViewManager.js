@@ -75,7 +75,7 @@ define([
             if(loading_view === this.views["main"]) {
                 main_view.checkAuth();
             }
-            
+                        
             if(viewName === "game" || viewName === "rooms" && !player.get("isAuth")){
                 $.get("/game", function(response){
                     if(response.auth) {
@@ -83,11 +83,12 @@ define([
                         player.set("name", response.name); 
                     }                   
                 }, "json");
-                
+                /* 
                 if (!player.get("isAuth")){
                     loading_view = this.views["login"];
                     $(location).attr('href', '#login');  
                 }
+                */
             }
             
             if(loading_view !== null && loading_view !== this.current_view) {
