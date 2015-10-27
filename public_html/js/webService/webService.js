@@ -24,13 +24,13 @@ define([
         },
         
         PLAY_GAME: {
-            status: "playGame",
+            status: "newGame",
             creator: ""
         },
         
         JOIN_GAME: {
             status: "joinGame",
-            joiner: ""
+            roomHolder: ""
         },
         
         onready : function (event) {

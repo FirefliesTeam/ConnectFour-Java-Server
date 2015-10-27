@@ -31,12 +31,13 @@ define([
             this.render();
             this.hide();
             
-            this.listenTo(Rooms, "change", this.render);
+            this.listenTo(Rooms, "all", this.render);
         },
         
         show: function() {
             $.get("/game", function(response){
-                console.log(response);   
+                console.log(response);
+                Rooms.addRooms(response);   
             }, "json");
             
             if(webSocket.socket === null) {
@@ -52,7 +53,7 @@ define([
 
         createGame: function () {
             console.log("createGame");
-            webSocket.sendPlayMsg(player.get("name"));
+            webSocket.sendPlayMsg(player.get("name"));            
         },
         
         playGame: function (event) {
