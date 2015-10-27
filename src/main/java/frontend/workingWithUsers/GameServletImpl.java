@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GameServletImpl extends HttpServlet implements Frontend {
@@ -35,11 +36,15 @@ public class GameServletImpl extends HttpServlet implements Frontend {
     public void doGet(@NotNull HttpServletRequest request,
                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
-        JSONArray jsonArrayResponse = new JSONArray(gameMechanics.getWaiter());
+        List<String> waiters = gameMechanics.getWaiter();
+        JSONArray jsonArrayResponse = new JSONArray();
+        for(String waiter: waiters) {
+            jsonArrayResponse.put(waiter);
+        }
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(jsonArrayResponse.toString());
+        response.getWriter().write(jsonArrayResponse.toString().toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
