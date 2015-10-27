@@ -5,6 +5,8 @@ import java.util.List;
 public interface GameMechanics {
     public void registerUser(String user);
 
+    public void deleteUser(String user);
+
     public void selectGame(String user, String toUser);
 
     public void readyPlayer(String user, String isReadyStr);
