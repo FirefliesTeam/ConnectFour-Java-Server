@@ -35,10 +35,7 @@ public class GameServletImpl extends HttpServlet implements Frontend {
     public void doGet(@NotNull HttpServletRequest request,
                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
-
         JSONArray jsonArrayResponse = new JSONArray(gameMechanics.getWaiter());
-
-        HttpSession session = request.getSession();
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
