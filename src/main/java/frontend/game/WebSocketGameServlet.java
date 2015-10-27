@@ -8,9 +8,9 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 import javax.servlet.annotation.WebServlet;
 
-//@WebServlet(name = "WebSocketGameServlet", urlPatterns = {"/gameplay"})
+@WebServlet(name = "WebSocketGameServlet", urlPatterns = {"/gameplay"})
 public class WebSocketGameServlet extends WebSocketServlet {
-    private final static int IDLE_TIME = 60 * 1000;
+    private final static int IDLE_TIME = 600 * 1000;
     private AccountService accountService;
     private GameMechanics gameMechanics;
     private WebSocketService webSocketService;
