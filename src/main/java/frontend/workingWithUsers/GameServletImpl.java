@@ -4,6 +4,7 @@ import base.AccountService;
 import base.Frontend;
 import base.GameMechanics;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import templater.PageGenerator;
 
@@ -34,26 +35,14 @@ public class GameServletImpl extends HttpServlet implements Frontend {
     public void doGet(@NotNull HttpServletRequest request,
                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("auth", false);
-        jsonResponse.put("name", "");
+
+        JSONArray jsonArrayResponse = new JSONArray(gameMechanics.getWaiter());
 
         HttpSession session = request.getSession();
 
-        if (accountService.checkAuth(session)) {
-            jsonResponse.put("auth", true);
-            jsonResponse.put("name", accountService.getNameBySession(session));
-
-        }
-
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("myName", "user");
-        response.getWriter().println(PageGenerator.getPage("game123.html", pageVariables));
         response.setContentType("application/json");
-
-        response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
-        //response.getWriter().write(jsonResponse.toString());
+        response.getWriter().write(jsonArrayResponse.toString());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
