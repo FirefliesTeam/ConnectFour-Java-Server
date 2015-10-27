@@ -27,9 +27,22 @@ define([
         
         initialize: function () {
             console.log("RoomsView has been created");
-            webSocket.connect();
+            
             this.render();
             this.hide();
+            
+            this.listenTo(Rooms, "change", this.render);
+        },
+        
+        show: function() {
+            $.get("/game", function(response){
+                console.log(response);   
+            })
+            if(webSocket.socket === null) {
+                webSocket.connect();
+                console.log("webSocket.connect()");
+            }
+            $(".rooms").show();
         },
         
         render: function () {
@@ -38,12 +51,14 @@ define([
 
         createGame: function () {
             console.log("createGame");
-            webSocket.sendPlayMsg("user1");
+            webSocket.sendPlayMsg(player.get("name"));
         },
         
-        playGame: function () {
+        playGame: function (event) {
             console.log("playGame");
-            webSocket.sendJoinMsg("user2");
+            var id = event.currentTarget.attributes.getNamedItem("id").value;
+            var roomHolder = Rooms.models[id].get("holderName");
+            webSocket.sendJoinMsg(roomHolder);
         }
         
 

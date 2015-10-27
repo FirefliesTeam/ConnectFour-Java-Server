@@ -47,7 +47,7 @@ define([
         },
         
         checkAuth: function() {
-            $.get("/game", function(response){
+            $.get("/checkAuth", function(response){
                 if(response.auth) {
                     player.set("isAuth", true);
                     player.set("name", response.name);

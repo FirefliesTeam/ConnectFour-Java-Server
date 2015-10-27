@@ -33,7 +33,7 @@
                             </span>
                         </td>
                         <td>
-                            <button class="item__playButton js_play_btn">
+                            <button id="{i}" class="item__playButton js_play_btn">
                                 play
                             </button>
                         </td>

@@ -76,8 +76,8 @@ define([
                 main_view.checkAuth();
             }
                         
-            if(viewName === "game" || viewName === "rooms" && !player.get("isAuth")){
-                $.get("/game", function(response){
+            if(viewName === "game" || viewName === "rooms" && !player.get("isAuth")) {
+                $.get("/checkAuth", function(response){
                     if(response.auth) {
                         player.set("isAuth", true);
                         player.set("name", response.name); 
