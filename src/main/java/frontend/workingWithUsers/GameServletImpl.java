@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameServletImpl extends HttpServlet implements Frontend {
-    public static final String PAGE_URL = "/game123";
+    public static final String PAGE_URL = "/game";
 
     @NotNull
     private AccountService accountService;

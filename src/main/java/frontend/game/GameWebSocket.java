@@ -126,7 +126,7 @@ public class GameWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(String data) {
-        System.out.append("GameWebSocket::GameWebSocket onMessage" + '\n');
+        System.out.append('\n' + "GameWebSocket::GameWebSocket onMessage" + '\n');
         //gameMechanics.incrementScore(myName);
         try {
             JSONObject jsonMessage = new JSONObject(data);
@@ -147,15 +147,15 @@ public class GameWebSocket {
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        System.out.append("GameWebSocket::onOpen" + '\n');
+        System.out.append('\n' + "GameWebSocket::onOpen" + '\n');
         this.session = session;
         webSocketService.registerSocket(this);
         gameMechanics.registerUser(name);
-        System.out.append("GameWebSocket::onOpen" + '\n');
+        System.out.append('\n' + "GameWebSocket::onOpen" + '\n');
     }
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        System.out.append("GameWebSocket::onClose" + '\n');
+        System.out.append('\n' + "GameWebSocket::onClose" + '\n');
     }
 }
