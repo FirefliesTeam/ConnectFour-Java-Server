@@ -29,6 +29,12 @@ public class GameMechanicsImpl implements GameMechanics {
     @Override
     public void registerUser(String user) {
         waiters.add(user);
+        webSocketService.waitEnemy(user);
+    }
+
+    @Override
+    public void deleteUser(String user) {
+        waiters.remove(user);
     }
 
     // Игрок сделал выбор присоедиться к игре или создать новую

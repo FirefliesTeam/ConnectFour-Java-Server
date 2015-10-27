@@ -59,11 +59,7 @@
             <artifactId>jetty-rewrite</artifactId>
             <version>9.2.0.M0</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20131018</version>
-        </dependency>
+
         <dependency>
             <groupId>com.intellij</groupId>
             <artifactId>annotations</artifactId>

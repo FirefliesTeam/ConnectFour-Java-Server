@@ -127,11 +127,9 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         System.out.append('\n' + "GameWebSocket::GameWebSocket onMessage" + '\n');
-        //gameMechanics.incrementScore(myName);
         try {
             JSONObject jsonMessage = new JSONObject(data);
             String status = jsonMessage.getString("status");
-            String name = jsonMessage.getString("name");
             if(status.equals("newGame")) {
                 gameMechanics.registerUser(name);
             }
@@ -157,5 +155,6 @@ public class GameWebSocket {
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         System.out.append('\n' + "GameWebSocket::onClose" + '\n');
+        gameMechanics.deleteUser(name);
     }
 }
