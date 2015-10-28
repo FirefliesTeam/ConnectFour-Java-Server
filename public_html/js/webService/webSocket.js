@@ -87,7 +87,7 @@ define([
             },
              
             sendJoinMsg: function(playerName) {
-                msgHandler.JOIN_GAME.joiner = playerName;
+                msgHandler.JOIN_GAME.roomHolder = playerName;
                 this.socket.send(JSON.stringify(msgHandler.JOIN_GAME));
             }, 
             
