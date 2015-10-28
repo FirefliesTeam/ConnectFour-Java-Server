@@ -37,7 +37,6 @@ define([
         
         show: function() {
             $.get("/game", function(response){
-                console.log(response);
                 Rooms.addRooms(response);   
             }, "json");
             
@@ -62,6 +61,7 @@ define([
             var id = event.currentTarget.attributes.getNamedItem("id").value;
             var roomHolder = Rooms.models[id].get("holderName");
             webSocket.sendJoinMsg(roomHolder);
+            $(location).attr('href', '#game');
         }
         
 
