@@ -35,8 +35,8 @@ define([
             this.listenTo(player, "change:isMyTurn", this.changeTurn);
             this.listenTo(gameinfo, "change:status", this.changeStatus);
             this.listenTo(gamefield, "change", this.render);
-            
-            gameinfo.set("status", "ready");            
+             
+            player.set("isMyTurn", true);           
         },
         
         
@@ -56,7 +56,6 @@ define([
         },
         
         changeTurn: function () {
-            if (gameinfo.get("status") !== "ready") {
                 if(player.get("isMyTurn")) {
                     this.unblockGamefield();
                 } else {
@@ -68,10 +67,9 @@ define([
                 setTimeout(function(){$('.gamemsg__turn').fadeOut('fast')}, 2000);
 
                 console.log("send-ready_msg");
-                //setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
+                setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
                 
                 this.printGameinfo();            
-            }
         },
         
         printGameinfo() {
