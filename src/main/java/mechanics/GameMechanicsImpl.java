@@ -86,7 +86,6 @@ public class GameMechanicsImpl implements GameMechanics {
         GameSession gameSession = nameToGame.get(user);
         gameSession.setCurrectTimeToRound();
         boolean fullColumn = !gameSession.setPointSecondPlayerByColumn(col);
-        //boolean fullTable = gameSession.isFullTable();
         if(fullColumn) {
             webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, false);
             return;
