@@ -36,9 +36,12 @@ define([
         onready : function (event) {
             player.set("chipColor", event.chipColor);
             player.set("enemyChipColor", event.chipColor);
+            player.set("enemyName", event.enemyName);
             player.set("isMyTurn", event.isMyTurn);
             gameinfo.set("status", event.status);
-            gameinfo.set("roundNum", event.roundNum);
+            console.log(player.toJSON());
+            console.log(gameinfo.toJSON);
+            
         },
 
         onrun : function (event) {

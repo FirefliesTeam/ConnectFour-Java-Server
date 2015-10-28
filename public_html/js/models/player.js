@@ -10,6 +10,7 @@ define([
             name: "",
             chipColor: "",
             enemyChipColor: "",
+            enemyName: "",
             isAuth: false,
             isMyTurn: false,
             roundWins: 0,

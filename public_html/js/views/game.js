@@ -36,10 +36,7 @@ define([
             this.listenTo(gameinfo, "change:status", this.changeStatus);
             this.listenTo(gamefield, "change", this.render);
             
-            player.set("chipColor", "red");
-            player.set("isMyTurn",  true);
-            
-            
+            gameinfo.set("status", "ready");            
         },
         
         
@@ -49,30 +46,32 @@ define([
         },
         
         getTurnMsg: function() {
-            msg_turn = "";
+            var msg_turn = "Turn: ";
             if(player.get("isMyTurn")) {
-                msg_turn =  "It's you turn";
+                msg_turn += player.get("name");
             } else {
-                msg_turn = "Wait your opponent";
+                msg_turn += player.get("enemyName");
             }
             return msg_turn;
         },
         
         changeTurn: function () {
-            if(player.get("isMyTurn")) {
-                this.unblockGamefield();
-            } else {
-                this.blockGamefield();
-            }
+            if (gameinfo.get("status") !== "ready") {
+                if(player.get("isMyTurn")) {
+                    this.unblockGamefield();
+                } else {
+                    this.blockGamefield();
+                }
             
-            $(".msg_turn").text(this.getTurnMsg());
-            $(".gamemsg__turn").show(this.getTurnMsg());
-            setTimeout(function(){$('.gamemsg__turn').fadeOut('fast')}, 2000);
+                $(".msg_turn").text(this.getTurnMsg());
+                $(".gamemsg__turn").show(this.getTurnMsg());
+                setTimeout(function(){$('.gamemsg__turn').fadeOut('fast')}, 2000);
 
-            console.log("send-ready_msg");
-            //setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
-            
-            this.printGameinfo();
+                console.log("send-ready_msg");
+                //setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
+                
+                this.printGameinfo();            
+            }
         },
         
         printGameinfo() {
