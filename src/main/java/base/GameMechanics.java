@@ -13,7 +13,7 @@ public interface GameMechanics {
 
     public void beginRound(String user);
 
-    public void makeTurn(String user, String column);
+    public void makeTurn(String user, int column);
 
     public void nextTurn(String user);
 

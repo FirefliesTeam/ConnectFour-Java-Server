@@ -145,7 +145,7 @@ public class GameMechanicsImpl implements GameMechanics {
                         user = session.getSecondPlayer().getName();
                     }
                     Random random = new Random();
-                    makeTurn(user, Integer.toString(random.nextInt(7)));
+                    makeTurn(user, random.nextInt(7));
                 }
                 if (session.getSessionTime() > SESSION_TIME) {
                     allSessions.remove(session);
