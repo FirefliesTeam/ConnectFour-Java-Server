@@ -44,6 +44,9 @@ public class GameMechanicsImpl implements GameMechanics {
             waiters.remove(toUser);
             GameSession newGameSession = new GameSession(toUser, user);
             allSessions.add(newGameSession);
+
+
+            
             nameToGame.put(user, newGameSession);
             nameToGame.put(toUser, newGameSession);
             webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser), newGameSession.isTurnByName(toUser));
