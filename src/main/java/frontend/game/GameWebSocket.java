@@ -143,6 +143,9 @@ public class GameWebSocket {
                 String nameEnemy = jsonMessage.getString("roomHolder");
                 gameMechanics.selectGame(name, nameEnemy);
             }
+            if(status.equals("ready")) {
+                gameMechanics.readyPlayer(name, "true");
+            }
 
         } catch(Exception e) {
             System.out.print(e.toString());
