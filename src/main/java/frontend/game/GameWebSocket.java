@@ -157,7 +157,7 @@ public class GameWebSocket {
         System.out.append('\n' + "GameWebSocket::onOpen" + '\n');
         this.session = session;
         webSocketService.registerSocket(this);
-        gameMechanics.registerUser(name);
+        //gameMechanics.registerUser(name);
         System.out.append('\n' + "GameWebSocket::onOpen" + '\n');
     }
 
