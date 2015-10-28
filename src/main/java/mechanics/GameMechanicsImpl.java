@@ -40,10 +40,13 @@ public class GameMechanicsImpl implements GameMechanics {
     // Игрок сделал выбор присоедиться к игре или создать новую
     @Override
     public void selectGame(String user, String toUser) {
-        if(toUser != "") {
+        if(!toUser.equals("")) {
             waiters.remove(toUser);
             GameSession newGameSession = new GameSession(toUser, user);
             allSessions.add(newGameSession);
+
+
+
             nameToGame.put(user, newGameSession);
             nameToGame.put(toUser, newGameSession);
             webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser), newGameSession.isTurnByName(toUser));
