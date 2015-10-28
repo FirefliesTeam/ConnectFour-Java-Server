@@ -2,6 +2,7 @@ package frontend.game;
 
 import base.GameMechanics;
 import base.WebSocketService;
+import com.sun.xml.internal.ws.api.message.Packet;
 import mechanics.GameUser;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -24,7 +25,6 @@ public class GameWebSocket {
         this.name = name;
         this.gameMechanics = gameMechanics;
         this.webSocketService = webSocketService;
-        System.out.append("GameWebSocket::GameWebSocket" + '\n');
     }
 
     public String getName() { return name; }
@@ -35,6 +35,7 @@ public class GameWebSocket {
 
     public void connectEnemy(GameUser user, boolean isTurn) {
         try {
+            System.out.append(name + " ! GameWebSocket::connectEnemy" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
@@ -49,6 +50,7 @@ public class GameWebSocket {
 
     public void connectRoom(GameUser user, boolean isTurn) {
         try {
+            System.out.append(name + " ! GameWebSocket::connectRoom" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
@@ -63,6 +65,7 @@ public class GameWebSocket {
 
     public void waitEnemy(String userName) {
         try {
+            System.out.append(name + " ! GameWebSocket::waitEnemy" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "wait");
             jsonMessage.put("myName", userName);
@@ -74,6 +77,7 @@ public class GameWebSocket {
 
     public void startGame(GameUser user) {
         try {
+            System.out.append(name + " ! GameWebSocket::startGame" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "startGame");
             jsonMessage.put("myName", user.getName());
@@ -86,6 +90,7 @@ public class GameWebSocket {
 
     public void startRound(GameUser user, boolean isTurn) {
         try {
+            System.out.append(name + " ! GameWebSocket::startRound" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "startRound");
             jsonMessage.put("isMyTurn", isTurn);
@@ -97,6 +102,7 @@ public class GameWebSocket {
 
     public void makeTurn(GameUser user, int column, boolean succesTurn) {
         try {
+            System.out.append(name + " ! GameWebSocket::makeTurn" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "makeTurn");
             jsonMessage.put("succesTurn", succesTurn);
@@ -109,6 +115,7 @@ public class GameWebSocket {
 
     public void gameOver(String winner, int numRound) {
         try {
+            System.out.append(name + " ! GameWebSocket::gameOver" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "gameOver");
             jsonMessage.put("winner", winner);
@@ -121,6 +128,7 @@ public class GameWebSocket {
 
     public void nextTurn(boolean isTurn) {
         try {
+            System.out.append(name + " ! GameWebSocket::nextTurn" + '\n');
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "nextTurn");
             jsonMessage.put("turn", isTurn);
@@ -132,19 +140,27 @@ public class GameWebSocket {
 
     @OnWebSocketMessage
     public void onMessage(String data) {
-        System.out.append('\n' + "GameWebSocket::GameWebSocket onMessage" + '\n');
+        System.out.append(name + " ! GameWebSocket::GameWebSocket onMessage" + '\n');
         try {
             JSONObject jsonMessage = new JSONObject(data);
             String status = jsonMessage.getString("status");
             if(status.equals("newGame")) {
+                System.out.append(name + " ! GameWebSocket::onMessage newGame" + '\n');
                 gameMechanics.registerUser(name);
             }
             if(status.equals("joinGame")) {
+                System.out.append(name + " ! GameWebSocket::onMessage joinGame" + '\n');
                 String nameEnemy = jsonMessage.getString("roomHolder");
                 gameMechanics.selectGame(name, nameEnemy);
             }
             if(status.equals("ready")) {
+                System.out.append(name + " ! GameWebSocket::onMessage ready" + '\n');
                 gameMechanics.readyPlayer(name, "true");
+            }
+            if(status.equals("collumnChoosed")) {
+                int column = jsonMessage.getInt("collumn");
+                System.out.append(name + " ! GameWebSocket::onMessage collumnChoosed: " + String.valueOf(column) + '\n');
+
             }
 
         } catch(Exception e) {
@@ -154,16 +170,12 @@ public class GameWebSocket {
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        System.out.append('\n' + "GameWebSocket::onOpen" + '\n');
         this.session = session;
         webSocketService.registerSocket(this);
-        //gameMechanics.registerUser(name);
-        System.out.append('\n' + "GameWebSocket::onOpen" + '\n');
     }
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        System.out.append('\n' + "GameWebSocket::onClose" + '\n');
         gameMechanics.deleteUser(name);
     }
 }
