@@ -2,7 +2,6 @@ package frontend.game;
 
 import base.GameMechanics;
 import base.WebSocketService;
-import com.sun.xml.internal.ws.api.message.Packet;
 import mechanics.GameUser;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
