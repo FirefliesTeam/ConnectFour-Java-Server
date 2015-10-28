@@ -82,11 +82,13 @@ define([
             },
             
             sendPlayMsg: function(playerName) {
+                console.log("WebSocket send message - newGame");
                 msgHandler.PLAY_GAME.creator = playerName;
                 this.socket.send(JSON.stringify(msgHandler.PLAY_GAME));
             },
              
             sendJoinMsg: function(playerName) {
+                console.log("WebSocket send message - joinGame");
                 msgHandler.JOIN_GAME.roomHolder = playerName;
                 this.socket.send(JSON.stringify(msgHandler.JOIN_GAME));
             }, 

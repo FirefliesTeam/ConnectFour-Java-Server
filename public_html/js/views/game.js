@@ -30,8 +30,6 @@ define([
             this.hide();
             this.blockGamefield();
             
-            cell_index = 0;
-            
             this.listenTo(player, "change:isMyTurn", this.changeTurn);
             this.listenTo(gameinfo, "change:status", this.changeStatus);
             this.listenTo(gamefield, "change", this.render);
