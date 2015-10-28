@@ -159,6 +159,7 @@ public class GameWebSocket {
             if(status.equals("collumnChoosed")) {
                 int column = jsonMessage.getInt("collumn");
                 System.out.append(name + " ! GameWebSocket::onMessage collumnChoosed: " + String.valueOf(column) + '\n');
+
             }
 
         } catch(Exception e) {
