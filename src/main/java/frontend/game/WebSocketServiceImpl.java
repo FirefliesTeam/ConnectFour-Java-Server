@@ -13,13 +13,13 @@ public class WebSocketServiceImpl implements WebSocketService {
     public void registerSocket(GameWebSocket userSocket) { usersSockets.put(userSocket.getName(), userSocket); }
 
     @Override
-    public void notifyEnemyConnect(GameUser user) {
-        usersSockets.get(user.getName()).connectEnemy(user);
+    public void notifyEnemyConnect(GameUser user, boolean isTurn) {
+        usersSockets.get(user.getName()).connectEnemy(user, isTurn);
     }
 
     @Override
-    public void notifyConnectToRoom(GameUser user) {
-        usersSockets.get(user.getName()).connectRoom(user);
+    public void notifyConnectToRoom(GameUser user, boolean isTurn) {
+        usersSockets.get(user.getName()).connectRoom(user, isTurn);
     }
 
     @Override

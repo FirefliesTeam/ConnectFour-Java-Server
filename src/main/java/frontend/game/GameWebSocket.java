@@ -33,22 +33,28 @@ public class GameWebSocket {
 
     public Session getSession() { return session; }
 
-    public void connectEnemy(GameUser user) {
+    public void connectEnemy(GameUser user, boolean isTurn) {
         try {
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "enemyConnected");
+            jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
+            jsonMessage.put("chipColor", user.getPlayerColor());
+            jsonMessage.put("enemyChipColor", user.getEnemyColor());
+            jsonMessage.put("isMyTurn", isTurn);
             session.getRemote().sendString(jsonMessage.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void connectRoom(GameUser user) {
+    public void connectRoom(GameUser user, boolean isTurn) {
         try {
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "connectToRoom");
+            jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
+            jsonMessage.put("chipColor", user.getPlayerColor());
+            jsonMessage.put("enemyChipColor", user.getEnemyColor());
+            jsonMessage.put("isMyTurn", isTurn);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());

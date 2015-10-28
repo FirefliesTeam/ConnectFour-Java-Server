@@ -46,8 +46,8 @@ public class GameMechanicsImpl implements GameMechanics {
             allSessions.add(newGameSession);
             nameToGame.put(user, newGameSession);
             nameToGame.put(toUser, newGameSession);
-            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser));
-            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user));
+            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser), newGameSession.isTurnByName(toUser));
+            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user), newGameSession.isTurnByName(user));
         } else {
             waiters.add(user);
             webSocketService.waitEnemy(user);
