@@ -32,9 +32,7 @@ define([
             
             this.listenTo(player, "change:isMyTurn", this.changeTurn);
             this.listenTo(gameinfo, "change:status", this.changeStatus);
-            this.listenTo(gamefield, "change", this.render);
-             
-            player.set("isMyTurn", true);           
+            this.listenTo(gamefield, "change", this.render);           
         },
         
         
@@ -54,20 +52,23 @@ define([
         },
         
         changeTurn: function () {
-                if(player.get("isMyTurn")) {
-                    this.unblockGamefield();
-                } else {
-                    this.blockGamefield();
-                }
-            
-                $(".msg_turn").text(this.getTurnMsg());
-                $(".gamemsg__turn").show(this.getTurnMsg());
-                setTimeout(function(){$('.gamemsg__turn').fadeOut('fast')}, 2000);
+            if(gameinfo.get("status") === "ready") {
+                return ;
+            }
+            if(player.get("isMyTurn")) {
+                this.unblockGamefield();
+            } else {
+                this.blockGamefield();
+            }
+        
+            $(".msg_turn").text(this.getTurnMsg());
+            $(".gamemsg__turn").show(this.getTurnMsg());
+            setTimeout(function(){$('.gamemsg__turn').fadeOut('fast')}, 2000);
 
-                console.log("send-ready_msg");
-                setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
-                
-                this.printGameinfo();            
+            console.log("send-ready_msg");
+            setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
+            
+            this.printGameinfo();            
         },
         
         printGameinfo() {
@@ -110,7 +111,10 @@ define([
         changeStatus: function () {
             console.log("changeStatus");
             switch(gameinfo.get("status")) {
-
+                case "wait":
+                    this.blockGamefield();
+                    break;
+                    
                 case "ready":
                     this.blockGamefield();
                     this.printGameinfo();
@@ -134,6 +138,7 @@ define([
         
         js_ready: function () {
             $(".gamemsg__greeting").hide();
+            gameinfo.set("status", "startGame");
             this.changeTurn();
         },
         

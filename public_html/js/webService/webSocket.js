@@ -34,31 +34,37 @@ define([
               console.log('Код: ' + event.code + ' причина: ' + event.reason);
             },
 
-            onmessage : function(event) {            
-                switch(event.status) {
+            onmessage : function(event) {   
+                var data = JSON.parse(event.data);         
+                switch(data.status) {
+                    case "wait":
+                        console.log("wait");
+                        msgHandler.onwait(data);
+                        break;
+                        
                     case "ready":
                         console.log("ready");
-                        msgHandler.onready(event);
+                        msgHandler.onready(data);
                         break;
 
                     case "run":
                         console.log("run");
-                        msgHandler.onrun(event);
+                        msgHandler.onrun(data);
                         break;
                     
                     case "changeTurn":
                         console.log("changeTurn");
-                        msgHandler.onchangeTurn(event);
+                        msgHandler.onchangeTurn(data);
                         break;
                     
                     case "roundOver":
                         console.log("roundOver");
-                        msgHandler.onroundOver(event);
+                        msgHandler.onroundOver(data);
                         break;
                     
                     case "gameOver":
                         console.log("gameOver");
-                        msgHandler.ongameOver(event);
+                        msgHandler.ongameOver(data);
                         break;
                 }
             },
