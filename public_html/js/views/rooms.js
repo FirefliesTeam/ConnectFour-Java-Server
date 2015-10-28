@@ -31,7 +31,8 @@ define([
             this.render();
             this.hide();
             
-            this.listenTo(Rooms, "all", this.render);
+            this.listenTo(Rooms, "add", this.render);
+            this.listenTo(Rooms, "remove", this.render);
         },
         
         show: function() {
@@ -52,12 +53,12 @@ define([
         },
 
         createGame: function () {
-            console.log("createGame");
+            console.log("newGame");
             webSocket.sendPlayMsg(player.get("name"));            
         },
         
         playGame: function (event) {
-            console.log("playGame");
+            console.log("joinGame");
             var id = event.currentTarget.attributes.getNamedItem("id").value;
             var roomHolder = Rooms.models[id].get("holderName");
             webSocket.sendJoinMsg(roomHolder);
