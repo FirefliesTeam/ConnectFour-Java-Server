@@ -36,7 +36,7 @@ public class GameWebSocket {
     public void connectEnemy(GameUser user) {
         try {
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "enemyConnected");
+            jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
             session.getRemote().sendString(jsonMessage.toString());
         } catch (IOException e) {
@@ -47,7 +47,7 @@ public class GameWebSocket {
     public void connectRoom(GameUser user) {
         try {
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "connectToRoom");
+            jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
