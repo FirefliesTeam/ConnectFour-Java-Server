@@ -40,14 +40,14 @@ public class GameMechanicsImpl implements GameMechanics {
     // Игрок сделал выбор присоедиться к игре или создать новую
     @Override
     public void selectGame(String user, String toUser) {
-        if(toUser != "") {
+        if(!toUser.equals("")) {
             waiters.remove(toUser);
             GameSession newGameSession = new GameSession(toUser, user);
             allSessions.add(newGameSession);
             nameToGame.put(user, newGameSession);
             nameToGame.put(toUser, newGameSession);
-            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser));
-            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user));
+            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser), newGameSession.isTurnByName(toUser));
+            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user), newGameSession.isTurnByName(user));
         } else {
             waiters.add(user);
             webSocketService.waitEnemy(user);
@@ -80,12 +80,12 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     @Override
-    public void makeTurn(String user, String column) {
-        int col = Integer.parseInt(column);
+    public void makeTurn(String user, int column) {
+        //int col = Integer.parseInt(column);
+        int col = column;
         GameSession gameSession = nameToGame.get(user);
         gameSession.setCurrectTimeToRound();
         boolean fullColumn = !gameSession.setPointSecondPlayerByColumn(col);
-        //boolean fullTable = gameSession.isFullTable();
         if(fullColumn) {
             webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, false);
             return;
@@ -144,7 +144,7 @@ public class GameMechanicsImpl implements GameMechanics {
                         user = session.getSecondPlayer().getName();
                     }
                     Random random = new Random();
-                    makeTurn(user, Integer.toString(random.nextInt(7)));
+                    makeTurn(user, random.nextInt(7));
                 }
                 if (session.getSessionTime() > SESSION_TIME) {
                     allSessions.remove(session);

@@ -38,6 +38,11 @@ public class GameServletImpl extends HttpServlet implements Frontend {
 
         List<String> waiters = gameMechanics.getWaiter();
         JSONArray jsonArrayResponse = new JSONArray();
+
+        String name = accountService.getNameBySession(request.getSession());
+        if(waiters.contains(name)) {
+            waiters.remove(name);
+        }
         for(String waiter: waiters) {
             jsonArrayResponse.put(waiter);
         }

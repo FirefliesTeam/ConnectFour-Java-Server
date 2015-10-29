@@ -86,6 +86,8 @@ public class GameSession {
 
     public boolean isTurnFirstPlayer() { return turnFirstPlayer; }
 
+    public boolean isTurnSecondPlayer() { return !turnFirstPlayer; }
+
     public boolean isTurnByName(String name) {
         if(firstPlayer.getName().equals(name)) {
             return turnFirstPlayer;

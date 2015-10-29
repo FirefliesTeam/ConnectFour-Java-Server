@@ -33,12 +33,19 @@ define([
             roomHolder: ""
         },
         
-        onready : function (event) {
-            player.set("chipColor", event.chipColor);
-            // player.set("enemyChipColor", event.chipColor);
-            player.set("isMyTurn", event.isMyTurn);
-            gameinfo.set("status", event.status);
-            gameinfo.set("roundNum", event.roundNum);
+        onwait : function (data) {
+            gameinfo.set("status", data.status);
+        },
+        
+        onready : function (data) {
+            player.set("chipColor", data.chipColor);
+            player.set("enemyChipColor", data.chipColor);
+            player.set("enemyName", data.enemyName);
+            player.set("isMyTurn", data.isMyTurn);
+            gameinfo.set("status", data.status);
+            //console.log(player.toJSON());
+            //console.log(gameinfo.toJSON);
+            
         },
 
         onrun : function (event) {
@@ -50,7 +57,7 @@ define([
             gameinfo.set("status", event.status);
             player.set("isMyTurn", event.isMyTurn);
             gamefield.fillCell(event.filledCell, player.get("chipColor"));
-            // gamefield.fillCell(event.fillCell, player.get("enemyChipColor")); 
+            gamefield.fillCell(event.fillCell, player.get("enemyChipColor")); 
         },
         
         onroundOver : function (event) {
