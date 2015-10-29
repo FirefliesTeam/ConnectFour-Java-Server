@@ -99,13 +99,15 @@ public class GameWebSocket {
         }
     }
 
-    public void makeTurn(GameUser user, int column, boolean succesTurn) {
+    public void changeTurn(int cell, boolean isTurn, boolean succesTurn) {
         try {
             System.out.append(name + " ! GameWebSocket::makeTurn" + '\n');
             JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "makeTurn");
+            jsonMessage.put("status", "changeTurn");
             jsonMessage.put("succesTurn", succesTurn);
-            jsonMessage.put("column", column);
+            jsonMessage.put("cell", cell);
+            jsonMessage.put("isMyTurn", isTurn);
+            System.out.append(name + " ! GameWebSocket::onMessage cellChoosed: " + String.valueOf(cell) + '\n');
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());
@@ -159,7 +161,6 @@ public class GameWebSocket {
             if(status.equals("collumnChoosed")) {
                 int column = jsonMessage.getInt("collumn");
                 System.out.append(name + " ! GameWebSocket::onMessage collumnChoosed: " + String.valueOf(column) + '\n');
-
             }
 
         } catch(Exception e) {

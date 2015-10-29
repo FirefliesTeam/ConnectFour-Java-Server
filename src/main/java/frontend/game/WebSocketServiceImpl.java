@@ -38,8 +38,10 @@ public class WebSocketServiceImpl implements WebSocketService {
     }
 
     @Override
-    public void notifyTurn(GameUser user, int column, boolean succesTurn) {
-        usersSockets.get(user.getName()).makeTurn(user, column, succesTurn);
+    public void notifyTurn(GameUser user, int cell, boolean isTurn, boolean succesTurn) {
+        usersSockets.get(user.getName()).changeTurn(cell, isTurn, succesTurn);
+        ///////////
+        usersSockets.get(user.getEnemyName()).changeTurn(cell, !isTurn, succesTurn);
     }
 
     @Override

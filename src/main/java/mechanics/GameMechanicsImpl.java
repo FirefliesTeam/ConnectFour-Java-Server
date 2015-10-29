@@ -85,9 +85,9 @@ public class GameMechanicsImpl implements GameMechanics {
         int col = column;
         GameSession gameSession = nameToGame.get(user);
         gameSession.setCurrectTimeToRound();
-        boolean fullColumn = !gameSession.setPointSecondPlayerByColumn(col);
+        boolean fullColumn = !gameSession.setPointPlayerByColumn(user, col);
         if(fullColumn) {
-            webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, false);
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), -1, gameSession.isTurnByName(user), false);
             return;
         }
         boolean fullTable = gameSession.isFullTable();
@@ -96,19 +96,21 @@ public class GameMechanicsImpl implements GameMechanics {
         if(fullTable && !isFirstWin && !isSecondWin) {
             webSocketService.notifyGameOver(gameSession.getGameUserByName(user), "nobody", gameSession.getRound());
             gameSession.incrementRound();
-        } else {
-            if(isFirstWin) {
-                webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getFirstPlayer().getName(), gameSession.getRound());
-                gameSession.incrementRound();
-                return;
-            }
-            if(isSecondWin) {
-                webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getSecondPlayer().getName(), gameSession.getRound());
-                gameSession.incrementRound();
-                return;
-            }
-            webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, true);
+            return;
         }
+        if(isFirstWin) {
+            webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getFirstPlayer().getName(), gameSession.getRound());
+            gameSession.incrementRound();
+            return;
+        }
+        if(isSecondWin) {
+            webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getSecondPlayer().getName(), gameSession.getRound());
+            gameSession.incrementRound();
+            return;
+        }
+        gameSession.nextTurn();
+        webSocketService.notifyTurn(gameSession.getGameUserByName(user), gameSession.getLastPointPosition(),gameSession.isTurnByName(user), true);
+
     }
 
     @Override

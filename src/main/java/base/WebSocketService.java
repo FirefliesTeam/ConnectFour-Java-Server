@@ -16,7 +16,7 @@ public interface WebSocketService {
 
     void notifyStartRound(GameUser user, boolean isTurn);
 
-    void notifyTurn(GameUser user, int column, boolean succesTurn);
+    void notifyTurn(GameUser user, int column, boolean isTurn, boolean succesTurn);
 
     void notifyGameOver(GameUser user, String winner, int numRound);
 
