@@ -36,7 +36,7 @@ define([
 
             onmessage : function(event) {   
                 var data = JSON.parse(event.data);
-                console.log(event.data);         
+                //console.log(event.data);         
                 switch(data.status) {
                     case "wait":
                         console.log("wait");

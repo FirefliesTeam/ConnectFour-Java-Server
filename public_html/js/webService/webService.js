@@ -38,32 +38,29 @@ define([
         },
         
         onready : function (data) {
+			console.log(data);
+            player.set("enemyName", data.enemyName);
+            player.set("name", data.myName);
             player.set("chipColor", data.chipColor);
-            if(data.chipColor == 1) {
-                player.set("enemyChipColor", "red");
-                player.set("enemyName", "blue");
-            } else {
-                player.set("enemyChipColor", "blue");
-                player.set("enemyName", "red");                
-            }
+            player.set("enemyChipColor", data.enemyChipColor);
             player.set("isMyTurn", data.isMyTurn);
             gameinfo.set("status", data.status);
         },
 
-        onrun : function (event) {
-            gameinfo.set("status", event.status);
-            gameinfo.set("turnTime", event.turnTime);
+        onrun : function (data) {
+            gameinfo.set("status", data.status);
+            gameinfo.set("turnTime", data.turnTime);
         },
 
-        onchangeTurn : function (event) {
-            console.log()
-            gameinfo.set("status", event.status);
+        onchangeTurn : function (data) {
+            console.log(data)
+            gameinfo.set("status", data.status);
             if (player.get("isMyTurn")) {
-                gamefield.fillCell(event.cell, player.get("chipColor"));            
+                gamefield.fillCell(data.cell, player.get("chipColor"));            
             } else {
-                gamefield.fillCell(event.cell, player.get("enemyChipColor"));             
+                gamefield.fillCell(data.cell, player.get("enemyChipColor"));             
             }
-            player.set("isMyTurn", event.isMyTurn); 
+            player.set("isMyTurn", data.isMyTurn); 
         },
         
         onroundOver : function (event) {

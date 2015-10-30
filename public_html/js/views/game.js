@@ -131,7 +131,7 @@ define([
                     break;
 
                 case "gameOver":
-                    this.prinGameOver();
+                    this.printGameOver();
                     break;
             }
         },
@@ -144,7 +144,7 @@ define([
         
         js_playAgain: function () {
             console.log("Play again");
-            //webSocket.sendPlayAgainMsg(true);
+            webSocket.sendPlayAgainMsg(true);
             $(".gamemsg__gameover").hide();
         },
         
