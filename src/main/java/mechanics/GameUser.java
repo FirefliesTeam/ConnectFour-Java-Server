@@ -29,10 +29,17 @@ public class GameUser {
     public int getPlayerColor() { return playerColor; }
 
     public String getPlayerColorStr() {
-        if(playerColor == 1) {
+        if(playerColor == RED_COLOR) {
             return "red";
         } else {
             return "blue";
+        }
+    }
+    public String getEnemyColorStr() {
+        if(playerColor == RED_COLOR) {
+            return "blue";
+        } else {
+            return "red";
         }
     }
 

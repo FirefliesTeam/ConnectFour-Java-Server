@@ -51,9 +51,5 @@ public class WebSocketServiceImpl implements WebSocketService {
         usersSockets.get(user.getEnemyName()).gameOver(winner, numRound);
     }
 
-    @Override
-    public void notifyNextTurn(String name, boolean isTurn, int filledCell) {
-        usersSockets.get(name).nextTurn(isTurn, filledCell);
-    }
 
 }

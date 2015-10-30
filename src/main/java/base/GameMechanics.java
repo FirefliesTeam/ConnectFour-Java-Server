@@ -15,8 +15,6 @@ public interface GameMechanics {
 
     public void makeTurn(String user, int column);
 
-    public void nextTurn(String user);
-
     public List<String> getWaiter();
 
     public void run();

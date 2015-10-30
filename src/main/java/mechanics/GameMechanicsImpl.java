@@ -82,12 +82,11 @@ public class GameMechanicsImpl implements GameMechanics {
 
     @Override
     public void makeTurn(String user, int column) {
-        //int col = Integer.parseInt(column);
         int col = column;
         GameSession gameSession = nameToGame.get(user);
         gameSession.setCurrectTimeToRound();
-        boolean fullColumn = !gameSession.setPointPlayerByColumn(user, col);
-        if(fullColumn) {
+        boolean fullColumn = gameSession.setPointPlayerByColumn(user, col);
+        if(!fullColumn) {
             webSocketService.notifyTurn(gameSession.getGameUserByName(user), -1, gameSession.isTurnByName(user), false);
             return;
         }
@@ -95,16 +94,19 @@ public class GameMechanicsImpl implements GameMechanics {
         boolean isFirstWin = gameSession.isFirstWin();
         boolean isSecondWin = gameSession.isSecondWin();
         if(fullTable && !isFirstWin && !isSecondWin) {
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), gameSession.getLastPointPosition(),gameSession.isTurnByName(user), true);
             webSocketService.notifyGameOver(gameSession.getGameUserByName(user), "nobody", gameSession.getRound());
             gameSession.incrementRound();
             return;
         }
         if(isFirstWin) {
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), gameSession.getLastPointPosition(),gameSession.isTurnByName(user), true);
             webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getFirstPlayer().getName(), gameSession.getRound());
             gameSession.incrementRound();
             return;
         }
         if(isSecondWin) {
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), gameSession.getLastPointPosition(),gameSession.isTurnByName(user), true);
             webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getSecondPlayer().getName(), gameSession.getRound());
             gameSession.incrementRound();
             return;
@@ -114,16 +116,6 @@ public class GameMechanicsImpl implements GameMechanics {
 
     }
 
-    @Override
-    public void nextTurn(String user) {
-        GameSession gameSession = nameToGame.get(user);
-        gameSession.nextTurn();
-        GameUser gameUser = gameSession.getGameUserByName(user);
-        String username = gameUser.getName();
-        String enemyName = gameUser.getEnemyName();
-        webSocketService.notifyNextTurn(username, gameSession.isTurnByName(username), gameSession.getLastPointPosition());
-        webSocketService.notifyNextTurn(enemyName, gameSession.isTurnByName(enemyName), gameSession.getLastPointPosition());
-    }
 
     @Override
     public List<String> getWaiter() {
@@ -141,6 +133,10 @@ public class GameMechanicsImpl implements GameMechanics {
     private void gmStep() {
         for(GameSession session : allSessions) {
             if(session.isInGame()) {
+                //Рано засекаешь начало раунда. Пока игроки входят в игру,
+                //время раунда превышает заданное, и первый ход осуществляет
+                //компьютер автоматом
+                /*
                 if (session.getRoundTime() > ROUND_TIME) {
                     String user;
                     if (session.isTurnFirstPlayer()) {
@@ -151,6 +147,7 @@ public class GameMechanicsImpl implements GameMechanics {
                     Random random = new Random();
                     makeTurn(user, random.nextInt(7));
                 }
+                */
                 if (session.getSessionTime() > SESSION_TIME) {
                     allSessions.remove(session);
                     String user1 = session.getFirstPlayer().getName();

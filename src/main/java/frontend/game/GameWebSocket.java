@@ -38,8 +38,8 @@ public class GameWebSocket {
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
-            jsonMessage.put("chipColor", user.getPlayerColor());
-            jsonMessage.put("enemyChipColor", user.getEnemyColor());
+            jsonMessage.put("chipColor", user.getPlayerColorStr());
+            jsonMessage.put("enemyChipColor", user.getEnemyColorStr());
             jsonMessage.put("isMyTurn", isTurn);
             session.getRemote().sendString(jsonMessage.toString());
         } catch (IOException e) {
@@ -53,8 +53,8 @@ public class GameWebSocket {
             JSONObject jsonMessage = new JSONObject();
             jsonMessage.put("status", "ready");
             jsonMessage.put("enemyName", user.getEnemyName());
-            jsonMessage.put("chipColor", user.getPlayerColor());
-            jsonMessage.put("enemyChipColor", user.getEnemyColor());
+            jsonMessage.put("chipColor", user.getPlayerColorStr());
+            jsonMessage.put("enemyChipColor", user.getEnemyColorStr());
             jsonMessage.put("isMyTurn", isTurn);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
@@ -102,7 +102,6 @@ public class GameWebSocket {
     }
 
     public void changeTurn(int cell, boolean isTurn, boolean succesTurn) {
-
         try {
             System.out.append(name + " ! GameWebSocket::makeTurn" + '\n');
             JSONObject jsonMessage = new JSONObject();
@@ -124,21 +123,6 @@ public class GameWebSocket {
             jsonMessage.put("status", "gameOver");
             jsonMessage.put("winner", winner);
             jsonMessage.put("runRound", numRound);
-            session.getRemote().sendString(jsonMessage.toString());
-        } catch(Exception e) {
-            System.out.print(e.toString());
-        }
-    }
-
-    //Когда происходит сена очереди хода
-    // Нужно передать фронэнду номер заполненной ячейки
-    public void nextTurn(boolean isTurn, int filledCell) {
-        try {
-            System.out.append(name + " ! GameWebSocket::nextTurn" + '\n');
-            JSONObject jsonMessage = new JSONObject();
-            jsonMessage.put("status", "changeTurn");
-            jsonMessage.put("isMyTurn", isTurn);
-            jsonMessage.put("filledCell", filledCell);
             session.getRemote().sendString(jsonMessage.toString());
         } catch(Exception e) {
             System.out.print(e.toString());
@@ -167,6 +151,12 @@ public class GameWebSocket {
             if(status.equals("collumnChoosed")) {
                 int column = jsonMessage.getInt("collumn");
                 System.out.append(name + " ! GameWebSocket::onMessage collumnChoosed: " + String.valueOf(column) + '\n');
+                gameMechanics.makeTurn(name, column);
+            }
+            if(status.equals("playAgain")) {
+                Boolean answer = jsonMessage.getBoolean("answer");
+                System.out.append(name + " ! GameWebSocket::onMessage playAgain:answer" + answer.toString() + '\n');
+
             }
         } catch(Exception e) {
             System.out.print(e.toString());

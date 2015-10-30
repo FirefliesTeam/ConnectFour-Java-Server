@@ -20,6 +20,4 @@ public interface WebSocketService {
 
     void notifyGameOver(GameUser user, String winner, int numRound);
 
-    void notifyNextTurn(String name, boolean isTurn, int filledCell);
-
 }

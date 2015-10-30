@@ -171,6 +171,7 @@ public class GameSession {
         }
     }
 
+    /*
     public boolean setPointFirstPlayer(int i, int j) {
         --emptyCells;
         return setPoint(i, j, MARK_FIRST_PLAYER);
@@ -180,6 +181,8 @@ public class GameSession {
         --emptyCells;
         return setPoint(i, j, MARK_SECOND_PLAYER);
     }
+
+    */
 
     public boolean setPointFirstPlayerByColumn(int j) {
         --emptyCells;
@@ -203,6 +206,7 @@ public class GameSession {
         return isWin(MARK_SECOND_PLAYER);
     }
 
+    /*
     private boolean setPoint(int i, int j, int mark) {
         if(gameField[COLUMNS * i + j] == 0) {
             gameField[COLUMNS * i + j] = mark;
@@ -211,17 +215,18 @@ public class GameSession {
             return false;
         }
     }
+    */
 
     private boolean setPointByColumn(int j, int mark) {
         int i = 0;
-        while (i < ROWS && gameField[COLUMNS * i + j] == 0) {
+        while (i < ROWS && gameField[ROWS * j + i] == 0) {
             ++i;
         }
         --i;
         if(i >= 0) {
-            gameField[COLUMNS * i + j] = mark;
+            gameField[ROWS * j + i] = mark;
 
-            lastPointPosition = COLUMNS * i + j;
+            lastPointPosition = ROWS * j + i;
 
             return true;
         } else {
