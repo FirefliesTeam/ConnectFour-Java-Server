@@ -9,7 +9,7 @@ define([
     var Collection = Backbone.Collection.extend({
         model: Room, 
         initialize: function() {
-            date = new Date(Date.now());
+            date = new Date();
             dateStr = date.toDateString() + " " + date.toTimeString().substr(0, 8);
 
         },

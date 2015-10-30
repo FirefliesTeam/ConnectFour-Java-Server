@@ -35,7 +35,8 @@ define([
             },
 
             onmessage : function(event) {   
-                var data = JSON.parse(event.data);         
+                var data = JSON.parse(event.data);
+                console.log(event.data);         
                 switch(data.status) {
                     case "wait":
                         console.log("wait");
@@ -53,6 +54,7 @@ define([
                         break;
                     
                     case "changeTurn":
+                        console.log(data);
                         console.log("changeTurn");
                         msgHandler.onchangeTurn(data);
                         break;
