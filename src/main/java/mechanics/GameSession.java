@@ -22,7 +22,7 @@ public class GameSession {
     private static final int COLUMNS = 7;
     private static final int ROWS = 6;
 
-    private int lastSetPointPosition;
+    private int lastPointPosition;
 
     private int[] gameField = new int[ROWS * COLUMNS];
 
@@ -56,10 +56,11 @@ public class GameSession {
         firstPlayerReady = false;
         secondPlayerReady = false;
 
+        lastPointPosition = -1;
+
         emptyCells = ROWS * COLUMNS;
         numberRound = 1;
 
-        lastSetPointPosition = -1;
 
         for(int i = 0; i < ROWS; ++i) {
             for(int j = 0; j < COLUMNS; ++j) {
@@ -88,7 +89,13 @@ public class GameSession {
         emptyCells = ROWS * COLUMNS;
     }
 
+    public int getLastPointPosition() {
+        return lastPointPosition;
+    }
+
     public boolean isTurnFirstPlayer() { return turnFirstPlayer; }
+
+    public boolean isTurnSecondPlayer() { return !turnFirstPlayer; }
 
     public boolean isTurnByName(String name) {
         if(firstPlayer.getName().equals(name)) {
@@ -156,6 +163,14 @@ public class GameSession {
 
     public GameUser getSecondPlayer() { return secondPlayer; }
 
+    public boolean setPointPlayerByColumn(String user, int col) {
+        if(user.equals(firstPlayer.getName())) {
+            return setPointFirstPlayerByColumn(col);
+        } else {
+            return setPointSecondPlayerByColumn(col);
+        }
+    }
+
     public boolean setPointFirstPlayer(int i, int j) {
         --emptyCells;
         return setPoint(i, j, MARK_FIRST_PLAYER);
@@ -205,14 +220,15 @@ public class GameSession {
         --i;
         if(i >= 0) {
             gameField[COLUMNS * i + j] = mark;
-            this.lastSetPointPosition = COLUMNS * i + j;
+
+            lastPointPosition = COLUMNS * i + j;
+
             return true;
         } else {
             return false;
         }
     }
 
-    public int getLastSetPointPosition() {  return lastSetPointPosition; }
 
     private boolean isWin(int mark) {
         int countPoints = 0;

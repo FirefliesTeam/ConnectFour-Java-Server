@@ -17,7 +17,6 @@ body {
 	display: inline-block;
 	width: 90vw;
 	height: 67.5vw;
-
     background-image: url("../background/table_bg.jpg");
     background-size: contain;
     background-repeat: no-repeat;
@@ -30,7 +29,7 @@ body {
 	height: 45px;
 	background-color: #FF9032;
 	display: block;
-	margin: 10px;
+	margin: 10px 0px;
 	padding: 8px;	 
 
 }
@@ -73,6 +72,32 @@ a.window__a_decoration-none {
     border: 4px solid #ADD737;
 }
 
+.window__menu {
+    width: 160px;
+    padding:10px;
+    float:left;
+}
+
+.window__information {
+    width: 320px;
+    height: 180px;   
+    border: 2px solid #FF9032 ;
+    background: #ADD737;
+    opacity: 0.8;
+    margin: 2% 70%; 
+}
+
+.information__greeting {
+    margin:5%;
+}
+
+.information__gamesPlayed {
+    margin:5%;
+}
+
+.information__gamesWon {
+    margin:5%;
+}
 /*-----------------------------------------------------------------------*/
 /*++++++++++++++++++++++   FORM ELEMENTS  +++++++++++++++++++++++++++++++*/
 /*-----------------------------------------------------------------------*/
@@ -202,12 +227,13 @@ a.window__a_decoration-none {
 /*++++++++++++++++++++++   SCORELIST ELEMENTS  ++++++++++++++++++++++++++*/
 /*-----------------------------------------------------------------------*/
 
-.window__scoreList {
+.window__list {
     margin: 0% 10%;
     border: 2px solid #ADD737;
     padding:10px;
     width: 80%;
 }
+
 .scoreList {
     border: 2px solid #FFFFFF;
     background: #FFFFFF;
@@ -229,7 +255,34 @@ a.window__a_decoration-none {
 
 }
 
+/*-----------------------------------------------------------------------*/
+/*++++++++++++++++++++++   ROOMLIST ELEMENTS  ++++++++++++++++++++++++++*/
+/*-----------------------------------------------------------------------*/
+.roomList__item__createDate {
+    margin: 20px 60px;
+}
 
+.roomList__item__name {
+    margin: 20px 60px;
+    width:300px;
+}
+
+.roomList {
+    border: 2px solid #FFFFFF;
+    background: #FFFFFF;
+    padding:10px;
+}
+
+.item__playButton {
+	width: 150px;
+	height: 45px;
+	background-color: #FF9032;
+	display: block;
+	margin: 20px 60px;
+	padding: 8px;	 
+
+    
+}
 /*-----------------------------------------------------------------------*/
 /*++++++++++++++++++++++   GAMEFIELD ELEMENTS  ++++++++++++++++++++++++++*/
 /*-----------------------------------------------------------------------*/

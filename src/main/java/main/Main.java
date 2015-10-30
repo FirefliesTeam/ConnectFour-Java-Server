@@ -17,6 +17,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import services.UserProfile.UserProfile;
 
 import javax.servlet.Servlet;
 
@@ -37,11 +38,18 @@ public class Main {
         WebSocketService webSocketService = new WebSocketServiceImpl();
         GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
+        for(int i = 1; i < 8; ++i) {
+            accountService.singUp(new UserProfile("user" + String.valueOf(i), "123456", "qwe@mail.ru"));
+        }
+        for(int i = 1; i < 8; ++i) {
+            accountService.singUp(new UserProfile("player" + String.valueOf(i), "123456", "qwe@mail.ru"));
+        }
+
         Frontend front_login = new LoginServletImpl(accountService);
         Frontend front_register = new RegisterServletImpl(accountService);
         Frontend front_logout = new LogoutServletImpl(accountService);
         Frontend front_checkAuth = new CheckAuthServletImpl(accountService);
-        Frontend front_game = new GameServletImpl(accountService);
+        Frontend front_game = new GameServletImpl(accountService, gameMechanics);
 
         Servlet login = (Servlet) front_login;
         Servlet register = (Servlet) front_register;

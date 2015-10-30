@@ -30,46 +30,45 @@ define([
             this.hide();
             this.blockGamefield();
             
-            cell_index = 0;
-            
             this.listenTo(player, "change:isMyTurn", this.changeTurn);
             this.listenTo(gameinfo, "change:status", this.changeStatus);
-            this.listenTo(gamefield, "change", this.render);
-            
-            player.set("chipColor", "red");
-            player.set("isMyTurn",  true);
-            
+            this.listenTo(gamefield, "change", this.render);           
         },
+        
+        
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
         },
         
         getTurnMsg: function() {
-            msg_turn = "";
+            var msg_turn = "Turn: ";
             if(player.get("isMyTurn")) {
-                msg_turn =  "It's you turn";
+                msg_turn += player.get("name");
             } else {
-                msg_turn = "Wait your opponent";
+                msg_turn += player.get("enemyName");
             }
             return msg_turn;
         },
         
         changeTurn: function () {
+            if(gameinfo.get("status") === "ready") {
+                return ;
+            }
             if(player.get("isMyTurn")) {
                 this.unblockGamefield();
             } else {
                 this.blockGamefield();
             }
-            
+        
             $(".msg_turn").text(this.getTurnMsg());
             $(".gamemsg__turn").show(this.getTurnMsg());
             setTimeout(function(){$('.gamemsg__turn').fadeOut('fast')}, 2000);
 
             console.log("send-ready_msg");
-            //setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
+            setTimeout(function(){webSocket.sendReadyMsg()}, 2100);
             
-            this.printGameinfo();
+            this.printGameinfo();            
         },
         
         printGameinfo() {
@@ -112,7 +111,10 @@ define([
         changeStatus: function () {
             console.log("changeStatus");
             switch(gameinfo.get("status")) {
-
+                case "wait":
+                    this.blockGamefield();
+                    break;
+                    
                 case "ready":
                     this.blockGamefield();
                     this.printGameinfo();
@@ -134,20 +136,9 @@ define([
             }
         },
         
-        js_change_turn: function() {
-            player.set("isMyTurn", !player.get("isMyTurn"));
-        },
-        
-        js_change_status: function() {
-            if(gameinfo.get('status')==="ready"){
-                gameinfo.set("status", "run");
-            } else {
-                gameinfo.set("status", "ready");
-            }
-        },
-        
         js_ready: function () {
             $(".gamemsg__greeting").hide();
+            gameinfo.set("status", "startGame");
             this.changeTurn();
         },
         
@@ -159,7 +150,7 @@ define([
         
         js_notPlayAgain: function () {
             console.log("Not play again");
-            //webSocket.sendPlayAgainMsg(false);        
+            webSocket.sendPlayAgainMsg(false);        
             $(".gamemsg__gameover").hide();
         },
         
@@ -174,12 +165,13 @@ define([
         },
         
         dropAnimationStop: function() {
+        
         },
         
         dropChip: function (event) {
             column__id = event.currentTarget.attributes.getNamedItem("id").value;
             console.log("send column " + column__id + " to server");
-            //webSocket.sendCollumnChoosedMsg(column__id);
+            webSocket.sendCollumnChoosedMsg(column__id);
         },
         
 //--------------------------------------------------------------------------

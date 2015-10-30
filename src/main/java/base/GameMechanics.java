@@ -1,7 +1,11 @@
 package base;
 
+import java.util.List;
+
 public interface GameMechanics {
     public void registerUser(String user);
+
+    public void deleteUser(String user);
 
     public void selectGame(String user, String toUser);
 
@@ -9,9 +13,11 @@ public interface GameMechanics {
 
     public void beginRound(String user);
 
-    public void makeTurn(String user, String column);
+    public void makeTurn(String user, int column);
 
     public void nextTurn(String user);
+
+    public List<String> getWaiter();
 
     public void run();
 }

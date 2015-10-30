@@ -4,7 +4,7 @@
         <a href="#" class="window__a_decoration-none" >
             <span class="window__span_hover-blue window__span_green"> Connect FOUR </span>
         </a>
-        <div class="window__scoreList">
+        <div class="window__list">
             <h4 class = "window__header_align-center_white">Score BOARD</h4>
             <div class="scoreList">
                         <span class="scoreList__item__name">Name</span>
@@ -20,10 +20,12 @@
                         </div>
                     </fest:each>      
             </div>
-        </div>    
-		<a href="#" class="window__a_decoration-none">
-		    <span class="window__span_orange window__span_hover-blue">Back</span>
-		</a>
+        </div>   
+        <div class="window__menu"> 
+		    <a href="#" class="window__a_decoration-none">
+		        <span class="window__span_orange window__span_hover-blue">Back</span>
+		    </a>
+		</div>
     </div>
 </fest:template>
 

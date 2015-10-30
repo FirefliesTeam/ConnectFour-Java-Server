@@ -1,1 +1,1 @@
-java -classpath ConnectFour-0.0.1-jar-with-dependencies.jar main/Main 8089 
+java -classpath target/ConnectFour-0.3-jar-with-dependencies.jar main/Main 8090

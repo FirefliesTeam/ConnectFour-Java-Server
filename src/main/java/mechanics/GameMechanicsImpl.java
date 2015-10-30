@@ -29,19 +29,25 @@ public class GameMechanicsImpl implements GameMechanics {
     @Override
     public void registerUser(String user) {
         waiters.add(user);
+        webSocketService.waitEnemy(user);
+    }
+
+    @Override
+    public void deleteUser(String user) {
+        waiters.remove(user);
     }
 
     // Игрок сделал выбор присоедиться к игре или создать новую
     @Override
     public void selectGame(String user, String toUser) {
-        if(toUser != "") {
+        if(!toUser.equals("")) {
             waiters.remove(toUser);
             GameSession newGameSession = new GameSession(toUser, user);
             allSessions.add(newGameSession);
             nameToGame.put(user, newGameSession);
             nameToGame.put(toUser, newGameSession);
-            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser));
-            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user));
+            webSocketService.notifyEnemyConnect(newGameSession.getGameUserByName(toUser), newGameSession.isTurnByName(toUser));
+            webSocketService.notifyConnectToRoom(newGameSession.getGameUserByName(user), newGameSession.isTurnByName(user));
         } else {
             waiters.add(user);
             webSocketService.waitEnemy(user);
@@ -75,14 +81,14 @@ public class GameMechanicsImpl implements GameMechanics {
     }
 
     @Override
-    public void makeTurn(String user, String column) {
-        int col = Integer.parseInt(column);
+    public void makeTurn(String user, int column) {
+        //int col = Integer.parseInt(column);
+        int col = column;
         GameSession gameSession = nameToGame.get(user);
         gameSession.setCurrectTimeToRound();
-        boolean fullColumn = !gameSession.setPointSecondPlayerByColumn(col);
-        //boolean fullTable = gameSession.isFullTable();
+        boolean fullColumn = !gameSession.setPointPlayerByColumn(user, col);
         if(fullColumn) {
-            webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, false);
+            webSocketService.notifyTurn(gameSession.getGameUserByName(user), -1, gameSession.isTurnByName(user), false);
             return;
         }
         boolean fullTable = gameSession.isFullTable();
@@ -91,19 +97,21 @@ public class GameMechanicsImpl implements GameMechanics {
         if(fullTable && !isFirstWin && !isSecondWin) {
             webSocketService.notifyGameOver(gameSession.getGameUserByName(user), "nobody", gameSession.getRound());
             gameSession.incrementRound();
-        } else {
-            if(isFirstWin) {
-                webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getFirstPlayer().getName(), gameSession.getRound());
-                gameSession.incrementRound();
-                return;
-            }
-            if(isSecondWin) {
-                webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getSecondPlayer().getName(), gameSession.getRound());
-                gameSession.incrementRound();
-                return;
-            }
-            webSocketService.notifyTurn(gameSession.getGameUserByName(user), col, true);
+            return;
         }
+        if(isFirstWin) {
+            webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getFirstPlayer().getName(), gameSession.getRound());
+            gameSession.incrementRound();
+            return;
+        }
+        if(isSecondWin) {
+            webSocketService.notifyGameOver(gameSession.getGameUserByName(user), gameSession.getSecondPlayer().getName(), gameSession.getRound());
+            gameSession.incrementRound();
+            return;
+        }
+        gameSession.nextTurn();
+        webSocketService.notifyTurn(gameSession.getGameUserByName(user), gameSession.getLastPointPosition(),gameSession.isTurnByName(user), true);
+
     }
 
     @Override
@@ -113,8 +121,13 @@ public class GameMechanicsImpl implements GameMechanics {
         GameUser gameUser = gameSession.getGameUserByName(user);
         String username = gameUser.getName();
         String enemyName = gameUser.getEnemyName();
-        webSocketService.notifyNextTurn(username, gameSession.isTurnByName(username), gameSession.getLastSetPointPosition());
-        webSocketService.notifyNextTurn(enemyName, gameSession.isTurnByName(enemyName), gameSession.getLastSetPointPosition());
+        webSocketService.notifyNextTurn(username, gameSession.isTurnByName(username), gameSession.getLastPointPosition());
+        webSocketService.notifyNextTurn(enemyName, gameSession.isTurnByName(enemyName), gameSession.getLastPointPosition());
+    }
+
+    @Override
+    public List<String> getWaiter() {
+        return waiters;
     }
 
     @Override
@@ -136,7 +149,7 @@ public class GameMechanicsImpl implements GameMechanics {
                         user = session.getSecondPlayer().getName();
                     }
                     Random random = new Random();
-                    makeTurn(user, Integer.toString(random.nextInt(7)));
+                    makeTurn(user, random.nextInt(7));
                 }
                 if (session.getSessionTime() > SESSION_TIME) {
                     allSessions.remove(session);

@@ -3,16 +3,12 @@
 		<a href="#" class="window__a_decoration-none">
             <span class="window__span_green window__span_hover-blue"> Connect FOUR </span>
     	</a>
-        <div class="window__testingmenu">
-            <button class="testingmenu__btn js_change_status">Сменить статус</button>
-            <button class="testingmenu__btn js_change_turn">Смена хода</button>
-            <button class="testingmenu__btn js_add_cell">Бросить фишку</button>
-        </div>
+    	
     	<div class="window__gamefield">
     	    <div class="gamefield__arrow"></div>
             <div class="gamefield__columnset">
                 <fest:for from="0" to="6" index="i">
-        	        <div id="{i + 1}" class="gamefield__column column__{i}">
+        	        <div id="{i}" class="gamefield__column column__{i}">
                         <fest:for from="0" to="5" index="j">
                 	        <div class="column__cell column__{i}__cell__{j} column__cell-{json[i*6 +j].cell} ">
                                 <fest:value> i*6 + j </fest:value>

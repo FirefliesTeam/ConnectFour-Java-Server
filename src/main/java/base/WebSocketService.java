@@ -6,9 +6,9 @@ import mechanics.GameUser;
 public interface WebSocketService {
     void registerSocket(GameWebSocket user);
 
-    void notifyEnemyConnect(GameUser user);
+    void notifyEnemyConnect(GameUser user, boolean isTurn);
 
-    void notifyConnectToRoom(GameUser user);
+    void notifyConnectToRoom(GameUser user, boolean isTurn);
 
     void waitEnemy(String name);
 
@@ -16,7 +16,7 @@ public interface WebSocketService {
 
     void notifyStartRound(GameUser user, boolean isTurn);
 
-    void notifyTurn(GameUser user, int column, boolean succesTurn);
+    void notifyTurn(GameUser user, int column, boolean isTurn, boolean succesTurn);
 
     void notifyGameOver(GameUser user, String winner, int numRound);
 

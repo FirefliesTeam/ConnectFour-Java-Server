@@ -28,12 +28,15 @@ public class CheckAuthServletImpl extends HttpServlet implements Frontend {
                       @NotNull HttpServletResponse response) throws ServletException, IOException {
 
         JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put("auth", true);
+        jsonResponse.put("auth", false);
+        jsonResponse.put("name", "");
 
         HttpSession session = request.getSession();
 
-        if (!accountService.checkAuth(session)) {
-            jsonResponse.put("auth", false);
+        if (accountService.checkAuth(session)) {
+            jsonResponse.put("auth", true);
+            jsonResponse.put("name", accountService.getNameBySession(session));
+
         }
 
         response.setContentType("application/json");
