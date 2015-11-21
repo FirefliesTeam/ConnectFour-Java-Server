@@ -1,5 +1,7 @@
 package mechanics;
 
+import com.sun.rowset.internal.Row;
+
 import java.util.Date;
 
 public class GameSession {
@@ -25,6 +27,15 @@ public class GameSession {
     private int lastPointPosition;
 
     private int[] gameField = new int[ROWS * COLUMNS];
+
+    private int[] connectNumbers = {
+            0, 6, 12, 18, 24, 30, 36,
+            1, 7, 13, 19, 25, 31, 37,
+            2, 8, 14, 20, 26, 32, 38,
+            3, 9, 15, 21, 27, 33, 39,
+            4, 10, 16, 22, 28, 34, 40,
+            5, 11, 17, 23, 29, 35, 41
+    };
 
     //Зачем они нужны?
     //private Map<String, GameUser> users = new HashMap<>();
@@ -218,16 +229,22 @@ public class GameSession {
     */
 
     private boolean setPointByColumn(int j, int mark) {
-        int i = 0;
-        while (i < ROWS && gameField[ROWS * j + i] == 0) {
-            ++i;
+        int i = ROWS - 1;
+        int index = COLUMNS * i + j;
+        //System.out.append(String.valueOf(ROWS - 1) + "\n");
+        //System.out.append(String.valueOf(i) + "q \n");
+        //System.out.append(String.valueOf(ROWS * i + j - 1) + "\n");
+        //System.out.append(String.valueOf(index) + " \n");
+        while (i >= 0 && gameField[index] != 0) {
+            //System.out.append(String.valueOf(i) + "q \n");
+            --i;
+            index = COLUMNS * i + j;
         }
-        --i;
+        //printGameFieldToLog();
         if(i >= 0) {
-            gameField[ROWS * j + i] = mark;
-
-            lastPointPosition = ROWS * j + i;
-
+            gameField[index] = mark;
+            //printGameFieldToLog();
+            lastPointPosition = connectNumbers[index];
             return true;
         } else {
             return false;
@@ -236,6 +253,72 @@ public class GameSession {
 
 
     private boolean isWin(int mark) {
+        int countPoint = 0;
+
+        for(int i = 0; i < ROWS; ++i) {
+            for(int j = 0; j < COLUMNS - 3; ++j) {
+                //System.out.append(String.valueOf(i) + " " + String.valueOf(j));
+                for(int h = 0; h < 4; ++h) {
+                    if (gameField[COLUMNS * i + j + h] == mark) {
+                        ++countPoint;
+                    } else {
+                        countPoint = 0;
+                    }
+                    if (countPoint == 4) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        countPoint = 0;
+        for(int j = 0; j < COLUMNS; ++j) {
+            for(int i = ROWS - 1; i >= ROWS - 3; --i) {
+                for(int h = 0; h < 4; ++h) {
+                    if (gameField[(i - h) * COLUMNS + j] == mark) {
+                        ++countPoint;
+                    } else {
+                        countPoint = 0;
+                    }
+                    if (countPoint == 4) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        countPoint = 0;
+        for(int i = ROWS - 1; i >= ROWS - 3; --i) {
+            for(int j = 0; j <= COLUMNS - 4; ++j) {
+                for(int h = 0; h < 4; ++h) {
+                    if(gameField[(i - h) * COLUMNS + j + h] == mark) {
+                        ++countPoint;
+                    } else {
+                        countPoint = 0;
+                    }
+                    if(countPoint == 4) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        countPoint = 0;
+        for(int i = ROWS - 1; i >= ROWS - 3; --i) {
+            for(int j = 3; j < COLUMNS; ++j) {
+                for(int h = 0; h < 4; ++h) {
+                    if(gameField[(i - h) * COLUMNS + j - h] == mark) {
+                        ++countPoint;
+                    } else {
+                        countPoint = 0;
+                    }
+                    if(countPoint == 4) {
+                        return true;
+                    }
+                }
+            }
+        }
+        /*
         int countPoints = 0;
         for(int i = 0; i < ROWS; ++i) {
             countPoints = 0;
@@ -292,9 +375,21 @@ public class GameSession {
                 }
             }
         }
+        */
+
             return false;
         }
 
     //private void changeTurn() { turnFirstPlayer = !turnFirstPlayer; }
+
+    public void printGameFieldToLog() {
+        for(int i = 0; i < ROWS; ++i) {
+            for(int j = 0; j < COLUMNS; ++j) {
+                System.out.append(String.valueOf(gameField[COLUMNS * i + j]) + "   ");
+            }
+            System.out.append('\n');
+        }
+        System.out.append('\n');
+    }
 
 }

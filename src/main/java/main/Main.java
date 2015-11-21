@@ -38,10 +38,10 @@ public class Main {
         WebSocketService webSocketService = new WebSocketServiceImpl();
         GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
-        for(int i = 1; i < 8; ++i) {
+        for(int i = 1; i < 11; ++i) {
             accountService.singUp(new UserProfile("user" + String.valueOf(i), "123456", "qwe@mail.ru"));
         }
-        for(int i = 1; i < 8; ++i) {
+        for(int i = 1; i < 11; ++i) {
             accountService.singUp(new UserProfile("player" + String.valueOf(i), "123456", "qwe@mail.ru"));
         }
 

@@ -113,9 +113,15 @@ public class GameMechanicsImpl implements GameMechanics {
         }
         gameSession.nextTurn();
         webSocketService.notifyTurn(gameSession.getGameUserByName(user), gameSession.getLastPointPosition(),gameSession.isTurnByName(user), true);
-
     }
 
+    /*
+    public void palyAgain(String user) {
+        GameSession gameSession = nameToGame.get(user);
+        gameSession.startRound();
+        webSocketService.notifyStartRound();
+    }
+    */
 
     @Override
     public List<String> getWaiter() {

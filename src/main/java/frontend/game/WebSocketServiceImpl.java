@@ -10,7 +10,9 @@ public class WebSocketServiceImpl implements WebSocketService {
     private Map<String, GameWebSocket> usersSockets = new HashMap<>();
 
     @Override
-    public void registerSocket(GameWebSocket userSocket) { usersSockets.put(userSocket.getName(), userSocket); }
+    public void registerSocket(GameWebSocket userSocket) {
+        usersSockets.put(userSocket.getName(), userSocket);
+    }
 
     @Override
     public void notifyEnemyConnect(GameUser user, boolean isTurn) {

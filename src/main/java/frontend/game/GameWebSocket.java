@@ -155,8 +155,9 @@ public class GameWebSocket {
             }
             if(status.equals("playAgain")) {
                 Boolean answer = jsonMessage.getBoolean("answer");
-                System.out.append(name + " ! GameWebSocket::onMessage playAgain:answer" + answer.toString() + '\n');
-
+                System.out.append(name + " ! GameWebSocket::onMessage playAgain: answer = " + answer.toString() + '\n');
+                // а тут надо доделать!!!!!!!!!
+                gameMechanics.beginRound(name);
             }
         } catch(Exception e) {
             System.out.print(e.toString());
