@@ -1,1 +1,1 @@
-java -classpath ConnectFour-0.3-jar-with-dependencies.jar main/Main 8092
+java -classpath ConnectFour-0.3-jar-with-dependencies.jar main/Main 28092
