@@ -259,6 +259,7 @@ public class GameSession {
             for(int j = 0; j < COLUMNS - 3; ++j) {
                 //System.out.append(String.valueOf(i) + " " + String.valueOf(j));
                 for(int h = 0; h < 4; ++h) {
+                    if(h == 1 && countPoint == 0) { break; }
                     if (gameField[COLUMNS * i + j + h] == mark) {
                         ++countPoint;
                     } else {
@@ -268,6 +269,7 @@ public class GameSession {
                         return true;
                     }
                 }
+                countPoint = 0;
             }
         }
 
@@ -275,6 +277,7 @@ public class GameSession {
         for(int j = 0; j < COLUMNS; ++j) {
             for(int i = ROWS - 1; i >= ROWS - 3; --i) {
                 for(int h = 0; h < 4; ++h) {
+                    if(h == 1 && countPoint == 0) { break; }
                     if (gameField[(i - h) * COLUMNS + j] == mark) {
                         ++countPoint;
                     } else {
@@ -284,6 +287,7 @@ public class GameSession {
                         return true;
                     }
                 }
+                countPoint = 0;
             }
         }
 
@@ -291,6 +295,7 @@ public class GameSession {
         for(int i = ROWS - 1; i >= ROWS - 3; --i) {
             for(int j = 0; j <= COLUMNS - 4; ++j) {
                 for(int h = 0; h < 4; ++h) {
+                    if(h == 1 && countPoint == 0) { break; }
                     if(gameField[(i - h) * COLUMNS + j + h] == mark) {
                         ++countPoint;
                     } else {
@@ -300,6 +305,7 @@ public class GameSession {
                         return true;
                     }
                 }
+                countPoint = 0;
             }
         }
 
@@ -307,6 +313,7 @@ public class GameSession {
         for(int i = ROWS - 1; i >= ROWS - 3; --i) {
             for(int j = 3; j < COLUMNS; ++j) {
                 for(int h = 0; h < 4; ++h) {
+                    if(h == 1 && countPoint == 0) { break; }
                     if(gameField[(i - h) * COLUMNS + j - h] == mark) {
                         ++countPoint;
                     } else {
@@ -316,9 +323,13 @@ public class GameSession {
                         return true;
                     }
                 }
+                countPoint = 0;
             }
         }
-        /*
+
+
+
+/*
         int countPoints = 0;
         for(int i = 0; i < ROWS; ++i) {
             countPoints = 0;
@@ -375,7 +386,7 @@ public class GameSession {
                 }
             }
         }
-        */
+*/
 
             return false;
         }

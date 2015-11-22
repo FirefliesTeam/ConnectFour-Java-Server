@@ -196,6 +196,21 @@ public class GameSessionTest {
         assertFalse(gameSession.isSecondWin());
     }
 
+    @Test
+    public void testTestT() throws Exception {
+        GameSession gameSession = new GameSession("user1", "user2");
+        gameSession.startRound();
+        gameSession.setPointSecondPlayerByColumn(0);
+        gameSession.setPointFirstPlayerByColumn(2);
+        gameSession.setPointSecondPlayerByColumn(2);
+        gameSession.setPointFirstPlayerByColumn(1);
+        gameSession.setPointSecondPlayerByColumn(1);
+        gameSession.setPointFirstPlayerByColumn(3);
+        gameSession.printGameFieldToLog();
+        assertFalse(gameSession.isFirstWin());
+        assertFalse(gameSession.isSecondWin());
+    }
+
     /*
     @Test
     public void testIsFirstWinInDiagonals() throws Exception {
