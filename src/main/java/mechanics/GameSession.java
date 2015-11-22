@@ -28,7 +28,7 @@ public class GameSession {
 
     private int[] gameField = new int[ROWS * COLUMNS];
 
-    private int[] connectNumbers = {
+    private static final int[] connectNumbers = {
             0, 6, 12, 18, 24, 30, 36,
             1, 7, 13, 19, 25, 31, 37,
             2, 8, 14, 20, 26, 32, 38,
