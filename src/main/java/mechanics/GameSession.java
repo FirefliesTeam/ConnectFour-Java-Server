@@ -28,6 +28,7 @@ public class GameSession {
 
     private int[] gameField = new int[ROWS * COLUMNS];
 
+    //Its gonna magic, magic
     private static final int[] connectNumbers = {
             0, 6, 12, 18, 24, 30, 36,
             1, 7, 13, 19, 25, 31, 37,
