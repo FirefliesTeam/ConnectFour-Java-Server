@@ -8,8 +8,10 @@ import frontend.game.WebSocketGameServlet;
 import frontend.game.WebSocketServiceImpl;
 import frontend.workingWithUsers.*;
 import mechanics.GameMechanicsImpl;
+import org.hibernate.SessionFactory;
 import services.AccountService.AccountServiceImpl;
 import admin.AdminServlet;
+import database.HibernateUtil;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -17,7 +19,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import services.UserProfile.UserProfile;
+import database.dataSets.UserDataSet;
 
 import javax.servlet.Servlet;
 
@@ -39,10 +41,10 @@ public class Main {
         GameMechanics gameMechanics = new GameMechanicsImpl(webSocketService);
 
         for(int i = 1; i < 11; ++i) {
-            accountService.singUp(new UserProfile("user" + String.valueOf(i), "123456", "qwe@mail.ru"));
+            accountService.singUp(new UserDataSet("user" + String.valueOf(i), "123456", "qwe@mail.ru"));
         }
         for(int i = 1; i < 11; ++i) {
-            accountService.singUp(new UserProfile("player" + String.valueOf(i), "123456", "qwe@mail.ru"));
+            accountService.singUp(new UserDataSet("player" + String.valueOf(i), "123456", "qwe@mail.ru"));
         }
 
         Frontend front_login = new LoginServletImpl(accountService);
@@ -76,6 +78,10 @@ public class Main {
 
         Server server = new Server(port);
         server.setHandler(handlers);
+
+
+        SessionFactory factory =  HibernateUtil.getSessionFactory();
+        factory.getCurrentSession();
 
         server.start();
         gameMechanics.run();

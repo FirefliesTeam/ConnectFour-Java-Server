@@ -1,6 +1,6 @@
 package services.AccountService;
 
-import services.UserProfile.UserProfile;
+import database.dataSets.UserDataSet;
 import base.AccountService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,16 +22,16 @@ public class AccountServiceImpl implements AccountService {
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9_]+@[a-zA-Z0-9_]+\\.[a-zA-Z]+$";
     public static final String PASSWORD_PATTERN = "^.{" + MIN_LENGTH_PASSWORD + ',' + MAX_LENGTH_PASSWORD + "}$";
     @NotNull
-    private Map<String, UserProfile> users = new HashMap<>();
+    private Map<String, UserDataSet> users = new HashMap<>();
     @NotNull
-    private Map<String, UserProfile> sessions = new ConcurrentHashMap<>();
+    private Map<String, UserDataSet> sessions = new ConcurrentHashMap<>();
 
     private long _lastSessionId = 0;
 
     @Override
-    public boolean singUp(@NotNull UserProfile userProfile) {
-        if(isAvailableName(userProfile.getLogin())) {
-            addUser(userProfile);
+    public boolean singUp(@NotNull UserDataSet userDataSet) {
+        if(isAvailableName(userDataSet.getLogin())) {
+            addUser(userDataSet);
             return true;
         } else {
             return false;
@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public long singIn(@NotNull HttpSession session, @NotNull String login, @NotNull String password) {
-        UserProfile profile = getUser(login);
+        UserDataSet profile = getUser(login);
         if (profile != null) {
             if (profile.getPassword().equals(password)) {
                 long sessionId = getSessionIdAndIterat();
@@ -68,8 +68,8 @@ public class AccountServiceImpl implements AccountService {
         if (userId == null) {
             return false;
         }
-        UserProfile userProfile = getSessions(userId.toString());
-        return null != userProfile;
+        UserDataSet userDataSet = getSessions(userId.toString());
+        return null != userDataSet;
     }
 
     @Override
@@ -103,8 +103,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void addUser(@NotNull UserProfile userProfile) {
-        users.put(userProfile.getLogin(), userProfile);
+    public void addUser(@NotNull UserDataSet userDataSet) {
+        users.put(userDataSet.getLogin(), userDataSet);
     }
 
     @Override
@@ -113,22 +113,22 @@ public class AccountServiceImpl implements AccountService {
         if (userId == null) {
             return "";
         }
-        UserProfile userProfile = getSessions(userId.toString());
-        return userProfile.getLogin();
+        UserDataSet userDataSet = getSessions(userId.toString());
+        return userDataSet.getLogin();
     }
 
     @Override
     @Nullable
-    public UserProfile getUser(@NotNull String userName) {
+    public UserDataSet getUser(@NotNull String userName) {
         return users.get(userName);
     }
 
-    private void addSessions(@NotNull String sessionId, @NotNull UserProfile userProfile) {
-        sessions.put(sessionId, userProfile);
+    private void addSessions(@NotNull String sessionId, @NotNull UserDataSet userDataSet) {
+        sessions.put(sessionId, userDataSet);
     }
 
     @Nullable
-    private UserProfile getSessions(@NotNull String sessionId) {
+    private UserDataSet getSessions(@NotNull String sessionId) {
         return sessions.get(sessionId);
     }
 

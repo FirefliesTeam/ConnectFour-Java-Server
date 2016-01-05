@@ -1,6 +1,6 @@
 package base;
 
-import services.UserProfile.UserProfile;
+import database.dataSets.UserDataSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 public interface AccountService {
 
-    boolean singUp(@NotNull UserProfile userProfile);
+    boolean singUp(@NotNull UserDataSet userDataSet);
 
     long singIn(@NotNull HttpSession session, @NotNull String login, @NotNull String password);
 
@@ -28,10 +28,10 @@ public interface AccountService {
 
     int getLoggedUsersCount();
 
-    void addUser(@NotNull UserProfile userProfile);
+    void addUser(@NotNull UserDataSet userDataSet);
 
     @Nullable
-    UserProfile getUser(@NotNull String userName);
+    UserDataSet getUser(@NotNull String userName);
 
     String getNameBySession(@NotNull HttpSession session);
 

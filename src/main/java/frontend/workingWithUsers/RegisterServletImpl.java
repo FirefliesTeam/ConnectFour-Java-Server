@@ -2,7 +2,7 @@ package frontend.workingWithUsers;
 
 import base.Frontend;
 import base.AccountService;
-import services.UserProfile.UserProfile;
+import database.dataSets.UserDataSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -69,7 +69,7 @@ public class RegisterServletImpl extends HttpServlet implements Frontend {
 
 
         if (isOk) {
-            if (accountService.singUp(new UserProfile(name, password, email))) {
+            if (accountService.singUp(new UserDataSet(name, password, email))) {
                 jsonResponse.put("signup", true);
             } else {
                 jsonResponse.put("login", "exists");
